@@ -5,6 +5,8 @@
 export {}
 declare global {
   const EffectScope: typeof import('vue')['EffectScope']
+  const ItemQuality: typeof import('./stores/stash')['ItemQuality']
+  const STASH_DATA: typeof import('./stores/keys')['STASH_DATA']
   const acceptHMRUpdate: typeof import('pinia')['acceptHMRUpdate']
   const computed: typeof import('vue')['computed']
   const createApp: typeof import('vue')['createApp']
@@ -55,6 +57,7 @@ declare global {
   const shallowReactive: typeof import('vue')['shallowReactive']
   const shallowReadonly: typeof import('vue')['shallowReadonly']
   const shallowRef: typeof import('vue')['shallowRef']
+  const stash: typeof import('./stores/stash')['default']
   const storeToRefs: typeof import('pinia')['storeToRefs']
   const toRaw: typeof import('vue')['toRaw']
   const toRef: typeof import('vue')['toRef']
@@ -72,6 +75,8 @@ declare global {
   const useRouter: typeof import('vue-router')['useRouter']
   const useSeoMeta: typeof import('@vueuse/head')['useSeoMeta']
   const useSlots: typeof import('vue')['useSlots']
+  const useStash: typeof import('./composables/statsh')['useStash']
+  const useStashStore: typeof import('./stores/stash')['useStashStore']
   const useUserStore: typeof import('./stores/user')['useUserStore']
   const watch: typeof import('vue')['watch']
   const watchEffect: typeof import('vue')['watchEffect']
@@ -88,6 +93,8 @@ import { UnwrapRef } from 'vue'
 declare module 'vue' {
   interface ComponentCustomProperties {
     readonly EffectScope: UnwrapRef<typeof import('vue')['EffectScope']>
+    readonly ItemQuality: UnwrapRef<typeof import('./stores/stash')['ItemQuality']>
+    readonly STASH_DATA: UnwrapRef<typeof import('./stores/keys')['STASH_DATA']>
     readonly acceptHMRUpdate: UnwrapRef<typeof import('pinia')['acceptHMRUpdate']>
     readonly computed: UnwrapRef<typeof import('vue')['computed']>
     readonly createApp: UnwrapRef<typeof import('vue')['createApp']>
@@ -138,6 +145,7 @@ declare module 'vue' {
     readonly shallowReactive: UnwrapRef<typeof import('vue')['shallowReactive']>
     readonly shallowReadonly: UnwrapRef<typeof import('vue')['shallowReadonly']>
     readonly shallowRef: UnwrapRef<typeof import('vue')['shallowRef']>
+    readonly stash: UnwrapRef<typeof import('./stores/stash')['default']>
     readonly storeToRefs: UnwrapRef<typeof import('pinia')['storeToRefs']>
     readonly toRaw: UnwrapRef<typeof import('vue')['toRaw']>
     readonly toRef: UnwrapRef<typeof import('vue')['toRef']>
@@ -155,6 +163,8 @@ declare module 'vue' {
     readonly useRouter: UnwrapRef<typeof import('vue-router')['useRouter']>
     readonly useSeoMeta: UnwrapRef<typeof import('@vueuse/head')['useSeoMeta']>
     readonly useSlots: UnwrapRef<typeof import('vue')['useSlots']>
+    readonly useStash: UnwrapRef<typeof import('./composables/statsh')['useStash']>
+    readonly useStashStore: UnwrapRef<typeof import('./stores/stash')['useStashStore']>
     readonly useUserStore: UnwrapRef<typeof import('./stores/user')['useUserStore']>
     readonly watch: UnwrapRef<typeof import('vue')['watch']>
     readonly watchEffect: UnwrapRef<typeof import('vue')['watchEffect']>
@@ -165,6 +175,8 @@ declare module 'vue' {
 declare module '@vue/runtime-core' {
   interface ComponentCustomProperties {
     readonly EffectScope: UnwrapRef<typeof import('vue')['EffectScope']>
+    readonly ItemQuality: UnwrapRef<typeof import('./stores/stash')['ItemQuality']>
+    readonly STASH_DATA: UnwrapRef<typeof import('./stores/keys')['STASH_DATA']>
     readonly acceptHMRUpdate: UnwrapRef<typeof import('pinia')['acceptHMRUpdate']>
     readonly computed: UnwrapRef<typeof import('vue')['computed']>
     readonly createApp: UnwrapRef<typeof import('vue')['createApp']>
@@ -215,6 +227,7 @@ declare module '@vue/runtime-core' {
     readonly shallowReactive: UnwrapRef<typeof import('vue')['shallowReactive']>
     readonly shallowReadonly: UnwrapRef<typeof import('vue')['shallowReadonly']>
     readonly shallowRef: UnwrapRef<typeof import('vue')['shallowRef']>
+    readonly stash: UnwrapRef<typeof import('./stores/stash')['default']>
     readonly storeToRefs: UnwrapRef<typeof import('pinia')['storeToRefs']>
     readonly toRaw: UnwrapRef<typeof import('vue')['toRaw']>
     readonly toRef: UnwrapRef<typeof import('vue')['toRef']>
@@ -232,6 +245,8 @@ declare module '@vue/runtime-core' {
     readonly useRouter: UnwrapRef<typeof import('vue-router')['useRouter']>
     readonly useSeoMeta: UnwrapRef<typeof import('@vueuse/head')['useSeoMeta']>
     readonly useSlots: UnwrapRef<typeof import('vue')['useSlots']>
+    readonly useStash: UnwrapRef<typeof import('./composables/statsh')['useStash']>
+    readonly useStashStore: UnwrapRef<typeof import('./stores/stash')['useStashStore']>
     readonly useUserStore: UnwrapRef<typeof import('./stores/user')['useUserStore']>
     readonly watch: UnwrapRef<typeof import('vue')['watch']>
     readonly watchEffect: UnwrapRef<typeof import('vue')['watchEffect']>

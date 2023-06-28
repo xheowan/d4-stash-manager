@@ -6,9 +6,8 @@ defineOptions({
 </script>
 
 <template>
-    <div>
-        <h4>d4 stash manager</h4>
-    </div>
+    <h2>d4 stash manager</h2>
+    <stash />
 </template>
 
 <route lang="yaml">

@@ -1,0 +1,1 @@
+export const STASH_DATA = 'D4SM.STASH';
