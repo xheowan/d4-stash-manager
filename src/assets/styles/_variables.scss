@@ -1,0 +1,96 @@
+// /* Bootstrap config */
+// // Color system
+// $blue: #0085FF;
+// $primary: #A1FF72;
+// // $light: #fff;
+// $danger: #FF0000;
+// $green: $primary;
+
+// // Options
+// $enable-cssgrid: true;
+
+
+// // Body
+// $body-bg: #000;
+// $body-color: #fff;
+
+
+// // Links
+// $link-decoration: none;
+
+
+// // Components
+// $border-radius: 0;
+// $border-radius-sm: 0;
+// $border-radius-lg: 0;
+
+// $text-muted: rgba(#fff, .8);
+
+
+// // Buttons + Forms
+// // $input-btn-padding-y: .5rem;
+// // $input-btn-padding-x: .5rem;
+// $btn-focus-box-shadow: none;
+// $btn-active-box-shadow: none;
+
+// // Buttons
+
+
+// // Forms
+// $input-disabled-bg: #212529;
+// $input-color: $primary;
+
+// $input-focus-bg: #fff;
+// $input-focus-color: #000;
+
+// $form-check-input-width: 1.5em;
+// $form-check-input-border: 1px solid #fff;
+// $form-check-input-border-radius: 0;
+
+// $form-check-input-checked-bg-color: darken($primary, 30%);
+
+// $form-switch-color: #fff; //rgba(255, 255, 255, .8);
+// $form-switch-width: 2.5em;
+
+// $input-group-addon-bg: #212529;
+// // $form-switch-checked-color: $primary;
+// // $form-check-input-checked-bg-color: #000;
+
+// // Form validation
+// // $form-feedback-valid-color: 
+// // $form-feedback-invalid-color:
+
+// // Modals
+// $modal-dialog-margin: 0;
+
+// $modal-content-bg: #000;
+// $modal-content-border-width: 0px;
+// $modal-backdrop-opacity: .9;
+
+// // List group
+// $list-group-color: #fff;
+// $list-group-bg: #131313;
+// $list-group-border-color: #000;
+// $list-group-item-padding-y: 1.5rem;
+// $list-group-item-padding-x: 1.5rem;
+
+
+// // Cards
+// $card-bg: none;
+
+
+// /* App config */
+// // $navbar-height: 50px;
+
+// $layout-sizes: () !default;
+// $layout-sizes: map-merge(
+//   (
+//     "desktop" : 1920,
+//     "mobile"  : 375
+//   ), 
+//   $layout-sizes
+// );
+
+
+// $app-header-height: 61px;
+// $app-navbar-height: 48px;

@@ -1,0 +1,60 @@
+@use 'sass:math';
+// Addition Function
+@function to-fixed ($number, $digits: 0, $round: 'round') {
+  $n: 1;
+  // $number must be a number
+  @if type-of($number) != number {
+      @warn '#{ $number } is not a number.';
+      @return $number;
+  }
+  // $digits must be a unitless number
+  @if type-of($digits) != number {
+      @warn '#{ $digits } is not a number.';
+      @return $number;
+  } @else if not unitless($digits) {
+      @warn '#{ $digits } has a unit.';
+      @return $number;
+  }
+  @for $i from 1 through $digits {
+      $n: $n * 10;
+  }
+  @if $round == 'round' {
+      @return math.div(round($number * $n), $n);
+  } @else if $round == 'ceil' {
+      @return math.div(ceil($number * $n), $n);
+  } @else if $round == 'floor' {
+      @return math.div(floor($number * $n), $n);
+  } @else {
+      @warn '#{ $round } is undefined keyword.';
+      @return $number;
+  }
+}
+
+@function font-rem($value, $font-size: 16) {
+  @return to-fixed(math.div($value, $font-size), 3) * 1rem;
+}
+
+@function font-em($value, $font-size: 16) {
+  @return to-fixed(math.div($value, $font-size), 3) * 1em;
+}
+
+//size-vw(200, [desktop, mobile])
+//size-vw(200, 100)
+@function size-vw($value, $value2: "desktop", $size-list: $layout-sizes) {
+  @if type-of($value2) == string {
+    $value2: map-get($size-list, $value2);
+  }
+  // @if variable-exists($value2) {
+  //   $value2: map-get($size-list, desktop);
+  // }
+  $base-size: ($value2 * 0.01); /// 1px;
+  @return to-fixed(math.div($value, $base-size), 3) * 1vw;
+}
+
+@function size-percentage($value, $value2: "desktop", $size-list: $layout-sizes) {
+  @if type-of($value2) == string {
+    $value2: map-get($size-list, $value2);
+  }
+  // $width: map-get($size-list, $name);
+  @return math.percentage(math.div($value, $value2));
+}

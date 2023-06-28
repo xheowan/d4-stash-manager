@@ -1,0 +1,46 @@
+{
+  "root": true,
+  "extends": [
+    // add more generic rulesets here, such as:
+    // "eslint:recommended",
+    "plugin:vue/vue3-recommended",
+    "plugin:@typescript-eslint/recommended"
+  ],
+  "parser": "vue-eslint-parser",
+  "parserOptions": {
+    "parser": "@typescript-eslint/parser",
+    "sourceType": "module"
+  },
+  "plugins": ["@typescript-eslint", "vue"],
+  "rules": {
+    // override/add rules settings here, such as:
+    "vue/html-indent": [
+      "error",
+      4
+    ],
+    "vue/html-self-closing": [
+      "error",
+      {
+        "html": {
+          "void": "any",
+          "normal": "always",
+          "component": "any"
+        }
+      }
+    ],
+    "vue/max-attributes-per-line": [
+      "error",
+      {
+        "singleline": {
+          "max": 8
+        }
+      }
+    ],
+    "vue/multi-word-component-names": "off",
+    "vue/no-multiple-template-root": "off",
+    "vue/singleline-html-element-content-newline": "off",
+    "vue/valid-template-root": "off",
+    "@typescript-eslint/no-empty-interface": "off"
+  },
+  "ignorePatterns": ["*.config.cjs"]
+}
