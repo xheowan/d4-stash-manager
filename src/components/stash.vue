@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { IItem } from '~/stores/stash';
+import type { IItem } from '~/stores';
 
 const {
     items

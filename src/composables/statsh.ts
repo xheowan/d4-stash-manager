@@ -1,29 +1,47 @@
-import type { IItem } from "~/stores/stash";
+import type { IItem } from '~/stores';
+import { chain } from 'lodash-es';
 
 export const initItemModel = (): IItem => ({
     id: undefined,
     type: undefined,
     name: undefined,
-    itemPower: 0,
+    itemPower: 100,
     quality: [],
     attributes: [],
-    levelLimit: 0,
+    requiredLevel: 1,
+    upgrade: 0,
     stashTab: 1
 });
 
 export function useStash() {
 
+    const { t } = useI18n();
     // store
     const store = useStashStore();
     const { data } = storeToRefs(store);
     
 
     return {
-        items: computed(() => {
-            return data.value
+        groupList: computed(() => {
+            return chain<IItem>(data.value)
+                .sortBy(['itemPower'])
+                .groupBy('stashTab')
+                .value(); 
         }),
 
-        add: store.add,
-        remove: store.remove
+        add: (item: IItem) => {
+            if (!item.name) {
+                console.log('miss item name');
+                return;
+            }
+
+            store.add(item);
+        },
+        update: (item: IItem) => {
+            store.update(item);
+        },
+        remove: (id: string) => {
+            confirm(t('prompt.remove_confirm')) && store.remove(id);
+        }
     }
 }

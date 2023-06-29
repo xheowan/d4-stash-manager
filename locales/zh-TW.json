@@ -1,8 +1,63 @@
 {
     "form": {
+        "text_save": "儲存",
+        "text_create": "新增",
+        "text_update": "修改",
+        "item_name": "裝備名稱",
+        "item_name_placeholder": "瓦希里的祈禱",
+        "item_name_invalid": "請輸入裝備名稱",
         "item_type": "裝備類型",
-        "item_type_select_prompt": "請選擇裝備類型"
+        "item_type_select_prompt": "請選擇裝備類型",
+        "item_quality": "裝備品質",
+        "item_power": "物品強度",
+        "item_upgrade": "升級",
+        "item_required_level": "需要等級"
     },
-    "not_found": "未找到頁面",
-    "item_properties": []
+    "prompt": {
+        "remove_confirm": "確定要刪除這筆資料？"
+    },
+    "page": {
+        "not_found": "未找到頁面"
+    },
+    "item_properties": [],
+    "item_quality": {
+        "common": "普通",
+        "magic": "魔法",
+        "rare": "稀有",
+        "legendary": "傳奇",
+        "unique": "獨特",
+        "sacred": "神聖",
+        "ancestral": "遠古"
+    },
+    "item_category": {
+        "weapons": "武器",
+        "armor": "護甲",
+        "accessories": "飾品",
+        "legendaryaspects": "傳奇精華"
+    },
+    "item_type": {
+        "axe": "斧",
+        "axe2h": "雙手斧",
+        "bow": "弓",
+        "crossbow": "弩",
+        "dagger": "匕首",
+        "focus": "副手",
+        "mace": "錘",
+        "mace2h": "雙手錘",
+        "polearm": "長柄武器",
+        "scythe": "鐮刀",
+        "scythe2h": "雙手鐮刀",
+        "shield": "盾",
+        "staff": "雙手法杖",
+        "sword": "劍",
+        "sword2h": "雙手劍",
+        "wand": "魔杖",
+        "helm": "頭盔",
+        "chest": "胸甲",
+        "gloves": "手套",
+        "pants": "褲子",
+        "boots": "靴子",
+        "amulet": "護身符",
+        "rings": "戒指"
+    }
 }

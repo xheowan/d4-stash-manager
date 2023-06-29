@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { IItem } from '~/stores/stash';
+import type { IItem } from '~/stores';
 
 interface Props {
     data: IItem
@@ -11,7 +11,6 @@ defineProps<Props>();
 
 <template>
     <div class="stash-item">
-        this is equipment
         {{ data }}
     </div>
 </template>

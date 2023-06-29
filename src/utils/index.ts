@@ -7,20 +7,16 @@ export const uuid = () => {
     });
 };
 
-export type SelectOption = {
+export type OptionItem = {
     text: string,
     value: string
 }
 
-
-export const convertEnumToOptions =
-    <T extends string>(
-        enumObject: Record<T, string>
-    ): SelectOption[] => {
-        return Object.entries(enumObject)
-            .filter(([key]) => isNaN(Number(key)))
-            .map(([key, value]) => ({
-                text: key,
-                value: value as T
-            }));
+export const convertEnumToOptions = <T extends string>(enumObject: Record<T, string>): OptionItem[] => {
+    return Object.entries(enumObject)
+        .filter(([key]) => isNaN(Number(key)))
+        .map(([key, value]) => ({
+            text: key,
+            value: value as T
+        }));
 }

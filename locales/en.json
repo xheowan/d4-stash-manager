@@ -1,4 +1,6 @@
 {
-    "not_found": "Not found",
+    "page": {
+        "not_found": "Not found"
+    },
     "item_properties": []
 }

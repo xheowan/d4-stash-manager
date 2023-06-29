@@ -8,9 +8,16 @@ export {}
 declare module 'vue' {
   export interface GlobalComponents {
     CreateItem: typeof import('./components/CreateItem.vue')['default']
+    CtrlCheckButtonsList: typeof import('./components/CtrlCheckButtonsList.vue')['default']
+    CtrlCheckList: typeof import('./components/CtrlCheckList.vue')['default']
+    CtrlToogleButton: typeof import('./components/CtrlToogleButton.vue')['default']
     Equipment: typeof import('./components/equipment.vue')['default']
     Item: typeof import('./components/Item.vue')['default']
     ItemEditor: typeof import('./components/ItemEditor.vue')['default']
+    ItemEditorForm: typeof import('./components/ItemEditorForm.vue')['default']
+    ItemEditorView: typeof import('./components/ItemEditorView.vue')['default']
+    ItemView: typeof import('./components/ItemView.vue')['default']
+    Modal: typeof import('./components/Modal.vue')['default']
     MyStash: typeof import('./components/MyStash.vue')['default']
     NewItem: typeof import('./components/NewItem.vue')['default']
     README: typeof import('./components/README.md')['default']
