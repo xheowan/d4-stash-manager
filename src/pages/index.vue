@@ -7,7 +7,7 @@ defineOptions({
 
 <template>
     <h2>d4 stash manager</h2>
-    <stash />
+    <Stash />
 </template>
 
 <route lang="yaml">

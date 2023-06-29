@@ -1,4 +1,8 @@
 {
+    "form": {
+        "item_type": "裝備類型",
+        "item_type_select_prompt": "請選擇裝備類型"
+    },
     "not_found": "未找到頁面",
     "item_properties": []
 }

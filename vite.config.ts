@@ -42,12 +42,11 @@ export default defineConfig({
                 '@vueuse/head',
                 // '@vueuse/core',
             ],
-            dts: 'src/auto-imports.d.ts',
             dirs: [
                 'src/composables',
                 'src/stores',
-                'src/utils'
             ],
+            dts: 'src/auto-imports.d.ts',
             vueTemplate: true,
         }),
 

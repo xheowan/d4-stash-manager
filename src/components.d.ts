@@ -7,11 +7,16 @@ export {}
 
 declare module 'vue' {
   export interface GlobalComponents {
+    CreateItem: typeof import('./components/CreateItem.vue')['default']
     Equipment: typeof import('./components/equipment.vue')['default']
+    Item: typeof import('./components/Item.vue')['default']
+    ItemEditor: typeof import('./components/ItemEditor.vue')['default']
+    MyStash: typeof import('./components/MyStash.vue')['default']
+    NewItem: typeof import('./components/NewItem.vue')['default']
     README: typeof import('./components/README.md')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
-    Stash: typeof import('./components/stash.vue')['default']
+    Stash: typeof import('./components/Stash.vue')['default']
     TheCounter: typeof import('./components/TheCounter.vue')['default']
     TheFooter: typeof import('./components/TheFooter.vue')['default']
     TheInput: typeof import('./components/TheInput.vue')['default']

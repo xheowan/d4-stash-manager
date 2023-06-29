@@ -5,6 +5,8 @@
 export {}
 declare global {
   const EffectScope: typeof import('vue')['EffectScope']
+  const IItemType: typeof import('./stores/stash')['IItemType']
+  const ItemAttributeType: typeof import('./stores/stash')['ItemAttributeType']
   const ItemQuality: typeof import('./stores/stash')['ItemQuality']
   const STASH_DATA: typeof import('./stores/keys')['STASH_DATA']
   const acceptHMRUpdate: typeof import('pinia')['acceptHMRUpdate']
@@ -20,6 +22,8 @@ declare global {
   const getCurrentInstance: typeof import('vue')['getCurrentInstance']
   const getCurrentScope: typeof import('vue')['getCurrentScope']
   const h: typeof import('vue')['h']
+  const initItemModel: typeof import('./composables/statsh')['initItemModel']
+  const initItemModle: typeof import('./stores/stash')['initItemModle']
   const inject: typeof import('vue')['inject']
   const isProxy: typeof import('vue')['isProxy']
   const isReactive: typeof import('vue')['isReactive']
@@ -93,6 +97,8 @@ import { UnwrapRef } from 'vue'
 declare module 'vue' {
   interface ComponentCustomProperties {
     readonly EffectScope: UnwrapRef<typeof import('vue')['EffectScope']>
+    readonly IItemType: UnwrapRef<typeof import('./stores/stash')['IItemType']>
+    readonly ItemAttributeType: UnwrapRef<typeof import('./stores/stash')['ItemAttributeType']>
     readonly ItemQuality: UnwrapRef<typeof import('./stores/stash')['ItemQuality']>
     readonly STASH_DATA: UnwrapRef<typeof import('./stores/keys')['STASH_DATA']>
     readonly acceptHMRUpdate: UnwrapRef<typeof import('pinia')['acceptHMRUpdate']>
@@ -108,6 +114,7 @@ declare module 'vue' {
     readonly getCurrentInstance: UnwrapRef<typeof import('vue')['getCurrentInstance']>
     readonly getCurrentScope: UnwrapRef<typeof import('vue')['getCurrentScope']>
     readonly h: UnwrapRef<typeof import('vue')['h']>
+    readonly initItemModel: UnwrapRef<typeof import('./composables/statsh')['initItemModel']>
     readonly inject: UnwrapRef<typeof import('vue')['inject']>
     readonly isProxy: UnwrapRef<typeof import('vue')['isProxy']>
     readonly isReactive: UnwrapRef<typeof import('vue')['isReactive']>
@@ -175,6 +182,8 @@ declare module 'vue' {
 declare module '@vue/runtime-core' {
   interface ComponentCustomProperties {
     readonly EffectScope: UnwrapRef<typeof import('vue')['EffectScope']>
+    readonly IItemType: UnwrapRef<typeof import('./stores/stash')['IItemType']>
+    readonly ItemAttributeType: UnwrapRef<typeof import('./stores/stash')['ItemAttributeType']>
     readonly ItemQuality: UnwrapRef<typeof import('./stores/stash')['ItemQuality']>
     readonly STASH_DATA: UnwrapRef<typeof import('./stores/keys')['STASH_DATA']>
     readonly acceptHMRUpdate: UnwrapRef<typeof import('pinia')['acceptHMRUpdate']>
@@ -190,6 +199,7 @@ declare module '@vue/runtime-core' {
     readonly getCurrentInstance: UnwrapRef<typeof import('vue')['getCurrentInstance']>
     readonly getCurrentScope: UnwrapRef<typeof import('vue')['getCurrentScope']>
     readonly h: UnwrapRef<typeof import('vue')['h']>
+    readonly initItemModel: UnwrapRef<typeof import('./composables/statsh')['initItemModel']>
     readonly inject: UnwrapRef<typeof import('vue')['inject']>
     readonly isProxy: UnwrapRef<typeof import('vue')['isProxy']>
     readonly isReactive: UnwrapRef<typeof import('vue')['isReactive']>
