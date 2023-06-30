@@ -66,7 +66,7 @@ const save = () => {
                             <td>{{ item.itemPower }}</td>
                             <td>{{ item.type }}</td>
                             <td>
-                                <span v-for="qlt in item.quality" :key="qlt" class="badge text-bg-primary me-1">{{ $t(`item_quality.${ItemQuality[qlt].toLocaleLowerCase()}`) }}</span>
+                                <span v-for="qlt in item.quality" :key="qlt" class="badge text-bg-primary me-1">{{ $t(`item_quality.${ItemQuality[parseInt(qlt)].toLocaleLowerCase()}`) }}</span>
                             </td>
                             <td>{{ item.name }}</td>
                             <td>
