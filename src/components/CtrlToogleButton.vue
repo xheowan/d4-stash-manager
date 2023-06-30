@@ -5,14 +5,16 @@ interface Props {
     options: OptionItem[],
     modelValue: string[],
     max?: number,
-    process?: (value: string[]) => string[]
+    process?: (value: string[]) => string[],
+    disabled?: boolean
 }
 
 const props = withDefaults(defineProps<Props>(), {
     options: () => [],
     modelValue: () => [],
     max: undefined,
-    process: undefined
+    process: undefined,
+    disabled: false
 });
 
 const { modelValue } = toRefs(props);
@@ -45,8 +47,11 @@ const getElementId = (name: string) => `btn-quality-${name.toLocaleLowerCase()}`
                 class="btn-check" 
                 autocomplete="off"
                 :value="item.value" 
+                :disabled="disabled"
             />
-            <label class="btn btn-sm btn-outline-primary me-2" :for="getElementId(item.text)">{{ $t(`item_quality.${item.text.toLocaleLowerCase()}`) }}</label>
+            <label class="btn btn-sm btn-outline-primary me-2" :for="getElementId(item.text)">
+                <slot :text="item.text" :value="item.value" />
+            </label>
         </template>
     </div>
 </template>

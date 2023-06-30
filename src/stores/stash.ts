@@ -18,16 +18,24 @@ export const useStashStore = defineStore('stash', () => {
     
     const data = ref<IItem[]>([]);
 
+    const clearData = (data: IItem) => {
+
+        // sort quality
+        data.quality.sort((a, b) => parseInt(b) - parseInt(a));
+
+        return data;
+    }
+
     const add = (item: IItem) => {
         const nItem = clone(item);
         nItem.id = uuid().replaceAll('-', '');
-        
-        data.value.push(nItem);
+
+        data.value.push(clearData(nItem));
     }
 
     const update = (item: IItem) => {
         const idx = data.value.findIndex(i => i.id == item.id);
-        data.value[idx] = clone(item);
+        data.value[idx] = clearData(clone(item));
     }
 
     const remove = (id: string) => {

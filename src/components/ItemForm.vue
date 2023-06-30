@@ -1,8 +1,9 @@
 <script setup lang="ts">
-import { groupBy } from 'lodash-es';
-import { ItemCategory, ItemType, ItemQuality, type IItem } from '~/stores';
+import { groupBy, orderBy } from 'lodash-es';
+import { ItemCategory, ItemType, ItemQuality, IItem } from '~/stores';
 import { convertEnumToOptions } from '~/utils';
 
+// props & emit
 interface Props {
     model?: IItem
 }
@@ -22,19 +23,18 @@ const isLoading = ref(false);
 const maxItemUpgradeLevel = computed(() => 5);
 
 // item type
-const itemCategoryList = convertEnumToOptions(ItemCategory);
 const itemTypeGroupList = groupBy(convertEnumToOptions(ItemType), (option) => {
     const cate = (Math.floor(Number(option.value) / 100) % 10) * 100;
-    return itemCategoryList.find(f => f.value === cate.toString())?.text;
+    return ItemCategory[cate];
 });
 
 // item quality 
-const itemQualityList = convertEnumToOptions(ItemQuality);
+const itemQualityList = orderBy(convertEnumToOptions(ItemQuality), ['value'], ['desc']);
 const qualityGroup1 = [ItemQuality.Common, ItemQuality.Magic, ItemQuality.Rare, ItemQuality.Legendary, ItemQuality.Unique];
 const qualityGroup2 = [ItemQuality.Sacred, ItemQuality.Ancestral];
 const ItemQualityProcess = (value: string[]) => {
-    const a = value.filter(val => qualityGroup1.includes(val as ItemQuality));
-    const b = value.filter(val => qualityGroup2.includes(val as ItemQuality));
+    const a = value.filter(val => qualityGroup1.includes(parseInt(val)));
+    const b = value.filter(val => qualityGroup2.includes(parseInt(val)));
 
     if (a.length == 2)
         a.shift();
@@ -45,7 +45,6 @@ const ItemQualityProcess = (value: string[]) => {
 }
 
 const submit = () => {
-    console.log('go submit');
     emit('submit');
 }
 </script>
@@ -63,7 +62,14 @@ const submit = () => {
 
             <div class="mb-3">
                 <label for="type" class="form-label">{{ $t('form.item_quality') }}</label>
-                <CtrlToogleButton v-model="model.quality" :options="itemQualityList" :process="ItemQualityProcess" />
+                <CtrlToogleButton
+                    v-slot="{ text }"
+                    v-model="model.quality"
+                    :options="itemQualityList"
+                    :process="ItemQualityProcess"
+                >
+                    {{ $t(`item_quality.${text.toLocaleLowerCase()}`) }}
+                </CtrlToogleButton>
             </div>
 
             <div class="mb-3">
@@ -71,7 +77,7 @@ const submit = () => {
                 <select v-model="model.type" class="form-select" required>
                     <option :value="undefined">{{ $t('form.item_type_select_prompt') }}</option>
                     <optgroup v-for="(group, key) in itemTypeGroupList" :key="key" :label="$t(`item_category.${key.toString().toLocaleLowerCase()}`)">
-                        <option v-for="option in group" :key="option.value">{{ $t(`item_type.${option.text.toLocaleLowerCase()}`) }}</option>
+                        <option v-for="option in group" :key="option.value" :value="option.value">{{ $t(`item_type.${option.text.toLocaleLowerCase()}`) }}</option>
                     </optgroup>
                 </select>
             </div>
@@ -79,6 +85,17 @@ const submit = () => {
             <div class="mb-3">
                 <label for="type" class="form-label">{{ $t('form.item_power') }}</label>
                 <input v-model="model.itemPower" type="number" class="form-control" min="1" max="850" />
+            </div>
+
+            <div class="mb-3 item-attributes">
+                <label for="type" class="form-label">{{ $t('form.item_attribute') }}</label>
+                
+                <ItemAttrView :data="model.attributes" />
+
+                <ItemAttrForm 
+                    v-model="model.attributes"
+                    :item-type="model.type"
+                />
             </div>
 
             <div class="mb-3">
@@ -91,7 +108,7 @@ const submit = () => {
                 <input v-model="model.upgrade" type="number" class="form-control" min="0" :max="maxItemUpgradeLevel" />
             </div>
 
-            <button type="submit" class="btn btn-primary" :disabled="isLoading">{{ $t('form.text_save') }}</button>
+            <button type="submit" class="btn btn-primary" :disabled="isLoading">{{ $t('ui.save') }}</button>
         </form>
     </div>
 </template>

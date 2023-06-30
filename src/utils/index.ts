@@ -9,10 +9,10 @@ export const uuid = () => {
 
 export type OptionItem = {
     text: string,
-    value: string
+    value: string | number
 }
 
-export const convertEnumToOptions = <T extends string>(enumObject: Record<T, string>): OptionItem[] => {
+export const convertEnumToOptions = <T extends string | number>(enumObject: Record<T, string | number>): OptionItem[] => {
     return Object.entries(enumObject)
         .filter(([key]) => isNaN(Number(key)))
         .map(([key, value]) => ({

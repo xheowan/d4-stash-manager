@@ -1,4 +1,4 @@
-import type { IItem } from '~/stores';
+import { IItem, IItemAttribute, ItemAttributeType } from '~/stores';
 import { chain } from 'lodash-es';
 
 export const initItemModel = (): IItem => ({
@@ -13,6 +13,13 @@ export const initItemModel = (): IItem => ({
     stashTab: 1
 });
 
+export const initAttrModel = (): IItemAttribute => ({
+    id: undefined,
+    type: ItemAttributeType.Affix,
+    values: [],
+    rank: 1
+});
+
 export function useStash() {
 
     const { t } = useI18n();
@@ -24,23 +31,22 @@ export function useStash() {
     return {
         groupList: computed(() => {
             return chain<IItem>(data.value)
-                .sortBy(['itemPower'])
+                .orderBy(['itemPower'], ['desc'])
                 .groupBy('stashTab')
                 .value(); 
         }),
 
-        add: (item: IItem) => {
+        addItem: (item: IItem) => {
             if (!item.name) {
-                console.log('miss item name');
                 return;
             }
 
             store.add(item);
         },
-        update: (item: IItem) => {
+        updateItem: (item: IItem) => {
             store.update(item);
         },
-        remove: (id: string) => {
+        removeItem: (id: string) => {
             confirm(t('prompt.remove_confirm')) && store.remove(id);
         }
     }
