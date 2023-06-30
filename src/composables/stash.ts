@@ -1,5 +1,8 @@
 import { IItem, IItemAttribute, ItemAttributeType } from '~/stores';
-import { chain } from 'lodash-es';
+
+type gropuItem = {
+    [key: string]: IItem[]
+}
 
 export const initItemModel = (): IItem => ({
     id: undefined,
@@ -26,14 +29,27 @@ export function useStash() {
     // store
     const store = useStashStore();
     const { data } = storeToRefs(store);
-    
+
 
     return {
         groupList: computed(() => {
-            return chain<IItem>(data.value)
-                .orderBy(['itemPower'], ['desc'])
-                .groupBy('stashTab')
-                .value(); 
+            return data.value
+                .sort((a, b) => b.itemPower - a.itemPower)
+                .reduce<gropuItem>((acc, item) => {
+                    const key = item.stashTab.toString();
+                    if (acc.hasOwnProperty(key)) {
+                        acc[key].push(item);
+                    } else {
+                        acc[key] = [item];
+                    }
+
+                    return acc
+                }, {})
+
+            // return chain<IItem>(data.value)
+            //     .orderBy(['itemPower'], ['desc'])
+            //     .groupBy('stashTab')
+            //     .value(); 
         }),
 
         addItem: (item: IItem) => {

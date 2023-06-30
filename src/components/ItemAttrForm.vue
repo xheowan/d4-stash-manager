@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { initAttrModel } from '~/composables/statsh';
+import { initAttrModel } from '~/composables/stash';
 import { IItemAttribute, ItemAttributeType, ItemType } from '~/stores';
 
 import dataAffixes from '~/data/affixes.json';
@@ -106,4 +106,4 @@ const add = () => {
 
         <button type="button" class="btn btn-sm btn-secondary mt-2" :disabled="!itemType || !model.id" @click="add">{{ $t('ui.create') }}</button>
     </div>
-</template>
+</template>~/composables/stash

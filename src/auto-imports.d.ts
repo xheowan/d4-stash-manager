@@ -24,8 +24,8 @@ declare global {
   const getCurrentInstance: typeof import('vue')['getCurrentInstance']
   const getCurrentScope: typeof import('vue')['getCurrentScope']
   const h: typeof import('vue')['h']
-  const initAttrModel: typeof import('./composables/statsh')['initAttrModel']
-  const initItemModel: typeof import('./composables/statsh')['initItemModel']
+  const initAttrModel: typeof import('./composables/stash')['initAttrModel']
+  const initItemModel: typeof import('./composables/stash')['initItemModel']
   const initItemModle: typeof import('./stores/stash')['initItemModle']
   const inject: typeof import('vue')['inject']
   const isProxy: typeof import('vue')['isProxy']
@@ -82,7 +82,7 @@ declare global {
   const useRouter: typeof import('vue-router')['useRouter']
   const useSeoMeta: typeof import('@vueuse/head')['useSeoMeta']
   const useSlots: typeof import('vue')['useSlots']
-  const useStash: typeof import('./composables/statsh')['useStash']
+  const useStash: typeof import('./composables/stash')['useStash']
   const useStashStore: typeof import('./stores/stash')['useStashStore']
   const useUserStore: typeof import('./stores/user')['useUserStore']
   const watch: typeof import('vue')['watch']
@@ -118,8 +118,8 @@ declare module 'vue' {
     readonly getCurrentInstance: UnwrapRef<typeof import('vue')['getCurrentInstance']>
     readonly getCurrentScope: UnwrapRef<typeof import('vue')['getCurrentScope']>
     readonly h: UnwrapRef<typeof import('vue')['h']>
-    readonly initAttrModel: UnwrapRef<typeof import('./composables/statsh')['initAttrModel']>
-    readonly initItemModel: UnwrapRef<typeof import('./composables/statsh')['initItemModel']>
+    readonly initAttrModel: UnwrapRef<typeof import('./composables/stash')['initAttrModel']>
+    readonly initItemModel: UnwrapRef<typeof import('./composables/stash')['initItemModel']>
     readonly inject: UnwrapRef<typeof import('vue')['inject']>
     readonly isProxy: UnwrapRef<typeof import('vue')['isProxy']>
     readonly isReactive: UnwrapRef<typeof import('vue')['isReactive']>
@@ -175,7 +175,7 @@ declare module 'vue' {
     readonly useRouter: UnwrapRef<typeof import('vue-router')['useRouter']>
     readonly useSeoMeta: UnwrapRef<typeof import('@vueuse/head')['useSeoMeta']>
     readonly useSlots: UnwrapRef<typeof import('vue')['useSlots']>
-    readonly useStash: UnwrapRef<typeof import('./composables/statsh')['useStash']>
+    readonly useStash: UnwrapRef<typeof import('./composables/stash')['useStash']>
     readonly useStashStore: UnwrapRef<typeof import('./stores/stash')['useStashStore']>
     readonly watch: UnwrapRef<typeof import('vue')['watch']>
     readonly watchEffect: UnwrapRef<typeof import('vue')['watchEffect']>
@@ -204,8 +204,8 @@ declare module '@vue/runtime-core' {
     readonly getCurrentInstance: UnwrapRef<typeof import('vue')['getCurrentInstance']>
     readonly getCurrentScope: UnwrapRef<typeof import('vue')['getCurrentScope']>
     readonly h: UnwrapRef<typeof import('vue')['h']>
-    readonly initAttrModel: UnwrapRef<typeof import('./composables/statsh')['initAttrModel']>
-    readonly initItemModel: UnwrapRef<typeof import('./composables/statsh')['initItemModel']>
+    readonly initAttrModel: UnwrapRef<typeof import('./composables/stash')['initAttrModel']>
+    readonly initItemModel: UnwrapRef<typeof import('./composables/stash')['initItemModel']>
     readonly inject: UnwrapRef<typeof import('vue')['inject']>
     readonly isProxy: UnwrapRef<typeof import('vue')['isProxy']>
     readonly isReactive: UnwrapRef<typeof import('vue')['isReactive']>
@@ -261,7 +261,7 @@ declare module '@vue/runtime-core' {
     readonly useRouter: UnwrapRef<typeof import('vue-router')['useRouter']>
     readonly useSeoMeta: UnwrapRef<typeof import('@vueuse/head')['useSeoMeta']>
     readonly useSlots: UnwrapRef<typeof import('vue')['useSlots']>
-    readonly useStash: UnwrapRef<typeof import('./composables/statsh')['useStash']>
+    readonly useStash: UnwrapRef<typeof import('./composables/stash')['useStash']>
     readonly useStashStore: UnwrapRef<typeof import('./stores/stash')['useStashStore']>
     readonly watch: UnwrapRef<typeof import('vue')['watch']>
     readonly watchEffect: UnwrapRef<typeof import('vue')['watchEffect']>
