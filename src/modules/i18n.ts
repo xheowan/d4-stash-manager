@@ -22,4 +22,18 @@ export const install: UserModule = ({ isClient, app }) => {
 	});
 
 	app.use(i18n);
+
+	// app.config.globalProperties.$enumString = <T extends string | number>(
+	// 	category: string,
+	// 	enumObject: Record<T, string | number>,
+	// 	value: T
+	// ): string => {
+	// 	let key = enumObject[value] as string;
+
+	// 	key = key
+	// 		.replace(/[a-zA-Z]([A-Z])/g, (match) => match[0] + '_' + match[1])
+	// 		.toLowerCase();
+
+	// 	return app.config.globalProperties.$t(`${category}.${key}`);
+	// };
 }

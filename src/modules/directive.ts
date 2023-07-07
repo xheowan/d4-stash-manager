@@ -19,10 +19,11 @@ const formSubmit = {
 
 			if (el.checkValidity() && typeof binding.value === 'function') {
 				binding.value(showErrorMessage);
-			}
 
-			
-			
+				setTimeout(() => {
+					el.classList.remove('was-validated');
+				}, 500);
+			}
 		}, false);
 	}
 }

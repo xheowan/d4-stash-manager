@@ -39,22 +39,11 @@ export default defineComponent({
     setup(props) {
         const { show, mode, backdrop, dialogPosition } = toRefs(props); //background, 
 
-        const isCreate = ref(false);
+        // const isCreate = ref(false);
         // modal element exists or not
         const isShow = ref(show.value);
         // modal show or not
         const isVisible = ref(show.value);
-
-        // // modal style
-        // const modalStyle = computed(() => ({
-        //     display: isShow.value ? 'block' : 'none'
-        // }));
-
-        // // modal class
-        // const modalClass = computed(() => ({
-        //     'show': isVisible.value,
-        //     // 'content-only': mode.value === 'content',
-        // }));
 
         // modal-dialog class
         const dialogClass = computed(() => ({
@@ -62,20 +51,14 @@ export default defineComponent({
             'modal-fullscreen': mode.value === 'screen'
         }));
 
-        // modal-content class
-        // const contentClass = computed(() => ({
-        //     'bg-white': background.value === 'white',
-        //     'bg-black': background.value === 'black'
-        // }));
-
         const backdropHidden = computed(() => {
             return !backdrop.value || !isShow.value;
         });
 
         const classNameOpen = 'modal-open';
         const doShow = () => {
-            if (!isCreate.value)
-                isCreate.value = true;
+            // if (!isCreate.value)
+            //     isCreate.value = true;
 
             document.body.classList.add(classNameOpen);
             isVisible.value = true;
@@ -109,7 +92,7 @@ export default defineComponent({
         // show ? doShow() : doHide();
 
         return {
-            isCreate,
+            // isCreate,
             isShow,
             isVisible,
 
@@ -125,7 +108,7 @@ export default defineComponent({
 <template>
     <Teleport to="body" :disabled="!teleport">
         <div
-            v-if="isCreate"
+            v-if="isVisible"
             class="modal fade"
             :class="{ 'show': isShow }"
             :style="{ 'display': isVisible ? 'block' : 'none' }"

@@ -1,41 +1,65 @@
 <script setup lang="ts">
-import type { IItem } from '~/stores';
-import { clone } from 'lodash-es';
-import { ItemQuality } from '~/stores';
+import { useItem } from '~/composables/item';
+import { FlagAction, ViewMode } from '~/composables/stash';
+import { IItem } from '~/stores';
+import { clone, enumKey } from '~/utils';
 
 defineOptions({
   name: 'Home',
 });
 
+// init useStash
 const {
     groupList,
+    viewMode,
+    changeView,
+
     addItem,
     updateItem,
-    removeItem
+
+    flagItem,
+    removeFlaggedItem,
+    flaggedItemCount
 } = useStash();
 
 
-const model = ref<IItem>();
-const showEditor = ref(false);
+// fast create & create
+const showCreate = ref(false);
 
-const open = (data?: IItem) => {
-    model.value = data ? clone(data) : initItemModel();
-    showEditor.value = true;
+const createItem = (data: IItem, show: boolean) => {
+    if (data) {
+        addItem(data);
+        showCreate.value = show;
+    }
 }
 
-const save = () => {
-    if (!model.value) {
-        return;
-    }
 
-    if (!model.value.id) {
-        addItem(model.value);
-    } else {
+// edit & update
+const {
+    model
+} = useItem();
+
+const showModify = ref(false);
+watch(showModify, (val) => {
+    if (!val) {
+        model.value = initItemModel();
+    }
+});
+
+const modify = (data: IItem) => {
+    model.value = clone(data);
+    showModify.value = true;
+}
+
+const modifyItem = () => {
+    if (model.value.id) {
         updateItem(model.value);
+        showModify.value = false;
     }
-
-    showEditor.value = false;
 }
+
+// search
+const showSearch = ref(false);
 </script>
 
 <template>
@@ -43,35 +67,60 @@ const save = () => {
 
     <div class="stash">
         <h4>My Stash</h4>
-        <button type="button" class="btn btn-secondary" @click="open()">{{ $t('ui.create') }}</button>
+        <div class="d-flex justify-content-between mb-3">
+            <div class="left">
+                <button type="button" class="btn btn-primary me-2" @click="showCreate = true">{{ $t('ui.fast_create') }}</button>
+                <button type="button" class="btn btn-info me-2" @click="showSearch = true">{{ $t('ui.search') }}</button>
+                <button type="button" class="btn btn-secondary" @click="changeView">{{ $t(`ui.swith_view.${viewMode}`) }}</button>
+            </div>
+            <div class="right">
+                <button type="button" class="btn btn-danger" :disabled="!flaggedItemCount" @click="removeFlaggedItem()">{{ $t('ui.delete_all_flagged_item') }}</button>
+            </div>
+        </div>
 
-        <div class="mt-3">
-            <div v-for="(list, idx) in groupList" :key="idx" class="tab">
-                <h5>Tab {{ idx }}</h5>
+        <div class="group-view">
+            <div v-for="(items, key) in groupList" :key="key" class="group mt-4">
+                <h5>
+                    <template v-if="viewMode == ViewMode.Tab">
+                        {{ `Tab ${key}` }}
+                    </template>
+                    <template v-else-if="viewMode == ViewMode.Legendary && key !== 'other'">
+                        <div class="text-legendary text-truncate">{{ $t(`item_attributes.${key}`, ['n', 'n']) }}</div>
+                    </template>
+                    <template v-else>
+                        {{ $t('ui.group_type_other') }}
+                    </template>
+                </h5>
 
-                <table class="table table-striped table-hover">
+                <table class="table table-hover">
+                    <colgroup>
+                        <col class="col-1">
+                        <col class="col-2">
+                        <col class="col-1">
+                        <col class="col-5">
+                        <col class="col-1">
+                        <col class="col-2">
+                    </colgroup>
                     <thead>
                         <tr>
                             <th scope="col">#</th>
-                            <th scope="col">{{ $t('form.item_power') }}</th>
-                            <th scope="col">{{ $t('form.item_type') }}</th>
                             <th scope="col">{{ $t('form.item_quality') }}</th>
+                            <th scope="col">{{ $t('form.item_type') }}</th>
                             <th scope="col">{{ $t('form.item_name') }}</th>
-                            <th scope="col">options</th>
+                            <th scope="col">{{ $t('form.item_power') }}</th>
+                            <th scope="col" />
                         </tr>
                     </thead>
                     <tbody class="table-group-divider">
-                        <tr v-for="(item, num) in list" :key="item.id">
+                        <tr v-for="(item, num) in items" :key="item.id">
                             <th scope="row">{{ num + 1 }}</th>
+                            <td><BadgeQuality :items="item.quality" /></td>
+                            <td>{{ $t(`item_type.${enumKey(ItemType, Number(item.type))}`) }}</td>
+                            <td><div class="text-truncate" :title="item.name">{{ item.name }}</div></td>
                             <td>{{ item.itemPower }}</td>
-                            <td>{{ item.type }}</td>
                             <td>
-                                <span v-for="qlt in item.quality" :key="qlt" class="badge text-bg-primary me-1">{{ $t(`item_quality.${ItemQuality[parseInt(qlt)].toLocaleLowerCase()}`) }}</span>
-                            </td>
-                            <td>{{ item.name }}</td>
-                            <td>
-                                <button type="button" class="btn btn-sm btn-success me-2" @click="open(item)">{{ $t('ui.update') }}</button>
-                                <button type="button" class="btn btn-sm btn-danger" @click="removeItem(item.id as string)">{{ $t('ui.remove') }}</button>
+                                <button type="button" class="btn btn-sm btn-success me-2" @click="modify(item)">{{ $t('ui.edit') }}</button>
+                                <button type="button" class="btn btn-sm" :class="[(item.flags.includes(FlagAction.Remove) ? 'btn-warning' : 'btn-outline-warning')]" @click="flagItem(FlagAction.Remove, item.id)">{{ $t(item.flags.includes(FlagAction.Remove) ? 'ui.delete_flagged' : 'ui.flag_remove') }}</button>
                             </td>
                         </tr>
                     </tbody>
@@ -80,11 +129,16 @@ const save = () => {
         </div>
     </div>
 
-    <Modal 
-        v-model:show="showEditor" 
-        :title="$t(model?.id ? 'ui.update' : 'ui.create')"
-    >
-        <ItemForm :model="model" @submit="save" />
+    <Modal v-model:show="showCreate" :title="$t('ui.fast_create')">
+        <ItemFastCreate @submit="createItem" />
+    </Modal>
+
+    <Modal v-model:show="showModify" :title="$t('ui.edit')">
+        <ItemForm :model="model" @submit="modifyItem" />
+    </Modal>
+
+    <Modal v-model:show="showSearch" :title="$t('ui.search')">
+        Search item
     </Modal>
 </template>
 

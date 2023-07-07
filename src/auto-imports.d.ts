@@ -5,6 +5,7 @@
 export {}
 declare global {
   const EffectScope: typeof import('vue')['EffectScope']
+  const FlagAction: typeof import('./composables/stash')['FlagAction']
   const IItemType: typeof import('./stores/stash')['IItemType']
   const ItemAttributeType: typeof import('./stores/index')['ItemAttributeType']
   const ItemCategory: typeof import('./stores/index')['ItemCategory']
@@ -14,6 +15,7 @@ declare global {
   const acceptHMRUpdate: typeof import('pinia')['acceptHMRUpdate']
   const computed: typeof import('vue')['computed']
   const createApp: typeof import('vue')['createApp']
+  const createI18nAffixes: typeof import('./composables/affix')['createI18nAffixes']
   const createPinia: typeof import('pinia')['createPinia']
   const customRef: typeof import('vue')['customRef']
   const defineAsyncComponent: typeof import('vue')['defineAsyncComponent']
@@ -26,12 +28,12 @@ declare global {
   const h: typeof import('vue')['h']
   const initAttrModel: typeof import('./composables/stash')['initAttrModel']
   const initItemModel: typeof import('./composables/stash')['initItemModel']
-  const initItemModle: typeof import('./stores/stash')['initItemModle']
   const inject: typeof import('vue')['inject']
   const isProxy: typeof import('vue')['isProxy']
   const isReactive: typeof import('vue')['isReactive']
   const isReadonly: typeof import('vue')['isReadonly']
   const isRef: typeof import('vue')['isRef']
+  const item: typeof import('./stores/item')['default']
   const mapActions: typeof import('pinia')['mapActions']
   const mapGetters: typeof import('pinia')['mapGetters']
   const mapState: typeof import('pinia')['mapState']
@@ -72,11 +74,16 @@ declare global {
   const toValue: typeof import('vue')['toValue']
   const triggerRef: typeof import('vue')['triggerRef']
   const unref: typeof import('vue')['unref']
+  const useAffixSearch: typeof import('./composables/affix')['useAffixSearch']
   const useAttrs: typeof import('vue')['useAttrs']
   const useCssModule: typeof import('vue')['useCssModule']
   const useCssVars: typeof import('vue')['useCssVars']
   const useHead: typeof import('@vueuse/head')['useHead']
   const useI18n: typeof import('vue-i18n')['useI18n']
+  const useItem: typeof import('./composables/item')['useItem']
+  const useItemQuality: typeof import('./composables/item')['useItemQuality']
+  const useItemStore: typeof import('./stores/item')['useItemStore']
+  const useItemType: typeof import('./composables/item')['useItemType']
   const useLink: typeof import('vue-router')['useLink']
   const useRoute: typeof import('vue-router')['useRoute']
   const useRouter: typeof import('vue-router')['useRouter']
@@ -84,6 +91,8 @@ declare global {
   const useSlots: typeof import('vue')['useSlots']
   const useStash: typeof import('./composables/stash')['useStash']
   const useStashStore: typeof import('./stores/stash')['useStashStore']
+  const useTest: typeof import('./stores/test')['useTest']
+  const useTestStore: typeof import('./stores/test')['useTestStore']
   const useUserStore: typeof import('./stores/user')['useUserStore']
   const watch: typeof import('vue')['watch']
   const watchEffect: typeof import('vue')['watchEffect']
@@ -100,6 +109,7 @@ import { UnwrapRef } from 'vue'
 declare module 'vue' {
   interface ComponentCustomProperties {
     readonly EffectScope: UnwrapRef<typeof import('vue')['EffectScope']>
+    readonly FlagAction: UnwrapRef<typeof import('./composables/stash')['FlagAction']>
     readonly ItemAttributeType: UnwrapRef<typeof import('./stores/index')['ItemAttributeType']>
     readonly ItemCategory: UnwrapRef<typeof import('./stores/index')['ItemCategory']>
     readonly ItemQuality: UnwrapRef<typeof import('./stores/index')['ItemQuality']>
@@ -108,6 +118,7 @@ declare module 'vue' {
     readonly acceptHMRUpdate: UnwrapRef<typeof import('pinia')['acceptHMRUpdate']>
     readonly computed: UnwrapRef<typeof import('vue')['computed']>
     readonly createApp: UnwrapRef<typeof import('vue')['createApp']>
+    readonly createI18nAffixes: UnwrapRef<typeof import('./composables/affix')['createI18nAffixes']>
     readonly createPinia: UnwrapRef<typeof import('pinia')['createPinia']>
     readonly customRef: UnwrapRef<typeof import('vue')['customRef']>
     readonly defineAsyncComponent: UnwrapRef<typeof import('vue')['defineAsyncComponent']>
@@ -125,6 +136,7 @@ declare module 'vue' {
     readonly isReactive: UnwrapRef<typeof import('vue')['isReactive']>
     readonly isReadonly: UnwrapRef<typeof import('vue')['isReadonly']>
     readonly isRef: UnwrapRef<typeof import('vue')['isRef']>
+    readonly item: UnwrapRef<typeof import('./stores/item')['default']>
     readonly mapActions: UnwrapRef<typeof import('pinia')['mapActions']>
     readonly mapGetters: UnwrapRef<typeof import('pinia')['mapGetters']>
     readonly mapState: UnwrapRef<typeof import('pinia')['mapState']>
@@ -165,11 +177,16 @@ declare module 'vue' {
     readonly toValue: UnwrapRef<typeof import('vue')['toValue']>
     readonly triggerRef: UnwrapRef<typeof import('vue')['triggerRef']>
     readonly unref: UnwrapRef<typeof import('vue')['unref']>
+    readonly useAffixSearch: UnwrapRef<typeof import('./composables/affix')['useAffixSearch']>
     readonly useAttrs: UnwrapRef<typeof import('vue')['useAttrs']>
     readonly useCssModule: UnwrapRef<typeof import('vue')['useCssModule']>
     readonly useCssVars: UnwrapRef<typeof import('vue')['useCssVars']>
     readonly useHead: UnwrapRef<typeof import('@vueuse/head')['useHead']>
     readonly useI18n: UnwrapRef<typeof import('vue-i18n')['useI18n']>
+    readonly useItem: UnwrapRef<typeof import('./composables/item')['useItem']>
+    readonly useItemQuality: UnwrapRef<typeof import('./composables/item')['useItemQuality']>
+    readonly useItemStore: UnwrapRef<typeof import('./stores/item')['useItemStore']>
+    readonly useItemType: UnwrapRef<typeof import('./composables/item')['useItemType']>
     readonly useLink: UnwrapRef<typeof import('vue-router')['useLink']>
     readonly useRoute: UnwrapRef<typeof import('vue-router')['useRoute']>
     readonly useRouter: UnwrapRef<typeof import('vue-router')['useRouter']>
@@ -186,6 +203,7 @@ declare module 'vue' {
 declare module '@vue/runtime-core' {
   interface ComponentCustomProperties {
     readonly EffectScope: UnwrapRef<typeof import('vue')['EffectScope']>
+    readonly FlagAction: UnwrapRef<typeof import('./composables/stash')['FlagAction']>
     readonly ItemAttributeType: UnwrapRef<typeof import('./stores/index')['ItemAttributeType']>
     readonly ItemCategory: UnwrapRef<typeof import('./stores/index')['ItemCategory']>
     readonly ItemQuality: UnwrapRef<typeof import('./stores/index')['ItemQuality']>
@@ -194,6 +212,7 @@ declare module '@vue/runtime-core' {
     readonly acceptHMRUpdate: UnwrapRef<typeof import('pinia')['acceptHMRUpdate']>
     readonly computed: UnwrapRef<typeof import('vue')['computed']>
     readonly createApp: UnwrapRef<typeof import('vue')['createApp']>
+    readonly createI18nAffixes: UnwrapRef<typeof import('./composables/affix')['createI18nAffixes']>
     readonly createPinia: UnwrapRef<typeof import('pinia')['createPinia']>
     readonly customRef: UnwrapRef<typeof import('vue')['customRef']>
     readonly defineAsyncComponent: UnwrapRef<typeof import('vue')['defineAsyncComponent']>
@@ -211,6 +230,7 @@ declare module '@vue/runtime-core' {
     readonly isReactive: UnwrapRef<typeof import('vue')['isReactive']>
     readonly isReadonly: UnwrapRef<typeof import('vue')['isReadonly']>
     readonly isRef: UnwrapRef<typeof import('vue')['isRef']>
+    readonly item: UnwrapRef<typeof import('./stores/item')['default']>
     readonly mapActions: UnwrapRef<typeof import('pinia')['mapActions']>
     readonly mapGetters: UnwrapRef<typeof import('pinia')['mapGetters']>
     readonly mapState: UnwrapRef<typeof import('pinia')['mapState']>
@@ -251,11 +271,16 @@ declare module '@vue/runtime-core' {
     readonly toValue: UnwrapRef<typeof import('vue')['toValue']>
     readonly triggerRef: UnwrapRef<typeof import('vue')['triggerRef']>
     readonly unref: UnwrapRef<typeof import('vue')['unref']>
+    readonly useAffixSearch: UnwrapRef<typeof import('./composables/affix')['useAffixSearch']>
     readonly useAttrs: UnwrapRef<typeof import('vue')['useAttrs']>
     readonly useCssModule: UnwrapRef<typeof import('vue')['useCssModule']>
     readonly useCssVars: UnwrapRef<typeof import('vue')['useCssVars']>
     readonly useHead: UnwrapRef<typeof import('@vueuse/head')['useHead']>
     readonly useI18n: UnwrapRef<typeof import('vue-i18n')['useI18n']>
+    readonly useItem: UnwrapRef<typeof import('./composables/item')['useItem']>
+    readonly useItemQuality: UnwrapRef<typeof import('./composables/item')['useItemQuality']>
+    readonly useItemStore: UnwrapRef<typeof import('./stores/item')['useItemStore']>
+    readonly useItemType: UnwrapRef<typeof import('./composables/item')['useItemType']>
     readonly useLink: UnwrapRef<typeof import('vue-router')['useLink']>
     readonly useRoute: UnwrapRef<typeof import('vue-router')['useRoute']>
     readonly useRouter: UnwrapRef<typeof import('vue-router')['useRouter']>

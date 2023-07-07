@@ -1,7 +1,17 @@
 import { IItem, IItemAttribute, ItemAttributeType } from '~/stores';
+import { orderBy } from '~/utils';
 
-type gropuItem = {
+export type GroupItem = {
     [key: string]: IItem[]
+}
+
+export enum FlagAction {
+    Remove = 'remove'
+}
+
+export enum ViewMode {
+    Tab = 'tab',
+    Legendary = 'legendary'
 }
 
 export const initItemModel = (): IItem => ({
@@ -13,7 +23,8 @@ export const initItemModel = (): IItem => ({
     attributes: [],
     requiredLevel: 1,
     upgrade: 0,
-    stashTab: 1
+    stashTab: 1,
+    flags: []
 });
 
 export const initAttrModel = (): IItemAttribute => ({
@@ -24,19 +35,37 @@ export const initAttrModel = (): IItemAttribute => ({
 });
 
 export function useStash() {
-
     const { t } = useI18n();
     // store
     const store = useStashStore();
     const { data } = storeToRefs(store);
 
+    const viewMode = ref<ViewMode>(ViewMode.Tab);
+    const changeView = () => {
+        viewMode.value = viewMode.value === ViewMode.Tab ? ViewMode.Legendary : ViewMode.Tab;
+    }
 
     return {
+        // data, group list
+        list: data, //computed(() => data.value),
         groupList: computed(() => {
-            return data.value
-                .sort((a, b) => b.itemPower - a.itemPower)
-                .reduce<gropuItem>((acc, item) => {
-                    const key = item.stashTab.toString();
+            let query = data.value;
+
+            query = orderBy(query, ['type', 'itemPower'], ['asc', 'desc']);
+
+            return query
+                .reduce<GroupItem>((acc, item) => {
+                    let key = item.stashTab.toString();
+
+                    if (viewMode.value == ViewMode.Legendary) {
+                        const affix = item.attributes.find(f => f.type == ItemAttributeType.LegendaryAspect);
+                        if (affix) {
+                            key = affix.id as string;
+                        } else {
+                            key = 'other'
+                        }
+                    }
+                        
                     if (acc.hasOwnProperty(key)) {
                         acc[key].push(item);
                     } else {
@@ -51,7 +80,9 @@ export function useStash() {
             //     .groupBy('stashTab')
             //     .value(); 
         }),
-
+        viewMode,
+        changeView,
+        // crud item
         addItem: (item: IItem) => {
             if (!item.name) {
                 return;
@@ -63,7 +94,33 @@ export function useStash() {
             store.update(item);
         },
         removeItem: (id: string) => {
-            confirm(t('prompt.remove_confirm')) && store.remove(id);
-        }
+            confirm(t('ui.prompt_delete_confirm')) && store.remove(id);
+        },
+        // flag item
+        flagItem: (flag: FlagAction, id?: string) => {
+            const item = data.value.find(i => i.id == id);
+            if (!item) {
+                return;
+            }
+
+            if (item.flags.includes(flag)) {
+                // remove flag
+                const idx = item.flags.findIndex(f => f == flag);
+                item.flags.splice(idx, 1);
+            } else {
+                // add flag
+                item.flags.push(flag);
+            }
+            
+        },
+        removeFlaggedItem: () => {
+            if (!confirm(t('ui.prompt_delete_flagged_item'))) {
+                return;
+            }
+
+            const ids = data.value.filter(f => f.id && f.flags.includes(FlagAction.Remove)).map(m => m.id as string);
+            store.remove(ids);
+        },
+        flaggedItemCount: computed(() => data.value.filter(f => f.flags.includes(FlagAction.Remove)).length),
     }
 }

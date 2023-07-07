@@ -1,1 +1,1 @@
-export const STASH_DATA = 'D4SM.STASH';
+export const STASH_DATA = 'D4SM.STASHDATA';

@@ -1,6 +1,5 @@
 import type { IItem } from '.';
-import { clone } from 'lodash-es';
-import { uuid } from '~/utils';
+import { clone, uuid } from '~/utils';
 
 // Weapons: 100
 // Armor: 200
@@ -21,7 +20,7 @@ export const useStashStore = defineStore('stash', () => {
     const clearData = (data: IItem) => {
 
         // sort quality
-        data.quality.sort((a, b) => parseInt(b) - parseInt(a));
+        data.quality.sort((a, b) => b - a);
 
         return data;
     }
@@ -38,9 +37,13 @@ export const useStashStore = defineStore('stash', () => {
         data.value[idx] = clearData(clone(item));
     }
 
-    const remove = (id: string) => {
-        const idx = data.value.findIndex(i => i.id == id);
-        data.value.splice(idx, 1);
+    const remove = (id: string | string[]) => {
+        const removeIds = typeof id === 'string' ? [id] : id;
+        
+        for (const id of removeIds) {
+            const idx = data.value.findIndex(i => i.id == id);
+            data.value.splice(idx, 1);
+        }
     }
     
     return {

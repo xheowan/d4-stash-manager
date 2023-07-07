@@ -12,7 +12,7 @@ export enum ItemType {
     Bow = 103, //弓
     Crossbow = 104, //弩
     Dagger = 105, //匕首
-    Focus = 106, //副手
+    Focus = 106, //法器
     Mace = 107, //錘
     Mace2H = 108, //雙手錘
     Polearm = 109, //長柄武器
@@ -26,14 +26,20 @@ export enum ItemType {
     Wand = 117, //魔杖
     // Armor: 200
     Helm = 201, //頭盔
-    Chest = 202, //胸甲
+    ChestAmulet = 202, //胸甲
     Gloves = 203, //手套
     Pants = 204, //褲子
     Boots = 205, //靴子
     // Accessories: 300
     Amulet = 301, //護身符
-    Rings = 302, //戒指
+    Ring = 302, //戒指
     // LegendaryAspects: 400
+
+    AspectDefensive = 411, //防禦精華
+    AspectMobility = 421, //機動精華
+    AspectOffensive = 431, //攻擊精華
+    AspectResource = 441, //資源精華
+    AspectUtility = 451, //通用精華
 
 }
 
@@ -50,7 +56,7 @@ export enum ItemQuality {
 export enum ItemAttributeType {
     Property = 1,
     Affix = 2,
-    LegendaryAspects = 3
+    LegendaryAspect = 3
 
     // WeaponPreporty = 1,
     // ArmorPreporty = 2,
@@ -76,104 +82,18 @@ export interface IItem {
     name?: string;
 
     itemPower: number;
-    quality: string[];
+    quality: number[];
     attributes: IItemAttribute[];
     requiredLevel: number;
     upgrade: number;
 
-    stashTab: number;
+    stashTab: number; //分頁
+
+    flags: string[] //標記
 }
 
-// export interface ListItem extends Omit<IItem, 'id' | 'type'> {
-//     id: string;
-//     type: ItemType;
+// export interface ICreateItem extends Omit<IItem, 'id' | 'type' | 'name'> {
+//     id?: string;
+//     type?: ItemType;
+//     name?: string;
 // }
-
-/*
-// https://diablo4.cc/tw/Affix
-// get all affix data
-(function(){
-const typeCampare = {
-    'chest_armor': 'chest',
-    'two-handed_axe': 'axe2h',
-    'hand_crossbow': 'crossbow',
-    'daggeroffhand': 'dagger',
-    'two-handed_mace': 'mace2h',
-    'two-handed_scythe': 'scythe2h',
-    'two-handed_sword': 'sword2h'
-}
-let alist = [...document.querySelectorAll('.row .col')].map(elm => {
-    const id = elm.querySelector('[data-hover2]').getAttribute('data-hover2').split('/')[1];
-    let title = elm.querySelector('.card-header').innerText;
-
-    // fix title format
-    title = title.replace('[[', '[').replace(']]', ']').replace('}|1%|', '');
-
-    // get title part
-    const regex1 = /\[\d+(?:\.\d+)? – \d+(?:\.\d+)?\]/g;
-    const range = title.match(regex1)[0];
-    title = title.replace(regex1, '{0}');
-    
-    const trList = elm.querySelectorAll('.table tbody tr');
-
-    const splitKey = ' – ';
-    const powerIncrease = [...trList].reduce((acc, tr) => {
-        const key = tr.childNodes[0].innerText;
-        let value = tr.childNodes[1].innerText;
-
-        if (value.includes(splitKey)) {
-            value = value.slice(1, -1).split(splitKey).map(Number);
-            
-        } else {
-            value = [Number(value)];
-        }
-
-        acc[key] = value;        
-
-        return acc;
-    }, {});
-
-    const typeList = [...elm.querySelector('.card-body').querySelectorAll('a')].map(a => {
-        let type = a.getAttribute('href').toLocaleLowerCase();
-
-        if (typeCampare.hasOwnProperty(type)) {
-            type = typeCampare[type];
-        }
-
-        return type;
-    });
-
-    const clearTypeList = Array.from(new Set(typeList));
-
-
-    return {
-        id,
-        title,
-        range,
-        powerIncrease,
-        requiredItemType: clearTypeList
-    }
-});
-
-console.log(JSON.stringify(alist));
-})();
-
-// get data to i18n json
-let i18nlist = [...document.querySelectorAll('.row .col')].reduce((acc, elm) => {
-    const id = elm.querySelector('[data-hover2]').getAttribute('data-hover2').split('/')[1];
-    let title = elm.querySelector('.card-header').innerText;
-
-    // fix title format
-    title = title.replace('[[', '[').replace(']]', ']').replace('}|1%|', '');
-
-    // get title part
-    const regex1 = /\[\d+(?:\.\d+)? – \d+(?:\.\d+)?\]/g;
-    title = title.replace(regex1, '{0}');
-
-    acc[id] = title;
-
-    return acc;
-}, {});
-
-JSON.stringify(i18nlist);
-*/
