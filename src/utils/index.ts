@@ -27,6 +27,8 @@ export type OptionItem = {
     value: string | number
 }
 
+export const toCapitalize = (value: string) => value.charAt(0).toUpperCase() + value.slice(1);
+
 
 /**
  * Converts an enum object into an array of OptionItems.
@@ -54,9 +56,12 @@ export const convertEnumToOptions = <T extends string | number>(enumObject: Reco
 export const enumKey = <T extends string | number>(
     enumObject: Record<string, T>,
     value: number
-): string => {
+): string | undefined => {
     const key = enumObject[value] as string;
-    return toSnakeCase(key);
+    if (key)
+        return toSnakeCase(key);
+    else
+        return undefined;
 }
 
 

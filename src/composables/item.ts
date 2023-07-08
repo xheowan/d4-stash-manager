@@ -4,9 +4,14 @@ import { IItemAttribute } from '~/stores';
 import { convertEnumToOptions, orderBy } from '~/utils';
 import { createI18nAffixes, DataAffix } from './affix';
 
+export function convertTypeValueToCategory(value: string | number) {
+    return (Math.floor(Number(value) / 100) % 10) * 100;
+}
+
 export function useItemType() {
     const groupTypeList = groupBy(convertEnumToOptions(ItemType), (option) => {
-        const cate = (Math.floor(Number(option.value) / 100) % 10) * 100;
+        // const cate = (Math.floor(Number(option.value) / 100) % 10) * 100;
+        const cate = convertTypeValueToCategory(option.value);
         return ItemCategory[cate];
     });
     
@@ -58,7 +63,7 @@ export function useItem() {
         model.value.quality.push(ItemQuality.Legendary);
         
         if (mainLegendaryAffix.value.prefix) {
-            model.value.name = t(`item_affix_prefix.${mainLegendaryAffix.value.id}`, ['']).trim();
+            model.value.name = mainLegendaryAffix.value.prefix;
         }
     }
 

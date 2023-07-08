@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { DataAffix } from '~/composables/affix';
 import { useItem } from '~/composables/item';
 import { FlagAction, ViewMode } from '~/composables/stash';
 import { IItem } from '~/stores';
@@ -11,7 +12,7 @@ defineOptions({
 // init useStash
 const {
     groupList,
-    viewMode,
+    viewMode: mode,
     changeView,
 
     addItem,
@@ -60,6 +61,11 @@ const modifyItem = () => {
 
 // search
 const showSearch = ref(false);
+const searchSelectedRules = ref<DataAffix[]>([]);
+
+const search = () => {
+    console.log(searchSelectedRules.value);
+}
 </script>
 
 <template>
@@ -70,8 +76,8 @@ const showSearch = ref(false);
         <div class="d-flex justify-content-between mb-3">
             <div class="left">
                 <button type="button" class="btn btn-primary me-2" @click="showCreate = true">{{ $t('ui.fast_create') }}</button>
-                <button type="button" class="btn btn-info me-2" @click="showSearch = true">{{ $t('ui.search') }}</button>
-                <button type="button" class="btn btn-secondary" @click="changeView">{{ $t(`ui.swith_view.${viewMode}`) }}</button>
+                <button type="button" class="btn btn-info me-2" @click="showSearch = true" :disabled="true">{{ $t('ui.search') }}</button>
+                <button type="button" class="btn btn-secondary" @click="changeView">{{ $t(`ui.swith_view.${mode == ViewMode.Tab ? 'legendary' : 'tab'}`) }}</button>
             </div>
             <div class="right">
                 <button type="button" class="btn btn-danger" :disabled="!flaggedItemCount" @click="removeFlaggedItem()">{{ $t('ui.delete_all_flagged_item') }}</button>
@@ -81,10 +87,10 @@ const showSearch = ref(false);
         <div class="group-view">
             <div v-for="(items, key) in groupList" :key="key" class="group mt-4">
                 <h5>
-                    <template v-if="viewMode == ViewMode.Tab">
+                    <template v-if="mode == ViewMode.Tab">
                         {{ `Tab ${key}` }}
                     </template>
-                    <template v-else-if="viewMode == ViewMode.Legendary && key !== 'other'">
+                    <template v-else-if="mode == ViewMode.Legendary && key !== 'other'">
                         <div class="text-legendary text-truncate">{{ $t(`item_attributes.${key}`, ['n', 'n']) }}</div>
                     </template>
                     <template v-else>
@@ -97,8 +103,9 @@ const showSearch = ref(false);
                         <col class="col-1">
                         <col class="col-2">
                         <col class="col-1">
-                        <col class="col-5">
+                        <col :class="[(mode == ViewMode.Legendary ? 'col-4' : 'col-5')]">
                         <col class="col-1">
+                        <col v-if="mode == ViewMode.Legendary" class="col-1">
                         <col class="col-2">
                     </colgroup>
                     <thead>
@@ -108,6 +115,7 @@ const showSearch = ref(false);
                             <th scope="col">{{ $t('form.item_type') }}</th>
                             <th scope="col">{{ $t('form.item_name') }}</th>
                             <th scope="col">{{ $t('form.item_power') }}</th>
+                            <th v-if="mode == ViewMode.Legendary" scope="col">{{ $t('ui.item_legendary_values') }}</th>
                             <th scope="col" />
                         </tr>
                     </thead>
@@ -118,6 +126,7 @@ const showSearch = ref(false);
                             <td>{{ $t(`item_type.${enumKey(ItemType, Number(item.type))}`) }}</td>
                             <td><div class="text-truncate" :title="item.name">{{ item.name }}</div></td>
                             <td>{{ item.itemPower }}</td>
+                            <td v-if="mode == ViewMode.Legendary">{{ item.legendary?.values }}</td>
                             <td>
                                 <button type="button" class="btn btn-sm btn-success me-2" @click="modify(item)">{{ $t('ui.edit') }}</button>
                                 <button type="button" class="btn btn-sm" :class="[(item.flags.includes(FlagAction.Remove) ? 'btn-warning' : 'btn-outline-warning')]" @click="flagItem(FlagAction.Remove, item.id)">{{ $t(item.flags.includes(FlagAction.Remove) ? 'ui.delete_flagged' : 'ui.flag_remove') }}</button>
@@ -138,7 +147,10 @@ const showSearch = ref(false);
     </Modal>
 
     <Modal v-model:show="showSearch" :title="$t('ui.search')">
-        Search item
+        <CtrlAffixSearch v-model:items="searchSelectedRules" />
+        <div class="d-flex justify-content-end">
+            <button type="button" class="btn btn-outline-secondary" @click="search">{{ $t('ui.next_step') }}</button>
+        </div>
     </Modal>
 </template>
 

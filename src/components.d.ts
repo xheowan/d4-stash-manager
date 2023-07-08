@@ -10,6 +10,7 @@ declare module 'vue' {
     AffixView: typeof import('./components/AffixView.vue')['default']
     Badge: typeof import('./components/Badge.vue')['default']
     BadgeQuality: typeof import('./components/BadgeQuality.vue')['default']
+    CtrlAffixSearch: typeof import('./components/CtrlAffixSearch.vue')['default']
     CtrlItemAffix: typeof import('./components/CtrlItemAffix.vue')['default']
     CtrlItemQuality: typeof import('./components/CtrlItemQuality.vue')['default']
     CtrlItemType: typeof import('./components/CtrlItemType.vue')['default']

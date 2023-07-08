@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useAffixSearch } from '~/composables/affix';
+// import { useAffixSearch } from '~/composables/affix';
 import { useItem } from '~/composables/item';
 
 const emit = defineEmits(['submit']);
@@ -10,13 +10,13 @@ const step = ref(1);
 const isLoading = ref(false);
 
 // search affixes
-const {
-    pagedSearchResult,
-    remainingItemCount,
-    search,
-    showMore,
-    reset: resetSearch
-} = useAffixSearch();
+// const {
+//     pagedSearchResult,
+//     remainingItemCount,
+//     search,
+//     showMore,
+//     reset: resetSearch
+// } = useAffixSearch();
 
 // item model
 const {
@@ -24,7 +24,7 @@ const {
     toggleAffix,
     removeAffix,
     inputAffixValues,
-    isAffixExists
+    // isAffixExists
 } = useItem();
 
 const showMoreInput = ref(false);
@@ -43,7 +43,7 @@ const continueCreate = ref(true);
 const submit = () => {
     emit('submit', model.value, continueCreate.value);
     model.value = initItemModel();
-    resetSearch();
+    // resetSearch();
 
     // reset
     if (continueCreate.value) {
@@ -57,7 +57,9 @@ const submit = () => {
     <div class="item-fast-create">
         <!--step 1-->
         <template v-if="step === 1">
-            <div class="mb-3">
+            <CtrlAffixSearch @selected="toggleAffix" />
+
+            <!-- <div class="mb-3">
                 <input type="text" class="form-control" :placeholder="$t('ui.prompt_fast_search_keyword')" @input="search" />
                 <div v-if="model.attributes.length" class="form-text text-end">{{ $t('ui.display_exists_affix_count', [model.attributes.length]) }}</div>
             </div>
@@ -90,9 +92,11 @@ const submit = () => {
                 >
                     {{ $t('ui.display_more_data', [remainingItemCount]) }}
                 </button>
-            </div>
+            </div> -->
 
-            <button type="button" class="btn btn-outline-primary float-end" :disabled="!model.attributes.length" @click="nextStep">{{ $t('ui.next_step') }}</button>
+            <div class="d-flex justify-content-end">
+                <button type="button" class="btn btn-outline-primary" :disabled="!model.attributes.length" @click="nextStep">{{ $t('ui.next_step') }}</button>
+            </div>
         </template>
         <!--step 2-->
         <template v-else-if="step === 2">

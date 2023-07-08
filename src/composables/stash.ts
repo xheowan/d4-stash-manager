@@ -1,8 +1,12 @@
 import { IItem, IItemAttribute, ItemAttributeType } from '~/stores';
 import { orderBy } from '~/utils';
 
+export interface IListItem extends IItem {
+    legendary?: IItemAttribute
+}
+
 export type GroupItem = {
-    [key: string]: IItem[]
+    [key: string]: IListItem[]
 }
 
 export enum FlagAction {
@@ -51,25 +55,36 @@ export function useStash() {
         groupList: computed(() => {
             let query = data.value;
 
-            query = orderBy(query, ['type', 'itemPower'], ['asc', 'desc']);
+            if (viewMode.value === ViewMode.Legendary) {
+                query = orderBy(query, ['itemPower', 'type'], ['desc', 'asc']);
+            } else {
+                query = orderBy(query, ['type', 'itemPower'], ['asc', 'desc']);
+            }
 
             return query
                 .reduce<GroupItem>((acc, item) => {
+                    const legendary = item.attributes.find(f => f.type === ItemAttributeType.LegendaryAspect)
+                    // create list item
+                    const listitem: IListItem = {
+                        ...item,
+                        legendary
+                    };
+
+                    // group key
                     let key = item.stashTab.toString();
 
-                    if (viewMode.value == ViewMode.Legendary) {
-                        const affix = item.attributes.find(f => f.type == ItemAttributeType.LegendaryAspect);
-                        if (affix) {
-                            key = affix.id as string;
+                    if (viewMode.value === ViewMode.Legendary) {
+                        if (legendary) {
+                            key = legendary.id as string;
                         } else {
                             key = 'other'
                         }
                     }
                         
                     if (acc.hasOwnProperty(key)) {
-                        acc[key].push(item);
+                        acc[key].push(listitem);
                     } else {
-                        acc[key] = [item];
+                        acc[key] = [listitem];
                     }
 
                     return acc

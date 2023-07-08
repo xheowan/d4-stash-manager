@@ -1,46 +1,53 @@
 export enum ItemCategory {
-    Weapons = 100,
-    Armor = 200,
-    Accessories = 300,
-    LegendaryAspects = 400
+    OneHandedWeapons = 100,
+    TwoHandedWeapons = 200,
+    Offhand = 300,
+    Armor = 400,
+    Accessories = 500,
+    LegendaryAspects = 600
 }
 
 export enum ItemType {
-    // Weapons: 100
+    // 1H Weapons: 100
     Axe = 101, //斧
-    Axe2H = 102, //雙手斧
-    Bow = 103, //弓
-    Crossbow = 104, //弩
-    Dagger = 105, //匕首
-    Focus = 106, //法器
-    Mace = 107, //錘
-    Mace2H = 108, //雙手錘
-    Polearm = 109, //長柄武器
-    Scythe = 110, //鐮刀
-    Scythe2H = 111, //雙手鐮刀
-    Shield = 112, //盾
-    Staff = 113, //雙手法杖
-    Sword = 114, //劍
-    Sword2H = 115, //雙手劍
-    Totem = 116, //圖騰 
-    Wand = 117, //魔杖
-    // Armor: 200
-    Helm = 201, //頭盔
-    ChestAmulet = 202, //胸甲
-    Gloves = 203, //手套
-    Pants = 204, //褲子
-    Boots = 205, //靴子
-    // Accessories: 300
-    Amulet = 301, //護身符
-    Ring = 302, //戒指
-    // LegendaryAspects: 400
+    Dagger = 102, //匕首
+    Mace = 103, //錘
+    Scythe = 104, //鐮刀
+    Sword = 105, //劍
+    Wand = 106, //魔杖
+    
+    // 2H Weapons: 200
+    Axe2H = 201, //雙手斧
+    Bow = 202, //弓
+    Crossbow = 203, //弩
+    Mace2H = 204, //雙手錘
+    Polearm = 205, //長柄武器
+    Scythe2H = 206, //雙手鐮刀
+    Staff = 207, //雙手法杖
+    Sword2H = 208, //雙手劍
 
-    AspectDefensive = 411, //防禦精華
-    AspectMobility = 421, //機動精華
-    AspectOffensive = 431, //攻擊精華
-    AspectResource = 441, //資源精華
-    AspectUtility = 451, //通用精華
+    // Offhand: 300
+    Focus = 301, //法器
+    Shield = 302, //盾
+    Totem = 303, //圖騰
 
+    // Armor: 400
+    Helm = 301, //頭盔
+    ChestAmulet = 302, //胸甲
+    Gloves = 303, //手套
+    Pants = 304, //褲子
+    Boots = 305, //靴子
+    
+    // Accessories: 500
+    Amulet = 401, //護身符
+    Ring = 402, //戒指
+
+    // LegendaryAspects: 600
+    AspectDefensive = 501, //防禦精華
+    AspectMobility = 502, //機動精華
+    AspectOffensive = 503, //攻擊精華
+    AspectResource = 504, //資源精華
+    AspectUtility = 505 //通用精華
 }
 
 export enum ItemQuality {
@@ -89,7 +96,8 @@ export interface IItem {
 
     stashTab: number; //分頁
 
-    flags: string[] //標記
+    flags: string[]; //標記
+    createTime?: number;
 }
 
 // export interface ICreateItem extends Omit<IItem, 'id' | 'type' | 'name'> {

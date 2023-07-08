@@ -26,10 +26,11 @@ export const useStashStore = defineStore('stash', () => {
     }
 
     const add = (item: IItem) => {
-        const nItem = clone(item);
-        nItem.id = uuid().replaceAll('-', '');
+        const newitem = clone(item);
+        newitem.id = uuid().replaceAll('-', '');
+        newitem.createTime = new Date().getTime();
 
-        data.value.push(clearData(nItem));
+        data.value.push(clearData(newitem));
     }
 
     const update = (item: IItem) => {

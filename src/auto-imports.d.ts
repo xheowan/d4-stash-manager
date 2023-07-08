@@ -12,6 +12,7 @@ declare global {
   const ItemQuality: typeof import('./stores/index')['ItemQuality']
   const ItemType: typeof import('./stores/index')['ItemType']
   const STASH_DATA: typeof import('./stores/keys')['STASH_DATA']
+  const ViewMode: typeof import('./composables/stash')['ViewMode']
   const acceptHMRUpdate: typeof import('pinia')['acceptHMRUpdate']
   const computed: typeof import('vue')['computed']
   const createApp: typeof import('vue')['createApp']
@@ -115,6 +116,7 @@ declare module 'vue' {
     readonly ItemQuality: UnwrapRef<typeof import('./stores/index')['ItemQuality']>
     readonly ItemType: UnwrapRef<typeof import('./stores/index')['ItemType']>
     readonly STASH_DATA: UnwrapRef<typeof import('./stores/keys')['STASH_DATA']>
+    readonly ViewMode: UnwrapRef<typeof import('./composables/stash')['ViewMode']>
     readonly acceptHMRUpdate: UnwrapRef<typeof import('pinia')['acceptHMRUpdate']>
     readonly computed: UnwrapRef<typeof import('vue')['computed']>
     readonly createApp: UnwrapRef<typeof import('vue')['createApp']>
@@ -209,6 +211,7 @@ declare module '@vue/runtime-core' {
     readonly ItemQuality: UnwrapRef<typeof import('./stores/index')['ItemQuality']>
     readonly ItemType: UnwrapRef<typeof import('./stores/index')['ItemType']>
     readonly STASH_DATA: UnwrapRef<typeof import('./stores/keys')['STASH_DATA']>
+    readonly ViewMode: UnwrapRef<typeof import('./composables/stash')['ViewMode']>
     readonly acceptHMRUpdate: UnwrapRef<typeof import('pinia')['acceptHMRUpdate']>
     readonly computed: UnwrapRef<typeof import('vue')['computed']>
     readonly createApp: UnwrapRef<typeof import('vue')['createApp']>

@@ -1,5 +1,8 @@
 import { useDebounceFn } from '@vueuse/core';
 import dataAffixes from '~/data/affixes.json';
+import { ItemType } from '~/stores';
+import { convertTypeValueToCategory } from './item';
+import { toCapitalize } from '~/utils';
 
 
 export type DataAffix = {
@@ -9,6 +12,7 @@ export type DataAffix = {
     valueRange: string[],
     powerIncrease?: Record<string, number[]>,
     requiredItemType: string[],
+    itemTypeSlot? :string[],
     tags: string[]
 }
 
@@ -19,15 +23,43 @@ export function createI18nAffixes() {
         const { t } = useI18n();
 
         i18nAffixData = dataAffixes.map((item) => {
-            item.title = t(`item_attributes.${item.id}`, ['n']);
+            item.title = t(`item_attributes.${item.id}`, ['n']).trim();
+
+            if (item.prefix) {
+                item.prefix = t(`item_affix_prefix.${item.id}`, ['']).trim();
+            }
             
-            return item;
+            return {
+                ...item,
+                itemTypeSlot: convertItemTypeSlot(item.requiredItemType)
+            };
         });
     }
     
     return i18nAffixData;
 }
 
+export function convertItemTypeSlot(list: string[]) {
+    return list.reduce((acc, value) => {
+        const typeKey = toCapitalize(value).replace('1h', '1H').replace('2h', '2H');
+
+        const typeId = ItemType[typeKey as keyof typeof ItemType];
+        const categoryId = convertTypeValueToCategory(typeId);
+
+
+        if (categoryId == ItemCategory.OneHandedWeapons)
+            value = '1h_weapon';
+        else if (categoryId == ItemCategory.TwoHandedWeapons)
+            value = '2h_weapon';
+        else if (categoryId == ItemCategory.Offhand)
+            value = 'offhand';
+        
+        if (!acc.includes(value))
+            acc.push(value);
+        
+        return acc;
+    }, [] as string[]);
+}
 
 export function useAffixSearch(pageCount = 5) {
 
