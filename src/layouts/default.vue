@@ -21,6 +21,7 @@ const importFile = (e: Event) => {
             const jsonData = JSON.parse(result);
 
             dataImport(jsonData as IItem[]);
+            showDataManager.value = false;
         };
 
         // 讀取文件內容
