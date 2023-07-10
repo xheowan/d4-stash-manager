@@ -10,9 +10,9 @@ export default defineComponent({
             type: String,
             default: null
         },
-        mode: {
+        size: {
             type: String,
-            default: 'content' //content, screen (full)
+            default: 'normal' //content, screen (full)
         },
         closeBtn: {
             type: Boolean,
@@ -26,18 +26,14 @@ export default defineComponent({
             type: Boolean,
             default: true
         },
-        dialogPosition: {
-            type: String,
-            default: 'bottom' //bottom, centered
-        },
         teleport: {
             type: Boolean,
             default: true
         }
     },
     emits: ['update:show'],
-    setup(props) {
-        const { show, mode, backdrop, dialogPosition } = toRefs(props); //background, 
+    setup(props, { slots }) {
+        const { show, size, backdrop } = toRefs(props); //background, 
 
         // const isCreate = ref(false);
         // modal element exists or not
@@ -45,10 +41,12 @@ export default defineComponent({
         // modal show or not
         const isVisible = ref(show.value);
 
+        const getWindowScrollbarWidth = () => (window.innerWidth - document.body.clientWidth) + 'px';
+
         // modal-dialog class
         const dialogClass = computed(() => ({
-            [`modal-dialog-${dialogPosition.value}`]: !!dialogPosition.value,
-            'modal-fullscreen': mode.value === 'screen'
+            // [`modal-dialog-${dialogPosition.value}`]: !!dialogPosition.value,
+            'modal-sm': size.value === 'sm'
         }));
 
         const backdropHidden = computed(() => {
@@ -60,7 +58,9 @@ export default defineComponent({
             // if (!isCreate.value)
             //     isCreate.value = true;
 
+            document.body.style.paddingRight = getWindowScrollbarWidth();
             document.body.classList.add(classNameOpen);
+            
             isVisible.value = true;
 
             // setTimeout(() => {
@@ -73,6 +73,7 @@ export default defineComponent({
 
         const doHide = () => {
             isShow.value = false;
+            document.body.style.paddingRight = '';
             document.body.classList.remove(classNameOpen);
 
             // setTimeout(() => {
@@ -100,7 +101,9 @@ export default defineComponent({
             // modalClass,
             dialogClass,
             // contentClass,
-            backdropHidden
+            backdropHidden,
+
+            hasSlot: (name) => !!slots[name]
         }
     }
 })
@@ -130,6 +133,9 @@ export default defineComponent({
                     </div>
                     <div class="modal-body">
                         <slot />
+                    </div>
+                    <div v-if="hasSlot('footer')" class="modal-footer">
+                        <slot name="footer" />
                     </div>
                 </div>
             </div>

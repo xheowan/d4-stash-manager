@@ -15,6 +15,9 @@ defineEmits(['update', 'remove']);
 const { data } = toRefs(props);
 
 const list = computed(() => orderBy(data.value, ['type', 'rank'], ['asc', 'asc']));
+
+// const baseAffiex = computed(() => list.value.filter(m => m.type === ItemAttributeType.Property));
+// const otherAffix = computed(() => list.value.filter(m => m.type !== ItemAttributeType.Affix));
 </script>
 
 <template>
@@ -23,11 +26,11 @@ const list = computed(() => orderBy(data.value, ['type', 'rank'], ['asc', 'asc']
             v-for="(item, idx) in list" 
             :key="item.id" 
             :tabindex="idx" 
-            class="px-1 py-2"
-            :class="[`type-${item.type}`]"
+            class="px-1"
+            :class="[(edit ? 'py-2' : 'py-1'), `type-${item.type}`]"
             role="button"
         >
-            <ItemAffix :data="item" :badge="false" />
+            <ItemAffix :data="item" />
             <!-- <div class="flex-fill my-1">{{ $t(`item_attributes.${item.id}`, item.values) }}</div> -->
             <div class="options btn-group" role="group">
                 <button v-if="edit" type="button" class="btn btn-sm btn-success" @click="$emit('update', item)">{{ $t('ui.edit') }}</button>

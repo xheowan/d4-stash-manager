@@ -32,22 +32,22 @@ export enum ItemType {
     Totem = 303, //圖騰
 
     // Armor: 400
-    Helm = 301, //頭盔
-    ChestAmulet = 302, //胸甲
-    Gloves = 303, //手套
-    Pants = 304, //褲子
-    Boots = 305, //靴子
+    Helm = 401, //頭盔
+    ChestArmor = 402, //胸甲
+    Gloves = 403, //手套
+    Pants = 404, //褲子
+    Boots = 405, //靴子
     
     // Accessories: 500
-    Amulet = 401, //護身符
-    Ring = 402, //戒指
+    Amulet = 501, //護身符
+    Ring = 502, //戒指
 
     // LegendaryAspects: 600
-    AspectDefensive = 501, //防禦精華
-    AspectMobility = 502, //機動精華
-    AspectOffensive = 503, //攻擊精華
-    AspectResource = 504, //資源精華
-    AspectUtility = 505 //通用精華
+    AspectDefensive = 601, //防禦精華
+    AspectMobility = 602, //機動精華
+    AspectOffensive = 603, //攻擊精華
+    AspectResource = 604, //資源精華
+    AspectUtility = 605 //通用精華
 }
 
 export enum ItemQuality {

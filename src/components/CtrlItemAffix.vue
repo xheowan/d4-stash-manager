@@ -12,22 +12,50 @@ const props = withDefaults(defineProps<{
     modelValue: () => [],
     itemType: undefined
 });
-// const emit = defineEmits(['update:modelValue']);
+const emit = defineEmits(['update:modelValue']);
 
 const { itemType, modelValue } = toRefs(props);
 
-// affix data list
-const dataAffixes = createI18nAffixes();
 // attribute model
 const editIdx = ref<number>(-1);
 const model = ref<IItemAttribute>(initAttrModel());
+// affix data list
+const dataAffixes = createI18nAffixes();
+
 const resetModel = () => {
     editIdx.value = -1;
     model.value = initAttrModel();
     keyword.value = '';
 }
+
+
+
+// ItemAffixView
+const modify = (item: IItemAttribute) => {
+    editIdx.value = modelValue.value.findIndex(f => f.id == item.id);
+    model.value = clone(item);
+}
+
+const remove = (item: IItemAttribute) => {
+    const idx = modelValue.value.findIndex(f => f.id == item.id);
+    modelValue.value.splice(idx, 1);
+    resetModel();
+}
+
+// attribute type
+const typeOptions = convertEnumToOptions(ItemAttributeType);
+// proxy for model.type
+// const proxyTypeModel = computed({
+//     get: () => [model.value.type.toString()],
+//     set: (value) => {
+//         model.value.type = Number(value[0]);
+//     }
+// });
+
+
+
 // proxy select affix model
-const proxyAffixModel = computed({
+const proxyModelId = computed({
     get: () => model.value.id ? dataAffixes.find(f => f.id == model.value.id) : undefined,
     set: (value) => {
         model.value.id = value?.id || undefined;
@@ -37,14 +65,11 @@ const proxyAffixModel = computed({
 
 // search data affix list
 const keyword = ref<string>('');
-// watchDebounced(keyword, () => {
-//     if (editIdx.value == -1)
-//         model.value.id = undefined;
-// }, { debounce: 500 });
+
 // attibute list (filtered data affixes)
 const filterAffixList = computed(() => {
     // item type
-    let type = itemType.value ? ItemType[itemType.value].toLowerCase() : null;
+    let type = (itemType.value && ItemType[itemType.value]?.toLowerCase()) || null;
 
     if (type?.includes('aspect')) {
         type = type.replace('aspect', '');
@@ -64,18 +89,8 @@ const filterAffixList = computed(() => {
 });
 
 
-// attribute type
-const typeOptions = convertEnumToOptions(ItemAttributeType);
-// proxy for model.type
-// const proxyTypeModel = computed({
-//     get: () => [model.value.type.toString()],
-//     set: (value) => {
-//         model.value.type = Number(value[0]);
-//     }
-// });
-
 // attribute value
-const inputAttrValues = computed({
+const proxyModelValues = computed({
     get: () => model.value.values?.join(','),
     set: (value) => {
         model.value.values = value.split(',').map(Number);
@@ -83,34 +98,25 @@ const inputAttrValues = computed({
 });
 
 // need editIdx to detect create or update
-
 const save = () => {
     if (!model.value || !model.value.type || !model.value.values)
         return;
 
+    const data = clone(model.value);
     if (editIdx.value != -1) {
         // update
-        console.log('update');
-        modelValue.value[editIdx.value] = clone(model.value);
+        modelValue.value[editIdx.value] = data;
     } else {
         // create
         model.value.rank = modelValue.value.length;
-        modelValue.value.push(clone(model.value));
+        modelValue.value.push(data);
     }
 
+    emit('update:modelValue', modelValue.value);
     resetModel();
 }
 
-const modify = (item: IItemAttribute) => {
-    editIdx.value = modelValue.value.findIndex(f => f.id == item.id);
-    model.value = clone(item);
-}
 
-const remove = (item: IItemAttribute) => {
-    const idx = modelValue.value.findIndex(f => f.id == item.id);
-    modelValue.value.splice(idx, 1);
-    resetModel();
-}
 
 </script>
 
@@ -144,13 +150,13 @@ const remove = (item: IItemAttribute) => {
             </div>
 
             <div class="col-md-8">
-                <select v-model="proxyAffixModel" class="form-select" :disabled="!itemType || editIdx !== -1">
+                <select v-model="proxyModelId" class="form-select" :disabled="!itemType || editIdx !== -1">
                     <option :value="undefined">{{ $t('form.item_attribute_select_prompt') }}</option>
                     <option v-for="attr in filterAffixList" :key="attr.id" :value="attr">{{ attr.title }}</option>
                 </select>
             </div>
             <div class="col-md-4">
-                <input v-model.lazy="inputAttrValues" type="text" class="form-control" :placeholder="proxyAffixModel?.valueRange.join(',') || $t('form.item_affix_range')" />
+                <input v-model.lazy="proxyModelValues" type="text" class="form-control" :placeholder="proxyModelId?.valueRange.join(',') || $t('form.item_affix_range')" pattern="[0-9,]*" />
             </div>
         </div>
 

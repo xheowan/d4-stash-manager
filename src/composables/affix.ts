@@ -64,25 +64,34 @@ export function convertItemTypeSlot(list: string[]) {
 export function useAffixSearch(pageCount = 5) {
 
     const dataAffixes = createI18nAffixes();
-    
-    // const pageCount = 5;
-    const displayedItemCount = ref(pageCount);
 
+    // data
+    // const data = ref<DataAffix[]>([]);
+
+    // search
     const searchResult = ref<DataAffix[]>();
+
+    // pagination
+    const displayedItemCount = ref(pageCount);
+    
     const pagedSearchResult = computed(() => searchResult.value?.slice(0, displayedItemCount.value));
 
     const remainingItemCount = computed(() => {
-        const leftCount = (searchResult.value?.length || 0) - displayedItemCount.value;
+        if (!searchResult.value)
+            return 0;
+        
+        const leftCount = searchResult.value.length - displayedItemCount.value;
         return leftCount > pageCount ? pageCount : leftCount;
     });
 
-    // search debounce input proxxy
-    const search = useDebounceFn((e) => {
-        const text = e.target.value;
-        // const text = keyword.value;
+    const reset = () => {
+        searchResult.value = undefined;
+        displayedItemCount.value = pageCount;
+    }
+
+    const search = (text: string) => {
         if (!text || text.length < 2) {
-            searchResult.value = undefined;
-            displayedItemCount.value = pageCount;
+            reset();
             return;
         }
     
@@ -92,19 +101,23 @@ export function useAffixSearch(pageCount = 5) {
                 // !model.value.attributes.some(s => s.id == f.id)
             )
             .sort((a, b) => a.title.localeCompare(b.title));
-    
-    }, 500);
+    }
+
+    // search debounce input proxxy
+    const inputSearch = useDebounceFn((e) => search(e.target.value), 500);
+
 
     return {
+        // data,
+        searchResult,
         totalResultCount: computed(() => searchResult.value?.length), 
         pagedSearchResult,
         remainingItemCount,
         search,
+        inputSearch,
         showMore: () => {
             displayedItemCount.value += pageCount;
         },
-        reset: () => {
-            searchResult.value = undefined;
-        }
+        reset
     }
 }

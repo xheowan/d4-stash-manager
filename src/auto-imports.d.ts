@@ -15,6 +15,8 @@ declare global {
   const ViewMode: typeof import('./composables/stash')['ViewMode']
   const acceptHMRUpdate: typeof import('pinia')['acceptHMRUpdate']
   const computed: typeof import('vue')['computed']
+  const convertItemTypeSlot: typeof import('./composables/affix')['convertItemTypeSlot']
+  const convertTypeValueToCategory: typeof import('./composables/item')['convertTypeValueToCategory']
   const createApp: typeof import('vue')['createApp']
   const createI18nAffixes: typeof import('./composables/affix')['createI18nAffixes']
   const createPinia: typeof import('pinia')['createPinia']
@@ -119,6 +121,8 @@ declare module 'vue' {
     readonly ViewMode: UnwrapRef<typeof import('./composables/stash')['ViewMode']>
     readonly acceptHMRUpdate: UnwrapRef<typeof import('pinia')['acceptHMRUpdate']>
     readonly computed: UnwrapRef<typeof import('vue')['computed']>
+    readonly convertItemTypeSlot: UnwrapRef<typeof import('./composables/affix')['convertItemTypeSlot']>
+    readonly convertTypeValueToCategory: UnwrapRef<typeof import('./composables/item')['convertTypeValueToCategory']>
     readonly createApp: UnwrapRef<typeof import('vue')['createApp']>
     readonly createI18nAffixes: UnwrapRef<typeof import('./composables/affix')['createI18nAffixes']>
     readonly createPinia: UnwrapRef<typeof import('pinia')['createPinia']>
@@ -214,6 +218,8 @@ declare module '@vue/runtime-core' {
     readonly ViewMode: UnwrapRef<typeof import('./composables/stash')['ViewMode']>
     readonly acceptHMRUpdate: UnwrapRef<typeof import('pinia')['acceptHMRUpdate']>
     readonly computed: UnwrapRef<typeof import('vue')['computed']>
+    readonly convertItemTypeSlot: UnwrapRef<typeof import('./composables/affix')['convertItemTypeSlot']>
+    readonly convertTypeValueToCategory: UnwrapRef<typeof import('./composables/item')['convertTypeValueToCategory']>
     readonly createApp: UnwrapRef<typeof import('vue')['createApp']>
     readonly createI18nAffixes: UnwrapRef<typeof import('./composables/affix')['createI18nAffixes']>
     readonly createPinia: UnwrapRef<typeof import('pinia')['createPinia']>

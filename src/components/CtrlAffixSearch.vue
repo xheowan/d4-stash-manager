@@ -1,42 +1,66 @@
 <script setup lang="ts">
+// import { PropType } from 'vue';
 import { DataAffix, useAffixSearch } from '~/composables/affix';
 
 const props = withDefaults(defineProps<{
-    items?: DataAffix[]
+    modelValue?: DataAffix[]
 }>(), {
-    items: () => []
+    modelValue: () => []
 });
-const { items } = toRefs(props);
-const emit = defineEmits(['selected']);
+
+const emit = defineEmits<{
+    (e: 'update:modelValue', data: DataAffix[]): void
+    (e: 'select', value: { checked: boolean, item: DataAffix }): void
+}>();
+
+const data = ref<DataAffix[]>(props.modelValue);
 
 const {
     pagedSearchResult,
     remainingItemCount,
-    search,
+    inputSearch,
     showMore,
-    // reset: resetSearch
+    reset
 } = useAffixSearch();
 
-const selected = (item: DataAffix) => {
-    const idx = items.value.findIndex(f => f.id == item.id);
+
+const select = (item: DataAffix) => {
+
+    let checked = false;
+    const idx = data.value.findIndex(f => f.id == item.id);
     if (idx !== -1) {
         // exists then remove
-        items.value.splice(idx, 1);
+        data.value.splice(idx, 1);
     } else {
         // add
-        items.value.push(item);
+        data.value.push(item);
+        checked = true;
     }
+
+    emit('update:modelValue', data.value);
     
-    emit('selected', item);
+    emit('select', {
+        checked,
+        item
+    });
 }
+
+defineExpose<{
+    reset: () => void
+}>({
+    reset: () => {
+        data.value = [];
+        reset();
+    }
+});
 
 </script>
 
 <template>
     <div class="affix-search">
         <div class="mb-3">
-            <input type="text" class="form-control" :placeholder="$t('ui.prompt_fast_search_keyword')" @input="search" />
-            <div v-if="items.length" class="form-text text-end">{{ $t('ui.display_exists_affix_count', [items.length]) }}</div>
+            <input type="text" class="form-control" :placeholder="$t('ui.prompt_fast_search_keyword')" @input="inputSearch" />
+            <div v-if="data.length" class="form-text text-end">{{ $t('ui.display_exists_affix_count', [data.length]) }}</div>
         </div>
 
         <div v-if="pagedSearchResult" class="mb-3">
@@ -48,17 +72,16 @@ const selected = (item: DataAffix) => {
                     role="button"
                     class="list-group-item list-group-item-action " 
                     :class="{ 
-                        'selected': items.find(f => f.id === item.id),
-                        'text-legendary': item.tags.includes('legendary')
+                        'selected': data.find(f => f.id === item.id)
                     }"
                     :title="item.title"
-                    @click="selected(item)"
+                    @click="select(item)"
                 >
-                    <div>
-                        <span v-if="item.tags.includes('legendary')" class="badge text-bg-warning mb-2">{{ $t('item_attribute_type.legendary_aspect') }}</span>
-                        {{ item.itemTypeSlot }}
+                    <div class="mb-2">
+                        <!-- <span v-if="item.tags.includes('legendary')" class="badge text-bg-warning me-2">{{ $t('item_attribute_type.legendary_aspect') }}</span> -->
+                        <small class="text-body-secondary">{{ item.itemTypeSlot?.map(m => $t(`item_type.${m}`)).join(', ') }}</small>
                     </div>
-                    <h6>{{ item.title }}</h6>
+                    <h6 :class="{ 'text-legendary legendary-mark': item.tags.includes('legendary') }">{{ item.title }}</h6>
                 </div>
             </div>
 
@@ -73,3 +96,24 @@ const selected = (item: DataAffix) => {
         </div>
     </div>
 </template>
+
+<style lang="scss" scoped>
+.list-group-item {
+    // &:not(:hover) {
+    //     .btn {
+    //         display: none;
+    //     }
+    // }
+
+    h6 {
+        height: 40px;
+        margin-bottom: 0;
+        overflow: hidden;
+    }
+
+    &.selected {
+        background-color: $gray-200;
+        // color: $orange-400 !important;
+    }
+}
+</style>

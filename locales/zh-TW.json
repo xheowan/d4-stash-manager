@@ -3,9 +3,9 @@
     "item_name": "裝備名稱",
     "item_name_placeholder": "瓦希里的祈禱",
     "item_name_invalid": "請輸入裝備名稱",
-    "item_type": "裝備類型",
+    "item_type": "類型",
     "item_type_select_prompt": "請選擇裝備類型",
-    "item_quality": "裝備品質",
+    "item_quality": "品質",
     "item_power": "物品強度",
     "item_upgrade": "升級",
     "item_attribute": "物品屬性",
@@ -38,8 +38,8 @@
     "prev_step": "上一步",
     "prompt_item_affix_legendary_exists": "傳奇特效已存在，無法新增",
     "display_exists_affix_count": "已選擇 {0} 個詞綴",
-    "show_more_input": "顯示更多選項",
-    "hide_more_input": "隱藏更多選項",
+    "show_other": "顯示其他",
+    "hide_other": "隱藏其他",
     "prompt_select_at_least_one_affix": "至少選擇一項詞綴",
     "swith_view": {
       "tab": "分頁檢視",
@@ -47,7 +47,16 @@
     },
     "continue_create": "繼續新增",
     "group_type_other": "其他裝備",
-    "item_legendary_values": "傳奇數值"
+    "item_legendary_values": "傳奇數值",
+    "no_attributes": "沒有屬性詞綴",
+    "reset_search": "重設搜尋",
+    "no_data": "沒有資料",
+    "view_item": "檢視裝備",
+    "data_manager": "資料管理",
+    "data_import": "資料匯入",
+    "data_export": "資料匯出",
+    "prompt_data_import_confirm": "目前的資料都會被覆蓋，確定要匯入資料？",
+    "data_import_input_label": "上傳 JSON 檔案"
   },
   "page": {
     "not_found": "未找到頁面"
@@ -87,7 +96,7 @@
     "sword2h": "雙手劍",
     "wand": "魔杖",
     "helm": "頭盔",
-    "chest_amulet": "胸甲",
+    "chest_armor": "胸甲",
     "gloves": "手套",
     "pants": "褲子",
     "boots": "靴子",
@@ -98,7 +107,10 @@
     "aspect_mobility": "機動精華",
     "aspect_offensive": "攻擊精華",
     "aspect_resource": "資源精華",
-    "aspect_utility": "通用精華"
+    "aspect_utility": "通用精華",
+    "offhand": "副手",
+    "1h_weapon": "單手武器",
+    "2h_weapon": "雙手武器"
   },
   "item_attribute_type": {
     "property": "固定屬性",

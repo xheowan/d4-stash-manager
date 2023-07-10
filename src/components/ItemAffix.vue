@@ -12,7 +12,7 @@ withDefaults(defineProps<{
 
 <template>
     <span v-bind="$attrs" :class="{ 'text-legendary': data.type == ItemAttributeType.LegendaryAspect }">
-        <span v-if="badge && data.type == ItemAttributeType.LegendaryAspect" class="badge text-bg-warning">{{ $t('item_attribute_type.legendary_aspect') }}</span>
+        <span v-if="badge && data.type == ItemAttributeType.Property" class="badge text-bg-secondary">{{ $t('item_attribute_type.property') }}</span>
         {{ $t(`item_attributes.${data.id}`, data.values.length ? data.values : ['n', 'n']) }}
     </span>
 </template>

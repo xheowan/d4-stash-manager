@@ -55,15 +55,23 @@ const submit = () => {
                 <CtrlItemAffix v-model="model.attributes" :item-type="model.type" />
             </div>
 
-            <div class="mb-3">
-                <label for="type" class="form-label">{{ $t('form.item_required_level') }}</label>
-                <input v-model="model.requiredLevel" type="number" class="form-control" min="1" max="100" />
+            <div class="row mb-3">
+                <div class="col">
+                    <label for="type" class="form-label">{{ $t('form.item_upgrade') }}</label>
+                    <input v-model="model.upgrade" type="number" class="form-control" min="0" :max="maxItemUpgradeLevel" />
+                </div>
+                <div class="col">
+                    <label for="type" class="form-label">{{ $t('form.item_required_level') }}</label>
+                    <input v-model="model.requiredLevel" type="number" class="form-control" min="1" max="100" />
+                </div>
+            </div>
+            <!-- <div class="mb-3">
+                
             </div>
 
             <div class="mb-3">
-                <label for="type" class="form-label">{{ $t('form.item_upgrade') }}</label>
-                <input v-model="model.upgrade" type="number" class="form-control" min="0" :max="maxItemUpgradeLevel" />
-            </div>
+                
+            </div> -->
 
             <div class="mb-3">
                 <label for="type" class="form-label">{{ $t('form.item_stash_tab') }}</label>

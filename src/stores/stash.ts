@@ -51,7 +51,10 @@ export const useStashStore = defineStore('stash', () => {
         data,
         add,
         update,
-        remove
+        remove,
+        import: (jsondata: IItem[]) => {
+            data.value = jsondata;
+        }
     }
 }, {
     persist: {

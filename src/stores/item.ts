@@ -6,6 +6,19 @@ export const useItemStore = defineStore('item', () => {
     const model = ref<IItem>(initItemModel());
     const mainLegendaryAffix = ref<DataAffix>();
 
+    const updateModelByLegendaryAffix = (data: DataAffix) => {
+        if (!data.tags.includes('legendary')) {
+            return;
+        }
+
+        model.value.quality.push(ItemQuality.Legendary);
+        
+        if (data.prefix) {
+            model.value.name = data.prefix;
+        }
+
+        mainLegendaryAffix.value = data;
+    }
 
     const addAffix = (data: IItemAttribute) => {
         model.value.attributes.push(data);
@@ -17,8 +30,11 @@ export const useItemStore = defineStore('item', () => {
 
         const idx = model.value.attributes.findIndex(f => f.id == affixId);
         const exists = idx !== -1
-        if (exists) {
+        if (exists) { 
             model.value.attributes.splice(idx, 1);
+
+            if (mainLegendaryAffix.value?.id == affixId)
+                mainLegendaryAffix.value = undefined
         }
 
         return exists;
@@ -29,7 +45,8 @@ export const useItemStore = defineStore('item', () => {
         model,
         mainLegendaryAffix,
         addAffix,
-        removeAffix
+        removeAffix,
+        updateModelByLegendaryAffix
     }
 });
 

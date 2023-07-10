@@ -45,6 +45,19 @@
     }
 }
 
+.legendary-mark {
+    padding-left: 1.2em;
+    background: url(~/assets/images/legendary-star.webp) .1em .1em no-repeat;
+
+    // &:before {
+    //     content: '';
+    //     width: 20px;
+    //     height: 100;
+    //     background: url(~/assets/images/legendary-star.webp) center 5px no-repeat;
+    //     display: inline-block;
+    // }
+}
+
 .text-legendary {
     color: $orange-600 !important;
 }
@@ -55,4 +68,9 @@
 
 .text-bg-unique {
     background-color: $orange-300 !important;
+}
+
+.modal-open {
+    overflow: hidden;
+    padding-right: 15px;
 }

@@ -1,18 +1,48 @@
 import { useDebounceFn } from '@vueuse/core';
 import { groupBy } from 'lodash-es';
 import { IItemAttribute } from '~/stores';
-import { convertEnumToOptions, orderBy } from '~/utils';
-import { createI18nAffixes, DataAffix } from './affix';
+import { convertEnumToOptions, orderBy, toSnakeCase } from '~/utils';
+import { DataAffix } from './affix';
 
 export function convertTypeValueToCategory(value: string | number) {
     return (Math.floor(Number(value) / 100) % 10) * 100;
 }
 
-export function useItemType() {
-    const groupTypeList = groupBy(convertEnumToOptions(ItemType), (option) => {
-        // const cate = (Math.floor(Number(option.value) / 100) % 10) * 100;
-        const cate = convertTypeValueToCategory(option.value);
-        return ItemCategory[cate];
+export function useItemType(limitTypes?: Ref<string[] | undefined>) {
+    const { t } = useI18n();
+
+    // const list = convertEnumToOptions(ItemType).map(m => {
+    //     m.text = t(`item_type.${toSnakeCase(m.text)}`);
+    //     return m;
+    // });
+
+    // list = orderBy(list, ['text'], ['asc']);
+
+    // const groupTypeList = groupBy(list, (option) => {
+    //     // const cate = (Math.floor(Number(option.value) / 100) % 10) * 100;
+    //     const cate = convertTypeValueToCategory(option.value);
+    //     return ItemCategory[cate];
+    // });
+
+    const list = convertEnumToOptions(ItemType);
+
+    const groupTypeList = computed(() => {
+        let query = list;
+
+        if (limitTypes?.value) {
+            query = query.filter(f => limitTypes.value?.includes(f.text.toLowerCase()));
+        }
+
+        return groupBy(
+            query.map(m => ({
+                ...m,
+                text: t(`item_type.${toSnakeCase(m.text)}`)
+            })),
+            (option) => {
+                const cate = convertTypeValueToCategory(option.value);
+                return ItemCategory[cate];
+            }
+        );
     });
     
     return {
@@ -45,7 +75,6 @@ export function useItemQuality() {
 
 export function useItem() {
     const { t } = useI18n();
-    const dataAffixes = createI18nAffixes();
 
     // store
     const store = useItemStore();
@@ -55,45 +84,28 @@ export function useItem() {
     } = storeToRefs(store);
 
 
-    const updateModelByAffix = (itemId: string) => {
-        mainLegendaryAffix.value = dataAffixes.find(s => s.id == itemId);
-        if (!mainLegendaryAffix.value)
-            return;
-    
-        model.value.quality.push(ItemQuality.Legendary);
-        
-        if (mainLegendaryAffix.value.prefix) {
-            model.value.name = mainLegendaryAffix.value.prefix;
-        }
-    }
-
-    // const inputUpdateType = useDebounceFn(() => {
-
-    // }, 1000);
-
     const toggleAffix = (affix: DataAffix) => {
         if (!store.removeAffix(affix.id)) {
-            const rank = model.value.attributes.length;
-            if (rank === 0) {
-                updateModelByAffix(affix.id);
+            if (affix.tags.includes('legendary') && model.value.attributes.some(s => s.type === ItemAttributeType.LegendaryAspect)) {
+                alert(t('ui.prompt_item_affix_legendary_exists'));
+                return;
             }
+
+            const rank = model.value.attributes.length;
             
             let type = ItemAttributeType.Affix;
             if (affix.tags.includes('legendary')) {
                 type = ItemAttributeType.LegendaryAspect;
             }
-    
-            if (affix.tags.includes('legendary') && model.value.attributes.some(s => s.type === ItemAttributeType.LegendaryAspect)) {
-                alert(t('ui.prompt_item_affix_legendary_exists'));
-                return;
-            }
-    
+
             store.addAffix({
                 id: affix.id,
                 type,
                 values: [],
                 rank
             });
+
+            store.updateModelByLegendaryAffix(affix);
         }
     }
 
@@ -110,6 +122,7 @@ export function useItem() {
 
     return {
         model,
+        mainLegendaryAffix,
 
         //affix
         removeAffix: store.removeAffix,
@@ -120,15 +133,22 @@ export function useItem() {
     }
 }
 
-// export const useTest = () => {
-//     const store = useTestStore();
-//     const {
-//         model,
-//         mainLegendaryAffix
-//     } = storeToRefs(store);
+type TypeCount = {
+    [key: string]: number
+}
+export function findDuplicateItemTypes(items: DataAffix[]) {
+    const itemTypeCounts = items
+        .reduce<TypeCount>((acc, item) => {
+            item.requiredItemType.forEach(type => {
+                if (acc[type]) {
+                    acc[type] += 1;
+                } else {
+                    acc[type] = 1;
+                }
+            });
 
-
-//     return {
-//         model
-//     }
-// }
+            return acc;
+        }, {});
+    
+    return Object.keys(itemTypeCounts).filter(key => itemTypeCounts[key] == items.length);
+}

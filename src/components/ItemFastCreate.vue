@@ -1,6 +1,6 @@
 <script setup lang="ts">
-// import { useAffixSearch } from '~/composables/affix';
 import { useItem } from '~/composables/item';
+import type CtrlAffixSearch from './CtrlAffixSearch.vue';
 
 const emit = defineEmits(['submit']);
 
@@ -8,26 +8,19 @@ const { t } = useI18n();
 
 const step = ref(1);
 const isLoading = ref(false);
+const showMoreInput = ref(false);
+const ctrlSearch = ref<InstanceType<typeof CtrlAffixSearch> | null>(null);
 
-// search affixes
-// const {
-//     pagedSearchResult,
-//     remainingItemCount,
-//     search,
-//     showMore,
-//     reset: resetSearch
-// } = useAffixSearch();
 
 // item model
 const {
     model,
+    mainLegendaryAffix,
     toggleAffix,
     removeAffix,
     inputAffixValues,
-    // isAffixExists
 } = useItem();
 
-const showMoreInput = ref(false);
 
 const nextStep = () => {
     if (!model.value.attributes.length) {
@@ -43,7 +36,7 @@ const continueCreate = ref(true);
 const submit = () => {
     emit('submit', model.value, continueCreate.value);
     model.value = initItemModel();
-    // resetSearch();
+    ctrlSearch.value?.reset();
 
     // reset
     if (continueCreate.value) {
@@ -57,42 +50,7 @@ const submit = () => {
     <div class="item-fast-create">
         <!--step 1-->
         <template v-if="step === 1">
-            <CtrlAffixSearch @selected="toggleAffix" />
-
-            <!-- <div class="mb-3">
-                <input type="text" class="form-control" :placeholder="$t('ui.prompt_fast_search_keyword')" @input="search" />
-                <div v-if="model.attributes.length" class="form-text text-end">{{ $t('ui.display_exists_affix_count', [model.attributes.length]) }}</div>
-            </div>
-
-            <div v-if="pagedSearchResult" class="mb-3">
-                <div class="list-group">
-                    <div v-if="pagedSearchResult.length == 0" class="list-group-item">{{ $t('ui.data_not_found') }}</div>
-                    <div
-                        v-for="item in pagedSearchResult" 
-                        :key="item.id" 
-                        role="button"
-                        class="list-group-item list-group-item-action " 
-                        :class="{ 
-                            'selected': isAffixExists(item.id),
-                            'text-legendary': item.tags.includes('legendary')
-                        }"
-                        :title="item.title"
-                        @click="toggleAffix(item)"
-                    >
-                        <span v-if="item.tags.includes('legendary')" class="badge text-bg-warning mb-2">{{ $t('item_attribute_type.legendary_aspect') }}</span>
-                        <h6>{{ item.title }}</h6>
-                    </div>
-                </div>
-
-                <button 
-                    v-if="remainingItemCount > 0"
-                    type="button" 
-                    class="btn btn-sm btn-link d-block mx-auto mt-1 text-body-secondary"
-                    @click="showMore"
-                >
-                    {{ $t('ui.display_more_data', [remainingItemCount]) }}
-                </button>
-            </div> -->
+            <CtrlAffixSearch ref="ctrlSearch" @select="({ item }) => toggleAffix(item)" />
 
             <div class="d-flex justify-content-end">
                 <button type="button" class="btn btn-outline-primary" :disabled="!model.attributes.length" @click="nextStep">{{ $t('ui.next_step') }}</button>
@@ -128,6 +86,9 @@ const submit = () => {
                             </div>
                         </div>
                     </div>
+                    <div v-if="model.attributes.length === 0" class="list-group-item">
+                        {{ $t('ui.no_attributes') }}
+                    </div>
                 </div>
             </div>
 
@@ -145,7 +106,7 @@ const submit = () => {
 
             <div class="mb-3">
                 <label for="type" class="form-label">{{ $t('form.item_type') }}</label>
-                <CtrlItemType v-model="model.type" class="form-select" required />
+                <CtrlItemType v-model="model.type" class="form-select" :filter="mainLegendaryAffix?.requiredItemType" required />
             </div>
 
             <div class="mb-3">
@@ -154,14 +115,15 @@ const submit = () => {
             </div>
 
             <template v-if="showMoreInput">
-                <div class="mb-3">
-                    <label for="type" class="form-label">{{ $t('form.item_required_level') }}</label>
-                    <input v-model="model.requiredLevel" type="number" class="form-control" min="1" max="100" />
-                </div>
-
-                <div class="mb-3">
-                    <label for="type" class="form-label">{{ $t('form.item_upgrade') }}</label>
-                    <input v-model="model.upgrade" type="number" class="form-control" min="0" :max="5" />
+                <div class="row mb-3">
+                    <div class="col">
+                        <label for="type" class="form-label">{{ $t('form.item_upgrade') }}</label>
+                        <input v-model="model.upgrade" type="number" class="form-control" min="0" :max="5" />
+                    </div>
+                    <div class="col">
+                        <label for="type" class="form-label">{{ $t('form.item_required_level') }}</label>
+                        <input v-model="model.requiredLevel" type="number" class="form-control" min="1" max="100" />
+                    </div>
                 </div>
 
                 <div class="mb-3">
@@ -173,39 +135,18 @@ const submit = () => {
 
             <!-- prev step and save button-->
             <div class="d-flex justify-content-between">
-                <div class="left">
+                <div class="col text-start">
                     <button type="button" class="btn btn-outline-secondary me-2" @click="step = 1">{{ $t('ui.prev_step') }}</button>
-                    <button type="button" class="btn btn-outline-secondary" @click="showMoreInput = !showMoreInput">{{ $t(`ui.${showMoreInput ? 'hide' : 'show'}_more_input`) }}</button>
+                    <button type="button" class="btn btn-outline-secondary" @click="showMoreInput = !showMoreInput">{{ $t(`ui.${showMoreInput ? 'hide' : 'show'}_other`) }}</button>
                 </div>
-                <div class="right">
+                <div class="col text-end">
                     <div class="form-check form-check-inline">
                         <input id="check-continue-create" v-model="continueCreate" class="form-check-input" type="checkbox">
                         <label class="form-check-label" for="check-continue-create">{{ $t('ui.continue_create') }}</label>
                     </div>
-                    <button type="button" class="btn btn-primary" :disabled="isLoading" @click="submit">{{ $t('ui.save') }}</button>
+                    <button type="button" class="btn btn-primary" :disabled="isLoading || model.attributes.length === 0" @click="submit">{{ $t('ui.save') }}</button>
                 </div>
             </div>
         </template>
     </div>
 </template>
-
-<style lang="scss" scoped>
-.list-group-item {
-    // &:not(:hover) {
-    //     .btn {
-    //         display: none;
-    //     }
-    // }
-
-    h6 {
-        height: 40px;
-        margin-bottom: 0;
-        overflow: hidden;
-    }
-
-    &.selected {
-        background-color: $gray-200;
-        // color: $orange-400 !important;
-    }
-}
-</style>

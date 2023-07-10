@@ -1,25 +1,48 @@
 <script setup lang="ts">
 import type { IItem } from '~/stores';
+import { enumKey } from '~/utils';
 
-interface Props {
-    data: IItem
-}
+const props = defineProps<{
+    model?: IItem
+}>();
 
-defineProps<Props>();
+const { t } = useI18n();
 
-const stash = useStash();
+const isLegendary = computed(() => props.model?.attributes.some(s => s.type === ItemAttributeType.LegendaryAspect));
 
-const modify = () => {
-    
-}
+const qualityTypeName = computed(() => {
+    let arr: string[] = [];
+
+    if (props.model?.quality) {
+        arr = props.model.quality
+            .map(m => t(`item_quality.${enumKey(ItemQuality, m)}`));
+    }
+
+    if (props.model?.type) {
+        arr.push(t(`item_type.${enumKey(ItemType, props.model?.type)}`));
+    }
+
+    return arr.join('');
+});
 
 </script>
 
 <template>
-    <div class="stash-item">
-        {{ data }}
-
-        <button type="button" class="btn btn-sm btn-success" @click="modify">{{ $t('ui.update') }}</button>
-        <button type="button" class="btn btn-sm btn-danger" @click="stash.removeItem(data.id as string)">{{ $t('ui.remove') }}</button>
+    <div v-if="model" class="stash-item">
+        <h3 class="mb-2" :class="{ 'text-legendary': isLegendary }">
+            {{ model.name }}
+        </h3>
+        <div v-if="model.quality.length" class="mb-1" :class="{ 'text-legendary': isLegendary }">
+            {{ qualityTypeName }}
+        </div>
+        <div v-if="model.itemPower" class="mb-2">
+            {{ `${$t('form.item_power')} ${model.itemPower}` }}
+        </div>
+        <div class="mb-2">
+            <ItemAffixView :data="model.attributes" />
+        </div>
+        <div v-if="model.requiredLevel" class="mb-4 text-end">
+            {{ `${$t('form.item_required_level')} ${model.requiredLevel}` }}
+        </div>
     </div>
 </template>
