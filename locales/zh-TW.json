@@ -46,7 +46,7 @@
       "legendary": "傳奇詞綴檢視"
     },
     "continue_create": "繼續新增",
-    "group_type_other": "其他裝備",
+    "group_not_legendary_type": "非傳奇裝備",
     "item_legendary_values": "傳奇數值",
     "no_attributes": "沒有屬性詞綴",
     "reset_search": "重設搜尋",

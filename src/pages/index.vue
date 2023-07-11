@@ -131,39 +131,39 @@ const search = () => {
                         <div class="legendary-mark text-legendary text-truncate">{{ $t(`item_attributes.${key}`, ['n', 'n']) }}</div>
                     </template>
                     <template v-else>
-                        {{ $t('ui.group_type_other') }}
+                        {{ $t('ui.group_not_legendary_type') }}
                     </template>
                 </h5>
                 <div class="table-responsive-md">
                     <table class="table table-hover">
                         <colgroup>
+                            <col v-if="mode == ViewMode.Legendary" class="col-md-1">
+                            <col v-else class="col-md-1">
                             <col class="col-md-1">
                             <col class="col-md-2">
                             <col class="col-md-1">
-                            <col :class="[(mode == ViewMode.Legendary ? 'col-md-4' : 'col-md-5')]">
-                            <col class="col-md-1">
-                            <col v-if="mode == ViewMode.Legendary" class="col-md-1">
+                            <col class="col-md-5"> <!--:class="[(mode == ViewMode.Legendary ? 'col-md-4' : 'col-md-5')]"-->
                             <col class="col-md-2">
                         </colgroup>
                         <thead>
                             <tr>
-                                <th scope="col">#</th>
+                                <th v-if="mode == ViewMode.Legendary" scope="col">{{ $t('ui.item_legendary_values') }}</th>
+                                <th v-else scope="col">#</th>
+                                <th scope="col">{{ $t('form.item_power') }}</th>
                                 <th scope="col">{{ $t('form.item_quality') }}</th>
                                 <th scope="col">{{ $t('form.item_type') }}</th>
                                 <th scope="col">{{ $t('form.item_name') }}</th>
-                                <th scope="col">{{ $t('form.item_power') }}</th>
-                                <th v-if="mode == ViewMode.Legendary" scope="col">{{ $t('ui.item_legendary_values') }}</th>
                                 <th scope="col" />
                             </tr>
                         </thead>
                         <tbody class="table-group-divider">
                             <tr v-for="(item, num) in items" :key="item.id" rol="button" @click="viewData = item">
-                                <th scope="row">{{ num + 1 }}</th>
+                                <td v-if="mode == ViewMode.Legendary">{{ item.legendary?.values }}</td>
+                                <th v-else scope="row">{{ num + 1 }}</th>
+                                <td>{{ item.itemPower }}</td>
                                 <td><BadgeQuality :items="item.quality" /></td>
                                 <td>{{ $t(`item_type.${enumKey(ItemType, Number(item.type))}`) }}</td>
                                 <td><div class="text-truncate" :title="item.name">{{ item.name }}</div></td>
-                                <td>{{ item.itemPower }}</td>
-                                <td v-if="mode == ViewMode.Legendary">{{ item.legendary?.values }}</td>
                                 <td>
                                     <button type="button" class="btn btn-sm btn-success me-2" @click.stop="modify(item)">{{ $t('ui.edit') }}</button>
                                     <button type="button" class="btn btn-sm" :class="[(item.flags.includes(FlagAction.Remove) ? 'btn-warning' : 'btn-outline-warning')]" @click.stop="flagItem(FlagAction.Remove, item.id)">{{ $t(item.flags.includes(FlagAction.Remove) ? 'ui.delete_flagged' : 'ui.flag_remove') }}</button>
