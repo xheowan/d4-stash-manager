@@ -44,7 +44,7 @@ const importFile = (e: Event) => {
             </ul>
         </div>
     </nav>
-    <main class="container">
+    <main v-cloak class="container">
         <RouterView />
     </main>
     <Modal v-model:show="showDataManager" :title="$t('ui.data_manager')" size="sm">

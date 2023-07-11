@@ -6,7 +6,7 @@ const props = defineProps<{
     model?: IItem
 }>();
 
-const emit = defineEmits(['submit']);
+defineEmits(['submit']);
 
 
 // model
@@ -16,17 +16,19 @@ const isLoading = ref(false);
 // model level
 const maxItemUpgradeLevel = computed(() => 5);
 
-
 // submit
-const submit = () => {
-    emit('submit');
+const $form = ref<HTMLFormElement | null>(null);
+
+const formSubmit = () => {
+    $form.value?.dispatchEvent(new Event("submit", { cancelable: true }));
+    // $form.value?.submit();
 }
 
 </script>
 
 <template>
-    <div class="item-editor">
-        <form v-if="model" v-submit="submit" class="needs-validation" novalidate>
+    <div class="modal-body item-editor">
+        <form v-if="model" ref="$form" v-submit="() => $emit('submit')" class="needs-validation" novalidate>
             <input v-model="model.id" type="hidden" />
 
             <div class="mb-3">
@@ -65,22 +67,16 @@ const submit = () => {
                     <input v-model="model.requiredLevel" type="number" class="form-control" min="1" max="100" />
                 </div>
             </div>
-            <!-- <div class="mb-3">
-                
-            </div>
-
-            <div class="mb-3">
-                
-            </div> -->
 
             <div class="mb-3">
                 <label for="type" class="form-label">{{ $t('form.item_stash_tab') }}</label>
                 <input v-model.number="model.stashTab" type="number" class="form-control" min="1" />
             </div>
 
-            <div class="text-end">
-                <button type="submit" class="btn btn-primary" :disabled="isLoading">{{ $t('ui.save') }}</button>
-            </div>
+            <!-- <button type="submit" class="btn btn-primary" :disabled="isLoading">{{ $t('ui.save') }}</button> -->
         </form>
+    </div>
+    <div class="modal-footer justify-content-end">
+        <button type="button" class="btn btn-primary" :disabled="isLoading" @click="formSubmit">{{ $t('ui.save') }}</button>
     </div>
 </template>

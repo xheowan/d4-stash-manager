@@ -50,7 +50,7 @@
     "item_legendary_values": "傳奇數值",
     "no_attributes": "沒有屬性詞綴",
     "reset_search": "重設搜尋",
-    "no_data": "沒有資料",
+    "stash_no_data": "沒有資料，請透過左上角快速新增來新增",
     "view_item": "檢視裝備",
     "data_manager": "資料管理",
     "data_import": "資料匯入",

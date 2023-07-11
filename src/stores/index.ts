@@ -64,10 +64,6 @@ export enum ItemAttributeType {
     Property = 1,
     Affix = 2,
     LegendaryAspect = 3
-
-    // WeaponPreporty = 1,
-    // ArmorPreporty = 2,
-    // AccessoryPreporty = 3,
 }
 
 // /*

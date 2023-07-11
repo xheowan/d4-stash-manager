@@ -10,7 +10,7 @@ const formSubmit = {
 	mounted(el: HTMLFormElement, binding: DirectiveBinding) {
 		if (el.nodeName != 'FORM')
 			return;
-
+		
 		el.addEventListener('submit', (event) => {
 			event.preventDefault();
 			event.stopPropagation();
@@ -30,8 +30,6 @@ const formSubmit = {
 
 // Setup directive
 export const install: UserModule = ({ app }) => {
-
 	// submit
 	app.directive('submit', formSubmit);
-
 }

@@ -30,7 +30,8 @@ export function useItemType(limitTypes?: Ref<string[] | undefined>) {
         let query = list;
 
         if (limitTypes?.value) {
-            query = query.filter(f => limitTypes.value?.includes(f.text.toLowerCase()));
+            // f.text = axe|bow|...
+            query = query.filter(f => limitTypes.value?.includes(f.text.toLowerCase()) || convertTypeValueToCategory(f.value) === ItemCategory.LegendaryAspects);
         }
 
         return groupBy(

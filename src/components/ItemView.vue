@@ -41,7 +41,7 @@ const qualityTypeName = computed(() => {
         <div class="mb-2">
             <ItemAffixView :data="model.attributes" />
         </div>
-        <div v-if="model.requiredLevel" class="mb-4 text-end">
+        <div v-if="model.requiredLevel" class="mb-2 text-end">
             {{ `${$t('form.item_required_level')} ${model.requiredLevel}` }}
         </div>
     </div>

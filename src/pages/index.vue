@@ -174,33 +174,43 @@ const search = () => {
                 </div>
             </div>
 
-            <div v-if="Object.keys(groupList).length === 0" class="text-center mt-5">{{ $t('ui.no_data') }}</div>
+            <div v-if="Object.keys(groupList).length === 0" class="text-center mt-5">
+                <h5>{{ $t('ui.stash_no_data') }}</h5>
+            </div>
         </div>
     </div>
 
     <!--create-->
     <Modal v-model:show="showCreate" :title="$t('ui.fast_create')">
-        <ItemFastCreate @submit="createItem" />
+        <ModalFastCreate @submit="createItem" />
     </Modal>
     <!--modify-->
     <Modal v-model:show="showModify" :title="$t('ui.edit')">
-        <ItemForm :model="model" @submit="modifyItem" />
+        <ModalForm :model="model" @submit="modifyItem" />
     </Modal>
     <!--view-->
     <Modal v-model:show="showView" :title="$t('ui.view_item')">
-        <ItemView :model="viewData" />
-        <div class="d-flex justify-content-end">
-            <button type="button" class="btn btn-outline-danger me-2" @click="removeItem(viewData?.id as string)">{{ $t('ui.remove') }}</button>
-            <button type="button" class="btn btn-success" @click="modify(viewData)">{{ $t('ui.edit') }}</button>
-        </div>
+        <template #body>
+            <ItemView :model="viewData" />
+        </template>
+        <template #footer>
+            <div class="d-flex justify-content-end">
+                <button type="button" class="btn btn-outline-danger me-2" @click="removeItem(viewData?.id as string)">{{ $t('ui.remove') }}</button>
+                <button type="button" class="btn btn-success" @click="modify(viewData)">{{ $t('ui.edit') }}</button>
+            </div>
+        </template>
     </Modal>
     <!--search-->
     <Modal v-model:show="showSearch" :title="$t('ui.search')">
-        <CtrlAffixSearch ref="ctrlSearch" v-model="ctrlSarchAffixes" />
-        <div class="d-flex justify-content-end">
-            <button v-if="searchRules.length > 0" type="button" class="btn btn-outline-secondary me-2" @click="resetSearch">{{ $t('ui.reset_search') }}</button>
-            <button type="button" class="btn btn-outline-primary" @click="search">{{ $t('ui.search') }}</button>
-        </div>
+        <template #body>
+            <CtrlAffixSearch ref="ctrlSearch" v-model="ctrlSarchAffixes" />
+        </template>
+        <template #footer>
+            <div class="d-flex justify-content-end">
+                <button v-if="searchRules.length > 0" type="button" class="btn btn-outline-secondary me-2" @click="resetSearch">{{ $t('ui.reset_search') }}</button>
+                <button type="button" class="btn btn-outline-primary" @click="search">{{ $t('ui.search') }}</button>
+            </div>
+        </template>
     </Modal>
 </template>
 

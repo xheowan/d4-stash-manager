@@ -103,7 +103,8 @@ export default defineComponent({
             // contentClass,
             backdropHidden,
 
-            hasSlot: (name) => !!slots[name]
+            hasSlot: (name) => !!slots[name],
+            slots
         }
     }
 })
@@ -131,12 +132,17 @@ export default defineComponent({
                             @click="$emit('update:show', false)"
                         />
                     </div>
-                    <div class="modal-body">
+                    <template v-if="hasSlot('default')">
                         <slot />
-                    </div>
-                    <div v-if="hasSlot('footer')" class="modal-footer">
-                        <slot name="footer" />
-                    </div>
+                    </template>
+                    <template v-else>
+                        <div v-if="hasSlot('body')" class="modal-body">
+                            <slot name="body" />
+                        </div>
+                        <div v-if="hasSlot('footer')" class="modal-footer">
+                            <slot name="footer" />
+                        </div>
+                    </template>
                 </div>
             </div>
         </div>

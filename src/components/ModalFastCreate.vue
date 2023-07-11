@@ -47,17 +47,13 @@ const submit = () => {
 </script>
 
 <template>
-    <div class="item-fast-create">
+    <div class="modal-body item-fast-create">
         <!--step 1-->
         <template v-if="step === 1">
             <CtrlAffixSearch ref="ctrlSearch" @select="({ item }) => toggleAffix(item)" />
-
-            <div class="d-flex justify-content-end">
-                <button type="button" class="btn btn-outline-primary" :disabled="!model.attributes.length" @click="nextStep">{{ $t('ui.next_step') }}</button>
-            </div>
         </template>
         <!--step 2-->
-        <template v-else-if="step === 2">
+        <template v-else>
             <!--item attributes-->
             <div class="mb-3">
                 <label class="form-label">{{ $t('form.item_attribute') }}</label>
@@ -131,21 +127,24 @@ const submit = () => {
                     <input v-model.number="model.stashTab" type="number" class="form-control" min="1" />
                 </div>
             </template>
-            
-
+        </template>
+    </div>
+    <div class="modal-footer" :class="[`justify-content-${step === 1 ? 'end' : 'between'}`]">
+        <template v-if="step === 1">
+            <button type="button" class="btn btn-outline-primary" :disabled="!model.attributes.length" @click="nextStep">{{ $t('ui.next_step') }}</button>
+        </template>
+        <template v-else>
             <!-- prev step and save button-->
-            <div class="d-flex justify-content-between">
-                <div class="col text-start">
-                    <button type="button" class="btn btn-outline-secondary me-2" @click="step = 1">{{ $t('ui.prev_step') }}</button>
-                    <button type="button" class="btn btn-outline-secondary" @click="showMoreInput = !showMoreInput">{{ $t(`ui.${showMoreInput ? 'hide' : 'show'}_other`) }}</button>
+            <div class="col text-start">
+                <button type="button" class="btn btn-outline-secondary me-2" @click="step = 1">{{ $t('ui.prev_step') }}</button>
+                <button type="button" class="btn btn-outline-secondary" @click="showMoreInput = !showMoreInput">{{ $t(`ui.${showMoreInput ? 'hide' : 'show'}_other`) }}</button>
+            </div>
+            <div class="col text-end">
+                <div class="form-check form-check-inline">
+                    <input id="check-continue-create" v-model="continueCreate" class="form-check-input" type="checkbox">
+                    <label class="form-check-label" for="check-continue-create">{{ $t('ui.continue_create') }}</label>
                 </div>
-                <div class="col text-end">
-                    <div class="form-check form-check-inline">
-                        <input id="check-continue-create" v-model="continueCreate" class="form-check-input" type="checkbox">
-                        <label class="form-check-label" for="check-continue-create">{{ $t('ui.continue_create') }}</label>
-                    </div>
-                    <button type="button" class="btn btn-primary" :disabled="isLoading || model.attributes.length === 0" @click="submit">{{ $t('ui.save') }}</button>
-                </div>
+                <button type="button" class="btn btn-primary" :disabled="isLoading || model.attributes.length === 0" @click="submit">{{ $t('ui.save') }}</button>
             </div>
         </template>
     </div>
