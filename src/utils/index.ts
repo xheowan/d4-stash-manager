@@ -10,7 +10,20 @@ export const uuid = () => {
         d = Math.floor(d / 16);
         return (c === 'x' ? r : (r & 0x3) | 0x8).toString(16);
     });
-};
+}
+
+
+export const validateNumber = (value: string) => /^[0-9.]*$/.test(value);
+
+export const filterNonNumberValues = (value: string) => {
+    return value.split(',').reduce((acc: number[], v: string) => {
+        if (validateNumber(v)) {
+            acc.push(Number(v));
+        }
+        
+        return acc;
+    }, []);
+}
 
 /**
  * Replaces all uppercase letters in a string with an underscore followed by the lowercase letter and converts the string to lowercase.

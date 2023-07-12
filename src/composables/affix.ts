@@ -97,7 +97,7 @@ export function useAffixSearch(pageCount = 5) {
     
         searchResult.value = dataAffixes
             .filter(f =>
-                f.title.includes(text)
+                f.title.includes(text) || f.prefix?.includes(text)
                 // !model.value.attributes.some(s => s.id == f.id)
             )
             .sort((a, b) => a.title.localeCompare(b.title));

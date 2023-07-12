@@ -1,7 +1,7 @@
 import { useDebounceFn } from '@vueuse/core';
 import { groupBy } from 'lodash-es';
 import { IItemAttribute } from '~/stores';
-import { convertEnumToOptions, orderBy, toSnakeCase } from '~/utils';
+import { convertEnumToOptions, orderBy, toSnakeCase, filterNonNumberValues } from '~/utils';
 import { DataAffix } from './affix';
 
 export function convertTypeValueToCategory(value: string | number) {
@@ -30,6 +30,7 @@ export function useItemType(limitTypes?: Ref<string[] | undefined>) {
         let query = list;
 
         if (limitTypes?.value) {
+            console.log('filter: ', limitTypes.value);
             // f.text = axe|bow|...
             query = query.filter(f => limitTypes.value?.includes(f.text.toLowerCase()) || convertTypeValueToCategory(f.value) === ItemCategory.LegendaryAspects);
         }
@@ -114,7 +115,7 @@ export function useItem() {
     const inputAffixValues = useDebounceFn((e, item: IItemAttribute) => {
         const val = e.target.value;
         if (val) {
-            item.values = val.split(',').map(Number);
+            item.values = filterNonNumberValues(val);
         } else {
             item.values = [];
         }

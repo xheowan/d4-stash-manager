@@ -162,7 +162,9 @@ const search = () => {
                                 <th v-else scope="row">{{ num + 1 }}</th>
                                 <td>{{ item.itemPower }}</td>
                                 <td><BadgeQuality :items="item.quality" /></td>
-                                <td>{{ $t(`item_type.${enumKey(ItemType, Number(item.type))}`) }}</td>
+                                <td>
+                                    <div v-if="item.type">{{ $t(`item_type.${enumKey(ItemType, Number(item.type))}`) }}</div>
+                                </td>
                                 <td><div class="text-truncate" :title="item.name">{{ item.name }}</div></td>
                                 <td>
                                     <button type="button" class="btn btn-sm btn-success me-2" @click.stop="modify(item)">{{ $t('ui.edit') }}</button>

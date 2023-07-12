@@ -2,7 +2,7 @@
 import { createI18nAffixes } from '~/composables/affix';
 import { initAttrModel } from '~/composables/stash';
 import { IItemAttribute, ItemAttributeType, ItemType } from '~/stores';
-import { convertEnumToOptions, clone, toSnakeCase } from '~/utils';
+import { convertEnumToOptions, clone, toSnakeCase, filterNonNumberValues } from '~/utils';
 
 // init props & emits
 const props = withDefaults(defineProps<{
@@ -93,7 +93,7 @@ const filterAffixList = computed(() => {
 const proxyModelValues = computed({
     get: () => model.value.values?.join(','),
     set: (value) => {
-        model.value.values = value.split(',').map(Number);
+        model.value.values = filterNonNumberValues(value);
     }
 });
 
@@ -156,7 +156,7 @@ const save = () => {
                 </select>
             </div>
             <div class="col-md-4">
-                <input v-model.lazy="proxyModelValues" type="text" class="form-control" :placeholder="proxyModelId?.valueRange.join(',') || $t('form.item_affix_range')" pattern="[0-9,]*" />
+                <input v-model="proxyModelValues" v-filter-number type="text" class="form-control" :placeholder="proxyModelId?.valueRange.join(',') || $t('form.item_affix_range')" />
             </div>
         </div>
 

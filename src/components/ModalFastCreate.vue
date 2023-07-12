@@ -1,6 +1,8 @@
 <script setup lang="ts">
-import { useItem } from '~/composables/item';
 import type CtrlAffixSearch from './CtrlAffixSearch.vue';
+import { DataAffix } from '~/composables/affix';
+import { useItem, findDuplicateItemTypes } from '~/composables/item';
+
 
 const emit = defineEmits(['submit']);
 
@@ -18,22 +20,63 @@ const {
     mainLegendaryAffix,
     toggleAffix,
     removeAffix,
-    inputAffixValues,
+    inputAffixValues
 } = useItem();
 
+const tempSelectedAffixes = ref<DataAffix[]>([]);
 
-const nextStep = () => {
-    if (!model.value.attributes.length) {
-        alert(t('ui.prompt_select_at_least_one_affix'));
-        return;
+// const getAffix = (id: string) => tempSelectedAffixes.value.find(f => f.id == id);
+
+watch(() => model.value.attributes, (data) => {
+    if (data.length === 0) {
+        tempSelectedAffixes.value = [];
+        step.value = 1;
+    } else {
+        tempSelectedAffixes.value.forEach((item, idx) => {
+            if (!data.find(f => f.id == item.id)) {
+                data.splice(idx, 1);
+            }
+        });
+    }
+    
+}, { deep: true });
+
+type SelectAffix = {
+    [key: string]: DataAffix
+}
+const dicSelectedAffix = computed(() => {
+    return tempSelectedAffixes.value.reduce((acc: SelectAffix, item) => {
+        acc[item.id] = item;
+        return acc;
+    }, {});
+});
+
+const itemTypeFilter = computed(() => {
+    if (mainLegendaryAffix.value) {
+        return mainLegendaryAffix.value.requiredItemType;
     }
 
-    step.value = 2;
-}
+    return findDuplicateItemTypes(tempSelectedAffixes.value);
+});
+
+// const nextStep = () => {
+//     if (!model.value.attributes.length) {
+//         alert(t('ui.prompt_select_at_least_one_affix'));
+//         return;
+//     }
+
+//     step.value = 2;
+// }
 
 // model save
 const continueCreate = ref(true);
 const submit = () => {
+    if (model.value.attributes.some(s => s.values.length === 0)) {
+        alert(t('ui.prompt_affix_values_empty'));
+        return;
+    }
+
+
     emit('submit', model.value, continueCreate.value);
     model.value = initItemModel();
     ctrlSearch.value?.reset();
@@ -44,13 +87,19 @@ const submit = () => {
     }
 }
 
+onUnmounted(() => {
+    model.value = initItemModel();
+    mainLegendaryAffix.value = undefined;
+});
+
+
 </script>
 
 <template>
     <div class="modal-body item-fast-create">
         <!--step 1-->
         <template v-if="step === 1">
-            <CtrlAffixSearch ref="ctrlSearch" @select="({ item }) => toggleAffix(item)" />
+            <CtrlAffixSearch ref="ctrlSearch" v-model="tempSelectedAffixes" @select="({ item }) => toggleAffix(item)" />
         </template>
         <!--step 2-->
         <template v-else>
@@ -68,15 +117,19 @@ const submit = () => {
                                 <label class="form-label" :for="`attr-item-${item.id}`">
                                     <ItemAffix :data="item" />
                                 </label>
+                                <small v-if="item.type !== ItemAttributeType.LegendaryAspect" class="text-body-secondary d-block">
+                                    {{ dicSelectedAffix[item.id as string]?.itemTypeSlot?.map(m => $t(`item_type.${m}`)).join(', ') }}
+                                </small>
                             </div>
                             <div class="col-3">
                                 <input 
                                     :id="`attr-item-${item.id}`" 
+                                    v-filter-number
                                     type="text" 
                                     class="form-control mb-2"
                                     :value="item.values.join(',')"
                                     :placeholder="$t('form.item_affix_range')"
-                                    @input="inputAffixValues($event, item)"
+                                    @input.prevent="inputAffixValues($event, item)"
                                 />
                                 <button type="button" class="btn btn-sm btn-outline-danger w-100" @click="removeAffix(item.id)">{{ $t('ui.remove') }}</button>
                             </div>
@@ -86,6 +139,11 @@ const submit = () => {
                         {{ $t('ui.no_attributes') }}
                     </div>
                 </div>
+            </div>
+
+            <div class="mb-3">
+                <label for="type" class="form-label">{{ $t('form.item_power') }}</label>
+                <input v-model="model.itemPower" v-filter-number type="number" class="form-control" min="1" max="850" @click="(e) => (e.target as HTMLInputElement).select()" />
             </div>
 
             <!--item name-->
@@ -102,12 +160,7 @@ const submit = () => {
 
             <div class="mb-3">
                 <label for="type" class="form-label">{{ $t('form.item_type') }}</label>
-                <CtrlItemType v-model="model.type" class="form-select" :filter="mainLegendaryAffix?.requiredItemType" required />
-            </div>
-
-            <div class="mb-3">
-                <label for="type" class="form-label">{{ $t('form.item_power') }}</label>
-                <input v-model="model.itemPower" type="number" class="form-control" min="1" max="850" @click="(e) => (e.target as HTMLInputElement).select()" />
+                <CtrlItemType v-model="model.type" class="form-select" :filter="itemTypeFilter" required />
             </div>
 
             <template v-if="showMoreInput">
@@ -131,7 +184,7 @@ const submit = () => {
     </div>
     <div class="modal-footer" :class="[`justify-content-${step === 1 ? 'end' : 'between'}`]">
         <template v-if="step === 1">
-            <button type="button" class="btn btn-outline-primary" :disabled="!model.attributes.length" @click="nextStep">{{ $t('ui.next_step') }}</button>
+            <button type="button" class="btn btn-outline-primary" :disabled="!model.attributes.length" @click="step = 2">{{ $t('ui.next_step') }}</button>
         </template>
         <template v-else>
             <!-- prev step and save button-->

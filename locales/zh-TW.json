@@ -28,7 +28,7 @@
     "fast_create": "快速@:ui.create",
     "flag_remove": "標記@:ui.delete",
     "search": "搜尋",
-    "prompt_fast_search_keyword": "請輸入詞綴關鍵字",
+    "prompt_fast_search_keyword": "請輸入詞綴或裝備關鍵字",
     "prompt_delete_confirm": "確定要刪除這筆資料？",
     "prompt_delete_flagged_item": "確定要刪除所有被標記的裝備嗎？",
     "data_not_found": "查無資料",
@@ -56,7 +56,8 @@
     "data_import": "資料匯入",
     "data_export": "資料匯出",
     "prompt_data_import_confirm": "目前的資料都會被覆蓋，確定要匯入資料？",
-    "data_import_input_label": "上傳 JSON 檔案"
+    "data_import_input_label": "上傳 JSON 檔案",
+    "prompt_affix_values_empty": "物品屬性沒有輸入數值"
   },
   "page": {
     "not_found": "未找到頁面"

@@ -14,7 +14,6 @@ const emit = defineEmits(['update:modelValue']);
 
 const { filter } = toRefs(props);
 
-
 const { groupTypeList } = useItemType(filter);
 
 const proxyValue = computed({
