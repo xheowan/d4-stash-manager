@@ -48,15 +48,17 @@ const importFile = (e: Event) => {
         <RouterView />
     </main>
     <Modal v-model:show="showDataManager" :title="$t('ui.data_manager')" size="sm">
-        <div class="d-grid gap-2">
-            <template v-if="!showFileInput">
-                <button type="button" class="btn btn-lg btn-outline-info" @click="showFileInput = true">{{ $t('ui.data_import') }}</button>
-                <button v-if="!showFileInput" type="button" class="btn btn-lg btn-outline-primary" @click="dataExport">{{ $t('ui.data_export') }}</button>
-            </template>
-            <div v-else>
-                <label for="data-import-input-file" class="form-label">{{ $t('ui.data_import_input_label') }}</label>
-                <input id="data-import-input-file" type="file" class="form-control" accept=".json" @change="importFile($event)" />
+        <template #body>
+            <div class="d-grid gap-2">
+                <template v-if="!showFileInput">
+                    <button type="button" class="btn btn-lg btn-outline-info" @click="showFileInput = true">{{ $t('ui.data_import') }}</button>
+                    <button v-if="!showFileInput" type="button" class="btn btn-lg btn-outline-primary" @click="dataExport">{{ $t('ui.data_export') }}</button>
+                </template>
+                <div v-else>
+                    <label for="data-import-input-file" class="form-label">{{ $t('ui.data_import_input_label') }}</label>
+                    <input id="data-import-input-file" type="file" class="form-control" accept=".json" @change="importFile($event)" />
+                </div>
             </div>
-        </div>
+        </template>
     </Modal>
 </template>

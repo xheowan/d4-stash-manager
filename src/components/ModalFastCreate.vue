@@ -1,8 +1,11 @@
 <script setup lang="ts">
 import type CtrlAffixSearch from './CtrlAffixSearch.vue';
-import { DataAffix } from '~/composables/affix';
-import { useItem, findDuplicateItemTypes } from '~/composables/item';
+import { DataAffix, findDuplicateItemTypes } from '~/composables/affix';
+import { useItem, convertItemTypeToCategory } from '~/composables/item';
 
+type SelectAffix = {
+    [key: string]: DataAffix
+}
 
 const emit = defineEmits(['submit']);
 
@@ -41,9 +44,7 @@ watch(() => model.value.attributes, (data) => {
     
 }, { deep: true });
 
-type SelectAffix = {
-    [key: string]: DataAffix
-}
+
 const dicSelectedAffix = computed(() => {
     return tempSelectedAffixes.value.reduce((acc: SelectAffix, item) => {
         acc[item.id] = item;
@@ -57,6 +58,11 @@ const itemTypeFilter = computed(() => {
     }
 
     return findDuplicateItemTypes(tempSelectedAffixes.value);
+});
+
+const defaultStashTab = ref(1);
+watch(defaultStashTab, (nval) => {
+    model.value.stashTab = nval;
 });
 
 // const nextStep = () => {
@@ -76,14 +82,15 @@ const submit = () => {
         return;
     }
 
-
     emit('submit', model.value, continueCreate.value);
     model.value = initItemModel();
+    mainLegendaryAffix.value = undefined;
     ctrlSearch.value?.reset();
 
     // reset
     if (continueCreate.value) {
         step.value = 1;
+        model.value.stashTab = defaultStashTab.value;
     }
 }
 
@@ -91,7 +98,6 @@ onUnmounted(() => {
     model.value = initItemModel();
     mainLegendaryAffix.value = undefined;
 });
-
 
 </script>
 
@@ -108,7 +114,7 @@ onUnmounted(() => {
                 <label class="form-label">{{ $t('form.item_attribute') }}</label>
                 <div class="list-group">
                     <div 
-                        v-for="item in model.attributes" 
+                        v-for="(item, idx) in model.attributes" 
                         :key="item.id" 
                         class="list-group-item"
                     >
@@ -129,6 +135,7 @@ onUnmounted(() => {
                                     class="form-control mb-2"
                                     :value="item.values.join(',')"
                                     :placeholder="$t('form.item_affix_range')"
+                                    :tabindex="idx + 1"
                                     @input.prevent="inputAffixValues($event, item)"
                                 />
                                 <button type="button" class="btn btn-sm btn-outline-danger w-100" @click="removeAffix(item.id)">{{ $t('ui.remove') }}</button>
@@ -143,7 +150,7 @@ onUnmounted(() => {
 
             <div class="mb-3">
                 <label for="type" class="form-label">{{ $t('form.item_power') }}</label>
-                <input v-model="model.itemPower" v-filter-number type="number" class="form-control" min="1" max="850" @click="(e) => (e.target as HTMLInputElement).select()" />
+                <input v-model="model.itemPower" v-input-select v-filter-number type="number" class="form-control" min="1" max="850" />
             </div>
 
             <!--item name-->
@@ -167,24 +174,36 @@ onUnmounted(() => {
                 <div class="row mb-3">
                     <div class="col">
                         <label for="type" class="form-label">{{ $t('form.item_upgrade') }}</label>
-                        <input v-model="model.upgrade" type="number" class="form-control" min="0" :max="5" />
+                        <input v-model="model.upgrade" v-input-select v-filter-number type="number" class="form-control" min="0" :max="5" :disabled="convertItemTypeToCategory(model.type || 0) === ItemCategory.LegendaryAspects" />
                     </div>
                     <div class="col">
                         <label for="type" class="form-label">{{ $t('form.item_required_level') }}</label>
-                        <input v-model="model.requiredLevel" type="number" class="form-control" min="1" max="100" />
+                        <input v-model="model.requiredLevel" v-input-select v-filter-number type="number" class="form-control" min="1" max="100" />
                     </div>
                 </div>
 
                 <div class="mb-3">
                     <label for="type" class="form-label">{{ $t('form.item_stash_tab') }}</label>
-                    <input v-model.number="model.stashTab" type="number" class="form-control" min="1" />
+                    <input v-model.number="model.stashTab" v-input-select v-filter-number type="number" class="form-control" min="1" />
                 </div>
             </template>
         </template>
     </div>
-    <div class="modal-footer" :class="[`justify-content-${step === 1 ? 'end' : 'between'}`]">
+    <div class="modal-footer justify-content-between">
         <template v-if="step === 1">
-            <button type="button" class="btn btn-outline-primary" :disabled="!model.attributes.length" @click="step = 2">{{ $t('ui.next_step') }}</button>
+            <div class="col text-start">
+                <div class="row g-3 align-items-center">
+                    <div class="col-auto">
+                        <label for="stash-tab-number" class="col-form-label">{{ $t('form.item_stash_tab') }}</label>
+                    </div>
+                    <div class="col-3">
+                        <input id="stash-tab-number" v-model="defaultStashTab" v-input-select v-filter-number class="form-control form-control-sm" type="text" />
+                    </div>
+                </div>
+            </div>
+            <div class="col text-end">
+                <button type="button" class="btn btn-outline-primary" :disabled="!model.attributes.length" @click="step = 2">{{ $t('ui.next_step') }}</button>
+            </div>
         </template>
         <template v-else>
             <!-- prev step and save button-->

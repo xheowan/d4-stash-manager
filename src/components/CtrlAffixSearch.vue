@@ -13,15 +13,16 @@ const emit = defineEmits<{
     (e: 'select', value: { checked: boolean, item: DataAffix }): void
 }>();
 
-const data = ref<DataAffix[]>(props.modelValue);
+// const data = ref<DataAffix[]>(props.modelValue);
 
 const {
+    data,
     pagedSearchResult,
     remainingItemCount,
     inputSearch,
     showMore,
     reset
-} = useAffixSearch();
+} = useAffixSearch(props.modelValue);
 
 
 const select = (item: DataAffix) => {

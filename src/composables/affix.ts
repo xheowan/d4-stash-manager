@@ -1,7 +1,7 @@
 import { useDebounceFn } from '@vueuse/core';
 import dataAffixes from '~/data/affixes.json';
 import { ItemType } from '~/stores';
-import { convertTypeValueToCategory } from './item';
+import { convertItemTypeToCategory } from './item';
 import { toCapitalize } from '~/utils';
 
 
@@ -39,12 +39,33 @@ export function createI18nAffixes() {
     return i18nAffixData;
 }
 
+type TypeCount = {
+    [key: string]: number
+}
+
+export function findDuplicateItemTypes(items: DataAffix[]) {
+    const itemTypeCounts = items
+        .reduce<TypeCount>((acc, item) => {
+            item.requiredItemType.forEach(type => {
+                if (acc[type]) {
+                    acc[type] += 1;
+                } else {
+                    acc[type] = 1;
+                }
+            });
+
+            return acc;
+        }, {});
+    
+    return Object.keys(itemTypeCounts).filter(key => itemTypeCounts[key] == items.length);
+}
+
 export function convertItemTypeSlot(list: string[]) {
     return list.reduce((acc, value) => {
         const typeKey = toCapitalize(value).replace('1h', '1H').replace('2h', '2H');
 
         const typeId = ItemType[typeKey as keyof typeof ItemType];
-        const categoryId = convertTypeValueToCategory(typeId);
+        const categoryId = convertItemTypeToCategory(typeId);
 
 
         if (categoryId == ItemCategory.OneHandedWeapons)
@@ -61,12 +82,12 @@ export function convertItemTypeSlot(list: string[]) {
     }, [] as string[]);
 }
 
-export function useAffixSearch(pageCount = 5) {
+export function useAffixSearch(source: DataAffix[], pageCount = 5) {
 
     const dataAffixes = createI18nAffixes();
 
     // data
-    // const data = ref<DataAffix[]>([]);
+    const data = ref<DataAffix[]>(source);
 
     // search
     const searchResult = ref<DataAffix[]>();
@@ -84,6 +105,8 @@ export function useAffixSearch(pageCount = 5) {
         return leftCount > pageCount ? pageCount : leftCount;
     });
 
+    const itemTypeFilter = computed(() => findDuplicateItemTypes(data.value));
+
     const reset = () => {
         searchResult.value = undefined;
         displayedItemCount.value = pageCount;
@@ -94,12 +117,15 @@ export function useAffixSearch(pageCount = 5) {
             reset();
             return;
         }
+
+        let query = dataAffixes;
+
+        if (itemTypeFilter.value.length > 0) {
+            query = query.filter(f => f.requiredItemType.some(e => itemTypeFilter.value.includes(e)));
+        }
     
-        searchResult.value = dataAffixes
-            .filter(f =>
-                f.title.includes(text) || f.prefix?.includes(text)
-                // !model.value.attributes.some(s => s.id == f.id)
-            )
+        searchResult.value = query
+            .filter(f => f.title.includes(text) || f.prefix?.includes(text))
             .sort((a, b) => a.title.localeCompare(b.title));
     }
 
@@ -108,7 +134,7 @@ export function useAffixSearch(pageCount = 5) {
 
 
     return {
-        // data,
+        data,
         searchResult,
         totalResultCount: computed(() => searchResult.value?.length), 
         pagedSearchResult,

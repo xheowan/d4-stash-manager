@@ -44,5 +44,8 @@ const qualityTypeName = computed(() => {
         <div v-if="model.requiredLevel" class="mb-2 text-end">
             {{ `${$t('form.item_required_level')} ${model.requiredLevel}` }}
         </div>
+        <div v-if="model.stashTab" class="text-end text-body-secondary">
+            {{ `${$t('form.item_stash_tab')} ${model.stashTab}` }}
+        </div>
     </div>
 </template>

@@ -16,6 +16,7 @@ declare global {
   const acceptHMRUpdate: typeof import('pinia')['acceptHMRUpdate']
   const computed: typeof import('vue')['computed']
   const convertItemTypeSlot: typeof import('./composables/affix')['convertItemTypeSlot']
+  const convertItemTypeToCategory: typeof import('./composables/item')['convertItemTypeToCategory']
   const convertTypeValueToCategory: typeof import('./composables/item')['convertTypeValueToCategory']
   const createApp: typeof import('vue')['createApp']
   const createI18nAffixes: typeof import('./composables/affix')['createI18nAffixes']
@@ -25,7 +26,7 @@ declare global {
   const defineComponent: typeof import('vue')['defineComponent']
   const defineStore: typeof import('pinia')['defineStore']
   const effectScope: typeof import('vue')['effectScope']
-  const findDuplicateItemTypes: typeof import('./composables/item')['findDuplicateItemTypes']
+  const findDuplicateItemTypes: typeof import('./composables/affix')['findDuplicateItemTypes']
   const getActivePinia: typeof import('pinia')['getActivePinia']
   const getCurrentInstance: typeof import('vue')['getCurrentInstance']
   const getCurrentScope: typeof import('vue')['getCurrentScope']
@@ -123,7 +124,7 @@ declare module 'vue' {
     readonly acceptHMRUpdate: UnwrapRef<typeof import('pinia')['acceptHMRUpdate']>
     readonly computed: UnwrapRef<typeof import('vue')['computed']>
     readonly convertItemTypeSlot: UnwrapRef<typeof import('./composables/affix')['convertItemTypeSlot']>
-    readonly convertTypeValueToCategory: UnwrapRef<typeof import('./composables/item')['convertTypeValueToCategory']>
+    readonly convertItemTypeToCategory: UnwrapRef<typeof import('./composables/item')['convertItemTypeToCategory']>
     readonly createApp: UnwrapRef<typeof import('vue')['createApp']>
     readonly createI18nAffixes: UnwrapRef<typeof import('./composables/affix')['createI18nAffixes']>
     readonly createPinia: UnwrapRef<typeof import('pinia')['createPinia']>
@@ -132,7 +133,7 @@ declare module 'vue' {
     readonly defineComponent: UnwrapRef<typeof import('vue')['defineComponent']>
     readonly defineStore: UnwrapRef<typeof import('pinia')['defineStore']>
     readonly effectScope: UnwrapRef<typeof import('vue')['effectScope']>
-    readonly findDuplicateItemTypes: UnwrapRef<typeof import('./composables/item')['findDuplicateItemTypes']>
+    readonly findDuplicateItemTypes: UnwrapRef<typeof import('./composables/affix')['findDuplicateItemTypes']>
     readonly getActivePinia: UnwrapRef<typeof import('pinia')['getActivePinia']>
     readonly getCurrentInstance: UnwrapRef<typeof import('vue')['getCurrentInstance']>
     readonly getCurrentScope: UnwrapRef<typeof import('vue')['getCurrentScope']>
@@ -221,7 +222,7 @@ declare module '@vue/runtime-core' {
     readonly acceptHMRUpdate: UnwrapRef<typeof import('pinia')['acceptHMRUpdate']>
     readonly computed: UnwrapRef<typeof import('vue')['computed']>
     readonly convertItemTypeSlot: UnwrapRef<typeof import('./composables/affix')['convertItemTypeSlot']>
-    readonly convertTypeValueToCategory: UnwrapRef<typeof import('./composables/item')['convertTypeValueToCategory']>
+    readonly convertItemTypeToCategory: UnwrapRef<typeof import('./composables/item')['convertItemTypeToCategory']>
     readonly createApp: UnwrapRef<typeof import('vue')['createApp']>
     readonly createI18nAffixes: UnwrapRef<typeof import('./composables/affix')['createI18nAffixes']>
     readonly createPinia: UnwrapRef<typeof import('pinia')['createPinia']>
@@ -230,7 +231,7 @@ declare module '@vue/runtime-core' {
     readonly defineComponent: UnwrapRef<typeof import('vue')['defineComponent']>
     readonly defineStore: UnwrapRef<typeof import('pinia')['defineStore']>
     readonly effectScope: UnwrapRef<typeof import('vue')['effectScope']>
-    readonly findDuplicateItemTypes: UnwrapRef<typeof import('./composables/item')['findDuplicateItemTypes']>
+    readonly findDuplicateItemTypes: UnwrapRef<typeof import('./composables/affix')['findDuplicateItemTypes']>
     readonly getActivePinia: UnwrapRef<typeof import('pinia')['getActivePinia']>
     readonly getCurrentInstance: UnwrapRef<typeof import('vue')['getCurrentInstance']>
     readonly getCurrentScope: UnwrapRef<typeof import('vue')['getCurrentScope']>

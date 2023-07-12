@@ -59,17 +59,17 @@ const formSubmit = () => {
             <div class="row mb-3">
                 <div class="col">
                     <label for="type" class="form-label">{{ $t('form.item_upgrade') }}</label>
-                    <input v-model="model.upgrade" v-filter-number type="number" class="form-control" min="0" :max="maxItemUpgradeLevel" />
+                    <input v-model="model.upgrade" v-input-select v-filter-number type="number" class="form-control" min="0" :max="maxItemUpgradeLevel" :disabled="convertItemTypeToCategory(model.type || 0) === ItemCategory.LegendaryAspects" />
                 </div>
                 <div class="col">
                     <label for="type" class="form-label">{{ $t('form.item_required_level') }}</label>
-                    <input v-model="model.requiredLevel" v-filter-number type="number" class="form-control" min="1" max="100" />
+                    <input v-model="model.requiredLevel" v-input-select v-filter-number type="number" class="form-control" min="1" max="100" />
                 </div>
             </div>
 
             <div class="mb-3">
                 <label for="type" class="form-label">{{ $t('form.item_stash_tab') }}</label>
-                <input v-model.number="model.stashTab" v-filter-number type="number" class="form-control" min="1" />
+                <input v-model.number="model.stashTab" v-input-select v-filter-number type="number" class="form-control" min="1" />
             </div>
 
             <!-- <button type="submit" class="btn btn-primary" :disabled="isLoading">{{ $t('ui.save') }}</button> -->

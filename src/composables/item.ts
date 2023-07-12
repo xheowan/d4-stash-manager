@@ -4,7 +4,10 @@ import { IItemAttribute } from '~/stores';
 import { convertEnumToOptions, orderBy, toSnakeCase, filterNonNumberValues } from '~/utils';
 import { DataAffix } from './affix';
 
-export function convertTypeValueToCategory(value: string | number) {
+export function convertItemTypeToCategory(value?: string | number) {
+    if (!value)
+        return 0;
+    
     return (Math.floor(Number(value) / 100) % 10) * 100;
 }
 
@@ -20,7 +23,7 @@ export function useItemType(limitTypes?: Ref<string[] | undefined>) {
 
     // const groupTypeList = groupBy(list, (option) => {
     //     // const cate = (Math.floor(Number(option.value) / 100) % 10) * 100;
-    //     const cate = convertTypeValueToCategory(option.value);
+    //     const cate = convertItemTypeToCategory(option.value);
     //     return ItemCategory[cate];
     // });
 
@@ -30,9 +33,9 @@ export function useItemType(limitTypes?: Ref<string[] | undefined>) {
         let query = list;
 
         if (limitTypes?.value) {
-            console.log('filter: ', limitTypes.value);
+            console.log('filter: ', limitTypes.value, query);
             // f.text = axe|bow|...
-            query = query.filter(f => limitTypes.value?.includes(f.text.toLowerCase()) || convertTypeValueToCategory(f.value) === ItemCategory.LegendaryAspects);
+            query = query.filter(f => limitTypes.value?.includes(toSnakeCase(f.text)) || convertItemTypeToCategory(f.value) === ItemCategory.LegendaryAspects);
         }
 
         return groupBy(
@@ -41,7 +44,7 @@ export function useItemType(limitTypes?: Ref<string[] | undefined>) {
                 text: t(`item_type.${toSnakeCase(m.text)}`)
             })),
             (option) => {
-                const cate = convertTypeValueToCategory(option.value);
+                const cate = convertItemTypeToCategory(option.value);
                 return ItemCategory[cate];
             }
         );
@@ -133,24 +136,4 @@ export function useItem() {
 
         isAffixExists: (affixId: string) => model.value.attributes.some(s => s.id === affixId)
     }
-}
-
-type TypeCount = {
-    [key: string]: number
-}
-export function findDuplicateItemTypes(items: DataAffix[]) {
-    const itemTypeCounts = items
-        .reduce<TypeCount>((acc, item) => {
-            item.requiredItemType.forEach(type => {
-                if (acc[type]) {
-                    acc[type] += 1;
-                } else {
-                    acc[type] = 1;
-                }
-            });
-
-            return acc;
-        }, {});
-    
-    return Object.keys(itemTypeCounts).filter(key => itemTypeCounts[key] == items.length);
 }

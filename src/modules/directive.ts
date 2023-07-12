@@ -29,6 +29,20 @@ const formSubmit = {
 	}
 }
 
+const inputSelect = {
+	mounted(el: HTMLInputElement) {
+		if (el.nodeName != 'INPUT')
+			return;
+		
+		el.addEventListener('click', (event) => {
+			(event.target as HTMLInputElement).select();
+			// console.log(event.target);
+			// const target = (event.target as HTMLInputElement);
+			// target.dispatchEvent(new Event('select', { cancelable: true }));
+		});
+	}
+}
+
 const inputFilterNumber = {
 	mounted(el: HTMLInputElement) {
 		if (el.nodeName != 'INPUT')
@@ -59,4 +73,6 @@ export const install: UserModule = ({ app }) => {
 	app.directive('submit', formSubmit);
 	// input
 	app.directive('filterNumber', inputFilterNumber);
+
+	app.directive('inputSelect', inputSelect);
 }
