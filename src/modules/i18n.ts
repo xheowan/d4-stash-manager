@@ -4,7 +4,7 @@ import { useNavigatorLanguage } from '@vueuse/core'
 import messages from '@intlify/unplugin-vue-i18n/messages'
 
 export const install: UserModule = ({ isClient, app }) => {
-	let locale = 'en';
+	let locale = 'zh-TW';
 
 	if (isClient) {
 		const { language } = useNavigatorLanguage();
