@@ -1,14 +1,16 @@
 <script setup lang="ts">
-import { DataAffix } from '~/composables/affix';
+import type CtrlAffixSearch from './CtrlAffixSearch.vue';
+import { DataAffix, createI18nAffixes, findAffix } from '~/composables/affix';
 import { useItem, convertItemTypeToCategory } from '~/composables/item';
 import { FlagAction, ViewMode, SearchRule } from '~/composables/stash';
 import { IItem, ItemType, ItemCategory } from '~/stores';
 import { clone, enumKey } from '~/utils';
-import type CtrlAffixSearch from './CtrlAffixSearch.vue';
 
 defineOptions({
   name: 'Home',
 });
+
+createI18nAffixes();
 
 // init useStash
 const {
@@ -27,7 +29,6 @@ const {
     searchRules,
     removeSearch
 } = useStash();
-
 
 // fast create & create
 const showCreate = ref(false);
@@ -48,6 +49,10 @@ const showView = computed({
             viewData.value = undefined;
     }
 });
+
+const view = (item: IItem) => {
+    viewData.value = item;
+}
 
 const displayLegendaryValues = (values?: number[], type?: ItemType) => {
     if (!type || !values)
@@ -118,6 +123,7 @@ const search = () => {
     ];
     showSearch.value = false;
 }
+
 </script>
 
 <template>
@@ -136,17 +142,18 @@ const search = () => {
 
         <div class="group-view">
             <div v-for="(items, key) in groupList" :key="key" class="group mt-4">
-                <h5>
+                <header class="group-head">
                     <template v-if="mode == ViewMode.Tab">
-                        {{ `Tab ${key}` }}
+                        <h4>{{ `Tab ${key}` }}</h4>
                     </template>
                     <template v-else-if="mode == ViewMode.Legendary && key !== 'other'">
-                        <div class="legendary-mark text-legendary text-truncate">{{ $t(`item_attributes.${key}`, ['n', 'n']) }}</div>
+                        <h5 class="legendary-mark text-legendary text-truncate">{{ $t(`item_attributes.${key}`, ['n', 'n']) }}</h5>
+                        <small class="text-body-secondary d-block mb-2">{{ findAffix(key as string)?.itemTypeSlot?.map(m => $t(`item_type.${m}`)).join(', ') }}</small>
                     </template>
                     <template v-else>
-                        {{ $t('ui.group_not_legendary_type') }}
+                        <h5>{{ $t('ui.group_not_legendary_type') }}</h5>
                     </template>
-                </h5>
+                </header>
                 <div class="table-responsive-md">
                     <table class="table table-hover">
                         <colgroup>
@@ -172,7 +179,7 @@ const search = () => {
                             </tr>
                         </thead>
                         <tbody class="table-group-divider">
-                            <tr v-for="(item, num) in items" :key="item.id" rol="button" @click="viewData = item">
+                            <tr v-for="(item, num) in items" :key="item.id" rol="button" @click="view(item)">
                                 <td v-if="mode == ViewMode.Legendary" :title="item.legendary?.values.join(', ')">
                                     <span :class="{ 'text-body-secondary': (item.type === ItemType.Amulet || convertItemTypeToCategory(item.type) === ItemCategory.TwoHandedWeapons) }">
                                         {{ displayLegendaryValues(item.legendary?.values, item.type) }}
@@ -180,7 +187,9 @@ const search = () => {
                                 </td>
                                 <th v-else scope="row">{{ num + 1 }}</th>
                                 <td>{{ item.itemPower }}</td>
-                                <td><BadgeQuality :items="item.quality" /></td>
+                                <td>
+                                    <BadgeQuality :items="item.quality" />
+                                </td>
                                 <td>
                                     <div v-if="item.type">{{ $t(`item_type.${enumKey(ItemType, Number(item.type))}`) }}</div>
                                 </td>

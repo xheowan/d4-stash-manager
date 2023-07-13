@@ -1,5 +1,5 @@
 import { useDebounceFn } from '@vueuse/core';
-import dataAffixes from '~/data/affixes.json';
+import srouceAffixes from '~/data/affixes.json';
 import { ItemType } from '~/stores';
 import { convertItemTypeToCategory } from './item';
 import { toCapitalize } from '~/utils';
@@ -16,28 +16,44 @@ export type DataAffix = {
     tags: string[]
 }
 
-let i18nAffixData: DataAffix[];
+let dataI18nAffix: DataAffix[];
+const dicI18nAffix: {
+    [key: string]: DataAffix
+} = {};
 
 export function createI18nAffixes() {
-    if (!i18nAffixData) {
+    if (!dataI18nAffix) {
         const { t } = useI18n();
 
-        i18nAffixData = dataAffixes.map((item) => {
+        dataI18nAffix = srouceAffixes.map((item) => {
             item.title = t(`item_attributes.${item.id}`, ['n']).trim();
 
             if (item.prefix) {
                 item.prefix = t(`item_affix_prefix.${item.id}`, ['']).trim();
             }
-            
-            return {
+
+            const newitem = {
                 ...item,
                 itemTypeSlot: convertItemTypeSlot(item.requiredItemType)
             };
+
+            dicI18nAffix[item.id] = newitem;
+            
+            return newitem;
         });
     }
     
-    return i18nAffixData;
+    return dataI18nAffix;
 }
+
+export function findAffix(id: string | undefined) {
+    if (id) {
+        return dicI18nAffix[id];
+    }
+    
+    return undefined;
+}
+
 
 type TypeCount = {
     [key: string]: number

@@ -184,7 +184,7 @@ onUnmounted(() => {
 
                 <div class="mb-3">
                     <label for="type" class="form-label">{{ $t('form.item_stash_tab') }}</label>
-                    <input v-model.number="model.stashTab" v-input-select v-filter-number type="number" class="form-control" min="1" />
+                    <input v-model.number="model.stashTab" v-input-select v-filter-number type="number" class="form-control" min="0" />
                 </div>
             </template>
         </template>

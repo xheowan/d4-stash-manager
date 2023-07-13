@@ -26,6 +26,7 @@ declare global {
   const defineComponent: typeof import('vue')['defineComponent']
   const defineStore: typeof import('pinia')['defineStore']
   const effectScope: typeof import('vue')['effectScope']
+  const findAffix: typeof import('./composables/affix')['findAffix']
   const findDuplicateItemTypes: typeof import('./composables/affix')['findDuplicateItemTypes']
   const getActivePinia: typeof import('pinia')['getActivePinia']
   const getCurrentInstance: typeof import('vue')['getCurrentInstance']
@@ -80,6 +81,7 @@ declare global {
   const triggerRef: typeof import('vue')['triggerRef']
   const unref: typeof import('vue')['unref']
   const useAffixSearch: typeof import('./composables/affix')['useAffixSearch']
+  const useAffixStore: typeof import('./stores/affix')['useAffixStore']
   const useAttrs: typeof import('vue')['useAttrs']
   const useCssModule: typeof import('vue')['useCssModule']
   const useCssVars: typeof import('vue')['useCssVars']
@@ -133,6 +135,7 @@ declare module 'vue' {
     readonly defineComponent: UnwrapRef<typeof import('vue')['defineComponent']>
     readonly defineStore: UnwrapRef<typeof import('pinia')['defineStore']>
     readonly effectScope: UnwrapRef<typeof import('vue')['effectScope']>
+    readonly findAffix: UnwrapRef<typeof import('./composables/affix')['findAffix']>
     readonly findDuplicateItemTypes: UnwrapRef<typeof import('./composables/affix')['findDuplicateItemTypes']>
     readonly getActivePinia: UnwrapRef<typeof import('pinia')['getActivePinia']>
     readonly getCurrentInstance: UnwrapRef<typeof import('vue')['getCurrentInstance']>
@@ -231,6 +234,7 @@ declare module '@vue/runtime-core' {
     readonly defineComponent: UnwrapRef<typeof import('vue')['defineComponent']>
     readonly defineStore: UnwrapRef<typeof import('pinia')['defineStore']>
     readonly effectScope: UnwrapRef<typeof import('vue')['effectScope']>
+    readonly findAffix: UnwrapRef<typeof import('./composables/affix')['findAffix']>
     readonly findDuplicateItemTypes: UnwrapRef<typeof import('./composables/affix')['findDuplicateItemTypes']>
     readonly getActivePinia: UnwrapRef<typeof import('pinia')['getActivePinia']>
     readonly getCurrentInstance: UnwrapRef<typeof import('vue')['getCurrentInstance']>

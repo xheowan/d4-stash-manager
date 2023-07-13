@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { createI18nAffixes } from '~/composables/affix';
+import { createI18nAffixes, findAffix } from '~/composables/affix';
 import { initAttrModel } from '~/composables/stash';
 import { IItemAttribute, ItemAttributeType, ItemType } from '~/stores';
 import { convertEnumToOptions, clone, toSnakeCase, filterNonNumberValues } from '~/utils';
@@ -56,7 +56,7 @@ const typeOptions = convertEnumToOptions(ItemAttributeType);
 
 // proxy select affix model
 const proxyModelId = computed({
-    get: () => model.value.id ? dataAffixes.find(f => f.id == model.value.id) : undefined,
+    get: () => findAffix(model.value.id),
     set: (value) => {
         model.value.id = value?.id || undefined;
     }
