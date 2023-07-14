@@ -129,14 +129,15 @@ const search = () => {
 <template>
     <div class="stash mt-2">
         <h4>My Stash</h4>
-        <div class="d-flex justify-content-between mb-3">
-            <div class="col text-start">
-                <button type="button" class="btn btn-primary me-2" @click="showCreate = true">{{ $t('ui.fast_create') }}</button>
-                <button type="button" class="btn btn-info me-2" @click="showSearch = true">{{ $t('ui.search') + (searchRules.length ? ` (${searchRules.length})` : '') }}</button>
-                <button type="button" class="btn btn-secondary mt-2 mt-md-0" @click="changeView">{{ $t(`ui.swith_view.${mode == ViewMode.Tab ? 'legendary' : 'tab'}`) }}</button>
-            </div>
-            <div class="col text-end">
-                <button type="button" class="btn btn-danger" :disabled="!flaggedItemCount" @click="removeFlaggedItem()">{{ $t('ui.delete_all_flagged_item') }}</button>
+        <div class="top-toolbar bg-light">
+            <div class="d-flex justify-content-between py-2">
+                <div class="col text-start">
+                    <button type="button" class="btn btn-info me-2" @click="showSearch = true">{{ $t('ui.search') + (searchRules.length ? ` (${searchRules.length})` : '') }}</button>
+                    <button type="button" class="btn btn-secondary" @click="changeView">{{ $t(`ui.swith_view.${mode == ViewMode.Tab ? 'legendary' : 'tab'}`) }}</button>
+                </div>
+                <div class="col text-end">
+                    <button type="button" class="btn btn-primary me-2" @click="showCreate = true">{{ $t('ui.fast_create') }}</button>
+                </div>
             </div>
         </div>
 
@@ -209,6 +210,12 @@ const search = () => {
                 <h5>{{ $t('ui.stash_no_data') }}</h5>
             </div>
         </div>
+
+        <div v-show="flaggedItemCount > 0" class="bottom-toolbar bg-light">
+            <div class="d-flex justify-content-end py-2">
+                <button type="button" class="btn btn-danger" :disabled="!flaggedItemCount" @click="removeFlaggedItem()">{{ $t('ui.delete_all_flagged_item') + ` (${flaggedItemCount})` }}</button>
+            </div>
+        </div>
     </div>
 
     <!--create-->
@@ -246,6 +253,18 @@ const search = () => {
 </template>
 
 <style lang="scss" scoped>
+.top-toolbar, .bottom-toolbar {
+    position: sticky;
+}
+
+.top-toolbar {
+    top: 0;
+}
+
+.bottom-toolbar {
+    bottom: 0;
+}
+
 .table {
     th, td {
         white-space: nowrap;

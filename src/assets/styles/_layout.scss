@@ -8,10 +8,10 @@
   flex-direction: column;
 }
 
-html,
-body {
-  @extend %h100;
-}
+// html,
+// body {
+//   @extend %h100;
+// }
 
 body {
   touch-action: none;
@@ -26,9 +26,8 @@ body {
 }
 
 #app {
-  @extend %h100;
-  @extend %layout-flex;
+  // @extend %h100;
+  // @extend %layout-flex;
   -webkit-overflow-scrolling: touch;
   background-color: #000;
-
 }
