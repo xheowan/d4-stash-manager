@@ -23,27 +23,6 @@ export enum ViewMode {
     Legendary = 'legendary'
 }
 
-export const initItemModel = (): IItem => ({
-    id: undefined,
-    type: undefined,
-    name: undefined,
-    itemPower: 100,
-    quality: [],
-    attributes: [],
-    requiredLevel: 1,
-    upgrade: 0,
-    stashTab: 1,
-    flags: [],
-    createTime: undefined
-});
-
-export const initAttrModel = (): IItemAttribute => ({
-    id: undefined,
-    type: ItemAttributeType.Affix,
-    values: [],
-    rank: 1
-});
-
 export function useStash() {
     const { t } = useI18n();
     // store

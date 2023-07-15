@@ -1,6 +1,6 @@
 import { useDebounceFn } from '@vueuse/core';
 import { groupBy } from 'lodash-es';
-import { IItemAttribute } from '~/stores';
+import { IItem, IItemAttribute } from '~/stores';
 import { convertEnumToOptions, orderBy, toSnakeCase, filterNonNumberValues } from '~/utils';
 import { DataAffix } from './affix';
 
@@ -137,3 +137,25 @@ export function useItem() {
         isAffixExists: (affixId: string) => model.value.attributes.some(s => s.id === affixId)
     }
 }
+
+export const initItemModel = (): IItem => ({
+    id: undefined,
+    type: undefined,
+    name: undefined,
+    itemPower: 100,
+    quality: [],
+    attributes: [],
+    requiredLevel: 1,
+    upgrade: 0,
+    imbued: false,
+    stashTab: 1,
+    flags: [],
+    createTime: undefined
+});
+
+export const initAttrModel = (): IItemAttribute => ({
+    id: undefined,
+    type: ItemAttributeType.Affix,
+    values: [],
+    rank: 1
+});

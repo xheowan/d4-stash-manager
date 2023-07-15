@@ -131,11 +131,11 @@ const search = () => {
         <h4>My Stash</h4>
         <div class="top-toolbar bg-light">
             <div class="d-flex justify-content-between py-2">
-                <div class="col text-start">
+                <div class="col-md-6 col-8 text-start">
                     <button type="button" class="btn btn-info me-2" @click="showSearch = true">{{ $t('ui.search') + (searchRules.length ? ` (${searchRules.length})` : '') }}</button>
                     <button type="button" class="btn btn-secondary" @click="changeView">{{ $t(`ui.swith_view.${mode == ViewMode.Tab ? 'legendary' : 'tab'}`) }}</button>
                 </div>
-                <div class="col text-end">
+                <div class="col-md-6 col-4 text-end">
                     <button type="button" class="btn btn-primary me-2" @click="showCreate = true">{{ $t('ui.fast_create') }}</button>
                 </div>
             </div>
@@ -148,7 +148,10 @@ const search = () => {
                         <h4>{{ `Tab ${key}` }}</h4>
                     </template>
                     <template v-else-if="mode == ViewMode.Legendary && key !== 'other'">
-                        <h5 class="legendary-mark text-legendary text-truncate">{{ $t(`item_attributes.${key}`, ['n', 'n']) }}</h5>
+                        <h5 class="legendary-mark text-legendary text-truncate">
+                            [{{ $t(`item_affix_prefix.${key}`) }}]
+                            {{ $t(`item_attributes.${key}`, ['n', 'n']) }}
+                        </h5>
                         <small class="text-body-secondary d-block mb-2">{{ findAffix(key as string)?.itemTypeSlot?.map(m => $t(`item_type.${m}`)).join(', ') }}</small>
                     </template>
                     <template v-else>

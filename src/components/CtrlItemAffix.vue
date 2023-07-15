@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { createI18nAffixes, findAffix } from '~/composables/affix';
-import { initAttrModel } from '~/composables/stash';
 import { IItemAttribute, ItemAttributeType, ItemType } from '~/stores';
 import { convertEnumToOptions, clone, toSnakeCase, filterNonNumberValues } from '~/utils';
 

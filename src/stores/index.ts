@@ -89,6 +89,7 @@ export interface IItem {
     attributes: IItemAttribute[];
     requiredLevel: number;
     upgrade: number;
+    imbued: boolean;
 
     stashTab: number; //分頁
 
