@@ -258,6 +258,7 @@ const search = () => {
 <style lang="scss" scoped>
 .top-toolbar, .bottom-toolbar {
     position: sticky;
+    z-index: 999;
 }
 
 .top-toolbar {
