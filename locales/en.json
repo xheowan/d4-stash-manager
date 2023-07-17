@@ -1,6 +1,84 @@
 {
+  "form": {
+    "item_name": "Item Name",
+    "item_name_placeholder": "Vashti's Prayer",
+    "item_name_invalid": "Please enter the item name",
+    "item_type": "Type",
+    "item_type_select_prompt": "Please select the item type",
+    "item_quality": "Quality",
+    "item_power": "Item Power",
+    "item_upgrade": "Upgrade",
+    "item_attribute": "Item Attributes",
+    "item_required_level": "Required Level",
+    "item_attribute_select_prompt": "Please select an attribute",
+    "item_affix_range": "Affix Range",
+    "item_attribute_keyword": "Affix Keyword",
+    "item_stash_tab": "Stash Tab",
+    "item_flag": "Flag",
+    "item_already_imbued": "Already Imbued"
+  },
+  "ui": {
+    "create": "Add",
+    "edit": "Edit",
+    "update": "Update",
+    "delete": "Delete",
+    "remove": "Remove",
+    "delete_flagged": "Remove Flagged",
+    "delete_all_flagged_item": "Delete All Flagged Items",
+    "save": "Save",
+    "fast_create": "Quick Add",
+    "flag_remove": "Flag for Removal",
+    "search": "Search",
+    "prompt_fast_search_keyword": "Please enter affix or item keyword",
+    "prompt_delete_confirm": "Are you sure you want to delete this data?",
+    "prompt_delete_flagged_item": "Are you sure you want to delete all flagged items?",
+    "data_not_found": "Data not found",
+    "display_more_data": "Show {0} more records",
+    "add": "Add",
+    "next_step": "Next Step",
+    "prev_step": "Previous Step",
+    "prompt_item_affix_legendary_exists": "Legendary effect already exists, cannot add",
+    "display_exists_affix_count": "Selected {0} affix(es)",
+    "show_other": "Show Other",
+    "hide_other": "Hide Other",
+    "prompt_select_at_least_one_affix": "Please select at least one affix",
+    "swith_view": {
+      "tab": "Tab View",
+      "legendary": "Legendary Affix View"
+    },
+    "continue_create": "Continue Adding",
+    "group_not_legendary_type": "Non-Legendary Item",
+    "item_legendary_values": "Legendary Values",
+    "no_attributes": "No attribute affixes",
+    "reset_search": "Reset Search",
+    "stash_no_data": "No data, please use the quick add button in the upper right corner to add data",
+    "view_item": "View Item",
+    "data_manager": "Data Manager",
+    "data_import": "Data Import",
+    "data_export": "Data Export",
+    "prompt_data_import_confirm": "All current data will be overwritten. Are you sure you want to import data?",
+    "data_import_input_label": "Upload JSON File",
+    "prompt_affix_values_empty": "Item attributes do not have input values"
+  },
   "page": {
     "not_found": "Not found"
+  },
+  "item_quality": {
+    "common": "Common",
+    "magic": "Magic",
+    "rare": "Rare",
+    "legendary": "Legendary",
+    "unique": "Unique",
+    "sacred": "Sacred",
+    "ancestral": "Ancestral"
+  },
+  "item_category": {
+    "one_handed_weapons": "1H Weapons",
+    "two_handed_weapons": "2H Weapons",
+    "offhand": "Offhand",
+    "armor": "Armor",
+    "accessories": "Accessories",
+    "legendary_aspects": "Legendary Aspects"
   },
   "item_type": {
     "axe": "Axe",
@@ -31,7 +109,15 @@
     "aspect_mobility": "Aspect Mobility",
     "aspect_offensive": "Aspect Offensive",
     "aspect_resource": "Aspect Resource",
-    "aspect_utility": "Aspect Utility"
+    "aspect_utility": "Aspect Utility",
+    "offhand": "Offhand",
+    "1h_weapon": "1H Weapon",
+    "2h_weapon": "2H Weapon"
+  },
+  "item_attribute_type": {
+    "property": "Base Attribute",
+    "affix": "Affix",
+    "legendary_aspect": "Legendary Effect"
   },
   "item_affix_prefix": {
     "577281": "of Damage",
