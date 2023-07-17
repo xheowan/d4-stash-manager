@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { IItem } from '~/stores';
 
+const siteVersion = import.meta.env.VITE_SITE_VERSION;
+
 const {
     dataImport,
     dataExport
@@ -36,6 +38,7 @@ const importFile = (e: Event) => {
             <a class="navbar-brand" href="/">
                 <!-- <img src="/docs/5.3/assets/brand/bootstrap-logo.svg" alt="Logo" width="30" height="24" class="d-inline-block align-text-top"> -->
                 D4 Stash Manager
+                <small class="text-body-secondary">{{ `v${siteVersion}` }}</small>
             </a>
             <ul class="nav">
                 <li class="nav-item">

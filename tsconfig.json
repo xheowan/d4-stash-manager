@@ -19,7 +19,7 @@
       "vite/client",
       "vite-plugin-pages/client",
       "vite-plugin-vue-layouts/client",
-      "vite-plugin-pwa/client",
+      "vite-plugin-pwa/vue",
       "@intlify/unplugin-vue-i18n/messages"
     ],
     "paths": {

@@ -58,11 +58,13 @@ const displayLegendaryValues = (values?: number[], type?: ItemType) => {
     if (!type || !values)
         return values;
 
+    // const bonusMark = type === ItemType.Amulet || convertItemTypeToCategory(type) === ItemCategory.TwoHandedWeapons;
+
     let _values = values.map(String);
     if (type === ItemType.Amulet)
-        _values = values.map(m => (m / 1.5).toFixed());
+        _values = values.map(m => (m / 1.5).toFixed() + '*');
     else if (convertItemTypeToCategory(type) === ItemCategory.TwoHandedWeapons)
-        _values = values.map(m => (m / 2).toFixed());
+        _values = values.map(m => (m / 2).toFixed() + '*');
 
     return `[ ${_values.join(', ')} ]`;
 }
@@ -143,7 +145,7 @@ const search = () => {
 
         <div class="group-view">
             <div v-for="(items, key) in groupList" :key="key" class="group mt-4">
-                <header class="group-head">
+                <header class="group-head py-2 bg-white">
                     <template v-if="mode == ViewMode.Tab">
                         <h4>{{ `Tab ${key}` }}</h4>
                     </template>
@@ -215,8 +217,10 @@ const search = () => {
         </div>
 
         <div v-show="flaggedItemCount > 0" class="bottom-toolbar bg-light">
-            <div class="d-flex justify-content-end py-2">
-                <button type="button" class="btn btn-danger" :disabled="!flaggedItemCount" @click="removeFlaggedItem()">{{ $t('ui.delete_all_flagged_item') + ` (${flaggedItemCount})` }}</button>
+            <div class="container">
+                <div class="d-flex justify-content-end py-2">
+                    <button type="button" class="btn btn-danger" :disabled="!flaggedItemCount" @click="removeFlaggedItem()">{{ $t('ui.delete_all_flagged_item') + ` (${flaggedItemCount})` }}</button>
+                </div>
             </div>
         </div>
     </div>
@@ -256,17 +260,18 @@ const search = () => {
 </template>
 
 <style lang="scss" scoped>
-.top-toolbar, .bottom-toolbar {
+.top-toolbar {
     position: sticky;
     z-index: 999;
-}
-
-.top-toolbar {
     top: 0;
 }
 
 .bottom-toolbar {
+    position: fixed;
+    z-index: 999;
     bottom: 0;
+    width: 100%;
+    left: 0;
 }
 
 .table {
@@ -274,4 +279,18 @@ const search = () => {
         white-space: nowrap;
     }
 }
+
+.group-head {
+    position: sticky;
+    top: 54px;
+
+    h4 {
+        margin-bottom: 0;
+    }
+}
+
+.group-view {
+    margin-bottom: 60px;
+}
+
 </style>

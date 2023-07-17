@@ -79,10 +79,11 @@ defineExpose<{
                     @click="select(item)"
                 >
                     <div class="mb-2">
-                        <!-- <span v-if="item.tags.includes('legendary')" class="badge text-bg-warning me-2">{{ $t('item_attribute_type.legendary_aspect') }}</span> -->
                         <small class="text-body-secondary">{{ item.itemTypeSlot?.map(m => $t(`item_type.${m}`)).join(', ') }}</small>
                     </div>
-                    <h6 :class="{ 'text-legendary legendary-mark': item.tags.includes('legendary') }">{{ item.title }}</h6>
+                    <h6 :class="{ 'text-legendary legendary-mark': item.tags.includes('legendary') }">
+                        {{ (item.prefix ? `[${item.prefix}] ` : '') + item.title }}
+                    </h6>
                 </div>
             </div>
 
@@ -107,8 +108,9 @@ defineExpose<{
     // }
 
     h6 {
-        height: 40px;
+        height: 50px;
         margin-bottom: 0;
+        line-height: 1.5;
         overflow: hidden;
     }
 

@@ -10,26 +10,26 @@
   },
   "devDependencies": {
     "@fullhuman/postcss-purgecss": "^5.0.0",
-    "@intlify/unplugin-vue-i18n": "^0.11.0",
-    "@types/lodash-es": "^4.17.7",
+    "@intlify/unplugin-vue-i18n": "^0.12.2",
+    "@types/lodash-es": "^4.17.8",
     "@types/nprogress": "^0.2.0",
-    "@typescript-eslint/eslint-plugin": "^5.60.1",
-    "@typescript-eslint/parser": "^5.60.1",
+    "@typescript-eslint/eslint-plugin": "^6.0.0",
+    "@typescript-eslint/parser": "^6.0.0",
     "@vitejs/plugin-vue": "^4.2.3",
     "autoprefixer": "^10.4.14",
     "cross-env": "^7.0.3",
-    "eslint": "^8.43.0",
+    "eslint": "^8.45.0",
     "eslint-plugin-vue": "^9.15.1",
     "sass": "^1.63.6",
     "typescript": "^5.1.6",
-    "unplugin-auto-import": "^0.16.4",
+    "unplugin-auto-import": "^0.16.6",
     "unplugin-vue-components": "^0.25.1",
-    "vite": "^4.3.9",
+    "vite": "^4.4.4",
     "vite-plugin-pages": "^0.31.0",
     "vite-plugin-pwa": "^0.16.4",
     "vite-plugin-vue-layouts": "^0.8.0",
-    "vite-ssg": "^0.22.2",
-    "vue-tsc": "^1.8.3"
+    "vite-ssg": "^0.23.0",
+    "vue-tsc": "^1.8.5"
   },
   "dependencies": {
     "@vueuse/core": "^10.2.1",
@@ -41,6 +41,6 @@
     "pinia-plugin-persistedstate": "^3.1.0",
     "vue": "^3.3.4",
     "vue-i18n": "^9.2.2",
-    "vue-router": "^4.2.2"
+    "vue-router": "^4.2.4"
   }
 }

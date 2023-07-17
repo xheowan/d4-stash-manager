@@ -49,7 +49,7 @@ const getElementId = (name: string) => `btn-quality-${name.toLocaleLowerCase()}`
                 :value="item.value" 
                 :disabled="disabled"
             />
-            <label class="btn btn-sm btn-outline-primary me-2" :for="getElementId(item.text)">
+            <label class="btn btn-sm btn-outline-primary me-2 mb-md-0 mb-2" :for="getElementId(item.text)">
                 <slot :text="item.text" :value="item.value" />
             </label>
         </template>

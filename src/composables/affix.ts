@@ -134,7 +134,7 @@ export function useAffixSearch(source: DataAffix[], pageCount = 5) {
             return;
         }
 
-        let query = dataAffixes;
+        let query = dataAffixes.concat();
 
         if (itemTypeFilter.value.length > 0) {
             query = query.filter(f => f.requiredItemType.some(e => itemTypeFilter.value.includes(e)));
@@ -142,7 +142,8 @@ export function useAffixSearch(source: DataAffix[], pageCount = 5) {
     
         searchResult.value = query
             .filter(f => f.title.includes(text) || f.prefix?.includes(text))
-            .sort((a, b) => a.title.localeCompare(b.title));
+            .sort((a, b) => a.tags.includes('legendary') ? -1 : b.tags.includes('legendary') ? 1 : 0);
+            // .sort((a, b) => a.title.localeCompare(b.title));
     }
 
     // search debounce input proxxy

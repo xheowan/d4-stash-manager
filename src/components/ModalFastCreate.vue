@@ -149,7 +149,7 @@ onUnmounted(() => {
             </div>
 
             <div class="mb-3">
-                <label for="type" class="form-label">{{ $t('form.item_power') }}</label>
+                <label class="form-label">{{ $t('form.item_power') }}</label>
                 <input v-model="model.itemPower" v-input-select v-filter-number type="number" class="form-control" min="1" max="850" />
             </div>
 
@@ -161,29 +161,35 @@ onUnmounted(() => {
 
             <!--item quality-->
             <div class="mb-3">
-                <label for="type" class="form-label">{{ $t('form.item_quality') }}</label>
+                <label class="form-label">{{ $t('form.item_quality') }}</label>
                 <CtrlItemQuality v-model="model.quality" />
             </div>
 
             <div class="mb-3">
-                <label for="type" class="form-label">{{ $t('form.item_type') }}</label>
+                <label class="form-label">{{ $t('form.item_type') }}</label>
                 <CtrlItemType v-model="model.type" class="form-select" :filter="itemTypeFilter" required />
             </div>
 
             <template v-if="showMoreInput">
                 <div class="row mb-3">
                     <div class="col">
-                        <label for="type" class="form-label">{{ $t('form.item_upgrade') }}</label>
+                        <label class="form-label">{{ $t('form.item_required_level') }}</label>
+                        <input v-model="model.requiredLevel" v-input-select v-filter-number type="number" class="form-control" min="1" max="100" />
+                    </div>
+
+                    <div class="col">
+                        <label class="form-label">{{ $t('form.item_upgrade') }}</label>
                         <input v-model="model.upgrade" v-input-select v-filter-number type="number" class="form-control" min="0" :max="5" :disabled="convertItemTypeToCategory(model.type || 0) === ItemCategory.LegendaryAspects" />
                     </div>
-                    <div class="col">
-                        <label for="type" class="form-label">{{ $t('form.item_required_level') }}</label>
-                        <input v-model="model.requiredLevel" v-input-select v-filter-number type="number" class="form-control" min="1" max="100" />
+
+                    <div class="col-md-3 col text-end align-self-end">
+                        <input id="item-imbued" v-model="model.imbued" type="checkbox" class="btn-check" autocomplete="off">
+                        <label for="item-imbued" class="btn btn-outline-secondary mt-1">{{ $t('form.item_already_imbued') }}</label>
                     </div>
                 </div>
 
                 <div class="mb-3">
-                    <label for="type" class="form-label">{{ $t('form.item_stash_tab') }}</label>
+                    <label class="form-label">{{ $t('form.item_stash_tab') }}</label>
                     <input v-model.number="model.stashTab" v-input-select v-filter-number type="number" class="form-control" min="0" />
                 </div>
             </template>

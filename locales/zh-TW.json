@@ -14,7 +14,8 @@
     "item_affix_range": "詞綴數值",
     "item_attribute_keyword": "詞綴關鍵字",
     "item_stash_tab": "儲物箱分頁",
-    "item_flag": "標記"
+    "item_flag": "標記",
+    "item_already_imbued": "已銘印"
   },
   "ui": {
     "create": "新增",

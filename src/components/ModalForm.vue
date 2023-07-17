@@ -14,7 +14,7 @@ const { model } = toRefs(props);
 const isLoading = ref(false);
 
 // model level
-const maxItemUpgradeLevel = computed(() => 5);
+// const maxItemUpgradeLevel = computed(() => 5);
 
 // submit
 const $form = ref<HTMLFormElement | null>(null);
@@ -58,12 +58,18 @@ const formSubmit = () => {
 
             <div class="row mb-3">
                 <div class="col">
-                    <label for="type" class="form-label">{{ $t('form.item_upgrade') }}</label>
-                    <input v-model="model.upgrade" v-input-select v-filter-number type="number" class="form-control" min="0" :max="maxItemUpgradeLevel" :disabled="convertItemTypeToCategory(model.type || 0) === ItemCategory.LegendaryAspects" />
-                </div>
-                <div class="col">
-                    <label for="type" class="form-label">{{ $t('form.item_required_level') }}</label>
+                    <label class="form-label">{{ $t('form.item_required_level') }}</label>
                     <input v-model="model.requiredLevel" v-input-select v-filter-number type="number" class="form-control" min="1" max="100" />
+                </div>
+
+                <div class="col">
+                    <label class="form-label">{{ $t('form.item_upgrade') }}</label>
+                    <input v-model="model.upgrade" v-input-select v-filter-number type="number" class="form-control" min="0" :max="5" :disabled="convertItemTypeToCategory(model.type || 0) === ItemCategory.LegendaryAspects" />
+                </div>
+
+                <div class="col-md-3 col text-end align-self-end">
+                    <input id="item-imbued" v-model="model.imbued" type="checkbox" class="btn-check" autocomplete="off">
+                    <label for="item-imbued" class="btn btn-outline-secondary mt-1">{{ $t('form.item_already_imbued') }}</label>
                 </div>
             </div>
 
