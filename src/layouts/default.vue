@@ -42,12 +42,12 @@ const importFile = (e: Event) => {
                 <small class="text-body-secondary">{{ `v${siteVersion}` }}</small>
             </a>
             <ul class="nav">
-                <li class="nav-item pe-2">
+                <!-- <li class="nav-item pe-2">
                     <select v-model="stashType" class="form-select form-select-sm">
                         <option value="data">{{ $t('ui.stash_type.data') }}</option>
                         <option value="season">{{ $t('ui.stash_type.season') }}</option>
                     </select>
-                </li>
+                </li> -->
                 <li class="nav-item">
                     <button type="button" class="btn btn-sm btn-outline-secondary" @click="showDataManager = true">{{ $t('ui.data_manager') }}</button>
                 </li>
@@ -59,7 +59,7 @@ const importFile = (e: Event) => {
     </main>
     <Modal v-model:show="showDataManager" :title="$t('ui.data_manager')" size="sm">
         <template #body>
-            <div class="mb-3">資料模式：<b>{{ $t(`ui.stash_type.${stashType}`) }}</b></div>
+            <div class="mb-3">{{ $t('ui.stash_type_title') }}：<b>{{ $t(`ui.stash_type.${stashType}`) }}</b></div>
             <div class="d-grid gap-2">
                 <template v-if="!showFileInput">
                     <button type="button" class="btn btn-lg btn-outline-info" @click="showFileInput = true">{{ $t('ui.data_import') }}</button>

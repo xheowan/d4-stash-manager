@@ -62,7 +62,8 @@
     "stash_type": {
       "data": "Eternal",
       "season": "Season"
-    }
+    },
+    "stash_type_title": "Data type"
   },
   "page": {
     "not_found": "Not found"

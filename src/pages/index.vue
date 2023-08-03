@@ -126,12 +126,18 @@ const search = () => {
     ];
     showSearch.value = false;
 }
-
+// {{ $t(`ui.stash_type.${stashType}`) }}
 </script>
 
 <template>
     <div class="stash mt-2">
-        <h4>My Stash：{{ $t(`ui.stash_type.${stashType}`) }}</h4>
+        <h4>
+            My Stash：
+            <select v-model="stashType" class="form-select form-select-sm d-inline-block w-auto">
+                <option value="data">{{ $t('ui.stash_type.data') }}</option>
+                <option value="season">{{ $t('ui.stash_type.season') }}</option>
+            </select>
+        </h4>
         <div class="top-toolbar bg-light">
             <div class="d-flex justify-content-between py-2">
                 <div class="col-md-6 col-8 text-start">

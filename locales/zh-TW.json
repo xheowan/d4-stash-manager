@@ -62,7 +62,8 @@
     "stash_type": {
       "data": "永恆",
       "season": "賽季"
-    }
+    },
+    "stash_type_title": "資料類型"
   },
   "page": {
     "not_found": "未找到頁面"
