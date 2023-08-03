@@ -14,6 +14,7 @@ createI18nAffixes();
 
 // init useStash
 const {
+    type: stashType,
     groupList,
     viewMode: mode,
     changeView,
@@ -130,7 +131,7 @@ const search = () => {
 
 <template>
     <div class="stash mt-2">
-        <h4>My Stash</h4>
+        <h4>My Stash：{{ $t(`ui.stash_type.${stashType}`) }}</h4>
         <div class="top-toolbar bg-light">
             <div class="d-flex justify-content-between py-2">
                 <div class="col-md-6 col-8 text-start">

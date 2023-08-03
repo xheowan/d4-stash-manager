@@ -58,7 +58,11 @@
     "data_export": "資料匯出",
     "prompt_data_import_confirm": "目前的資料都會被覆蓋，確定要匯入資料？",
     "data_import_input_label": "上傳 JSON 檔案",
-    "prompt_affix_values_empty": "物品屬性沒有輸入數值"
+    "prompt_affix_values_empty": "物品屬性沒有輸入數值",
+    "stash_type": {
+      "data": "永恆",
+      "season": "賽季"
+    }
   },
   "page": {
     "not_found": "未找到頁面"

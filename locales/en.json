@@ -58,7 +58,11 @@
     "data_export": "Data Export",
     "prompt_data_import_confirm": "All current data will be overwritten. Are you sure you want to import data?",
     "data_import_input_label": "Upload JSON File",
-    "prompt_affix_values_empty": "Item attributes do not have input values"
+    "prompt_affix_values_empty": "Item attributes do not have input values",
+    "stash_type": {
+      "data": "Eternal",
+      "season": "Season"
+    }
   },
   "page": {
     "not_found": "Not found"

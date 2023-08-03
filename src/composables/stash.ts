@@ -27,7 +27,10 @@ export function useStash() {
     const { t } = useI18n();
     // store
     const store = useStashStore();
-    const { data } = storeToRefs(store);
+    const {
+        type,
+        $target: data
+    } = storeToRefs(store);
 
     const viewMode = ref<ViewMode>(ViewMode.Tab);
     const changeView = () => {
@@ -96,6 +99,7 @@ export function useStash() {
     };
 
     return {
+        type,
         // data, group list
         list: data, //computed(() => data.value),
         groupList,
@@ -159,7 +163,7 @@ export function useStash() {
             const url = URL.createObjectURL(blob);
 
             const dlink = document.createElement('a');
-            dlink.download = `d3sm-data-${new Date().getTime()}.json`;
+            dlink.download = `d3sm-${type.value}-${new Date().getTime()}.json`;
             dlink.href = url;
             document.body.appendChild(dlink);
 
