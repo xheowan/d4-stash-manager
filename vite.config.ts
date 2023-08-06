@@ -74,24 +74,19 @@ export default defineConfig({
             manifest: {
                 name: 'D4SM',
                 short_name: 'D4SM',
-                theme_color: '#ffffff',
+                theme_color: '#1976d2',
+                background_color: '#fafafa',
                 icons: [
                     {
-                        src: '/pwa-192x192.png',
+                        src: '/pwa/icon-192x192.png',
                         sizes: '192x192',
                         type: 'image/png',
                     },
                     {
-                        src: '/pwa-512x512.png',
+                        src: '/pwa/icon-512x512.png',
                         sizes: '512x512',
                         type: 'image/png',
-                    },
-                    {
-                        src: '/pwa-512x512.png',
-                        sizes: '512x512',
-                        type: 'image/png',
-                        purpose: 'any maskable',
-                    },
+                    }
                 ],
             },
         }),
