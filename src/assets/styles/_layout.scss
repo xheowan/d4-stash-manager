@@ -16,6 +16,13 @@
 body {
   touch-action: none;
 
+  @supports (padding: max(0px)) {
+    padding-top: env(safe-area-inset-top);
+    padding-left: env(safe-area-inset-left);
+    padding-right: env(safe-area-inset-right);
+    // padding-bottom: env(safe-area-inset-bottom);
+  }
+
   #nprogress {
     .bar {
       @supports (padding: max(0px)) {
@@ -30,4 +37,10 @@ body {
   // @extend %layout-flex;
   -webkit-overflow-scrolling: touch;
   background-color: #000;
+}
+
+.modal {
+  @supports (padding: max(0px)) {
+    padding-top: env(safe-area-inset-top);
+  }
 }

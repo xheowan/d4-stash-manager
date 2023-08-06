@@ -271,6 +271,10 @@ const search = () => {
     position: sticky;
     z-index: 999;
     top: 0;
+
+    @supports (padding: max(0px)) {
+        padding-top: env(safe-area-inset-top);
+    }
 }
 
 .bottom-toolbar {
@@ -279,6 +283,10 @@ const search = () => {
     bottom: 0;
     width: 100%;
     left: 0;
+
+    @supports (padding: max(0px)) {
+        padding-bottom: env(safe-area-inset-bottom);
+    }
 }
 
 .table {
