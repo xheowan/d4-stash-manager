@@ -219,7 +219,7 @@ const search = () => {
             </div>
 
             <div v-if="Object.keys(groupList).length === 0" class="text-center mt-5">
-                <h5>{{ $t('ui.stash_no_data') }}</h5>
+                <b style="width: 400px;">{{ $t('ui.stash_no_data') }}</b>
             </div>
         </div>
 
